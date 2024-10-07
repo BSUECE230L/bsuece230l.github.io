@@ -144,7 +144,7 @@ image::img/shannons_mux.drawio.png[]
 
 See, that we have taken `F1` and piped it into the 0 input of the MUX, to show that we want the output from that equation when A is zero, then the `F2` function and piped it into the 1 input for the same reason. This achieves that "or" functionality shown above.
 
-You can now further decompose each `F1` and `F2` on B, then *again* on those outputs from C. This leaves you with a 3-input MUX with the inputs tied to `0` or `1` based on the rows in the truth table. It can also be shown as three two-input MUXes chained together, one for each of the three decompositions.
+You can now further decompose each `F1` and `F2` on B, then *again* on those outputs from C. This leaves you with a 8-input (3-bit) MUX with the inputs tied to `0` or `1` based on the rows in the truth table. It can also be shown as three two-input MUXes chained together, one for each of the three decompositions. You can always decompose to an 2^N^ input MUX, or an N bit MUX where N is the number of variables in your truth table.
 
 == Lab Deliverables
 

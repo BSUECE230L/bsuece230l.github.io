@@ -930,7 +930,7 @@ endmodule</code></pre>
 <p>See, that we have taken <code>F1</code> and piped it into the 0 input of the MUX, to show that we want the output from that equation when A is zero, then the <code>F2</code> function and piped it into the 1 input for the same reason. This achieves that "or" functionality shown above.</p>
 </div>
 <div class="paragraph">
-<p>You can now further decompose each <code>F1</code> and <code>F2</code> on B, then <strong>again</strong> on those outputs from C. This leaves you with a 3-input MUX with the inputs tied to <code>0</code> or <code>1</code> based on the rows in the truth table. It can also be shown as three two-input MUXes chained together, one for each of the three decompositions.</p>
+<p>You can now further decompose each <code>F1</code> and <code>F2</code> on B, then <strong>again</strong> on those outputs from C. This leaves you with a 8-input (3-bit) MUX with the inputs tied to <code>0</code> or <code>1</code> based on the rows in the truth table. It can also be shown as three two-input MUXes chained together, one for each of the three decompositions. You can always decompose to an 2<sup>N</sup> input MUX, or an N bit MUX where N is the number of variables in your truth table.</p>
 </div>
 </div>
 </div>
@@ -1130,7 +1130,7 @@ Write out the truth tables for each of your <code>Fn</code> functions and do dec
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2024-10-07 08:54:04 -0600
+Last updated 2024-10-07 15:26:19 -0600
 </div>
 </div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.3/highlight.min.js"></script>
