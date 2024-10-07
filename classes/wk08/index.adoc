@@ -55,7 +55,7 @@ include::src/basic_behavioral.v[lines=3..16]
 
 <1> Note the `always` block. This notes the signals this block is interested in.
 <2> We can use if statements!
-<3> DO NOT forget to use `reg` in the Output declarations!
+<3> DO NOT forget to use `reg` in the Output declarations! We will cover exactly what this means and entails in a future lab about synchronous logic. For now, just know that `reg` means "I can assign to this without ``assign``"
 
 === The Sensitivity List
 
