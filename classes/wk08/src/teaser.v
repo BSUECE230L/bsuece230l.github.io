@@ -6,7 +6,7 @@ module teaser(
     output reg [31:0] Y
 );
 
-    always @(*)
+    always @(*) // <1>
         Y = A + B; // Boom. 32 bit adder.
 
 endmodule

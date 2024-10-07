@@ -95,6 +95,8 @@ Comparing this with the initial implementation, the intended behavior is not onl
 include::src/teaser.v[lines=3..12]
 ----
 
+<1> Note: because this is only one line _in the block_ you do not need begin and end
+
 And the output from the above source code:
 
 .Adder Output

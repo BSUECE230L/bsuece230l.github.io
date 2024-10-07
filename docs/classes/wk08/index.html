@@ -697,11 +697,19 @@ This does not execute in any given order, like a program would, but rather descr
     output reg [31:0] Y
 );
 
-    always @(*)
+    always @(*) <i class="conum" data-value="1"></i><b>(1)</b>
         Y = A + B; // Boom. 32 bit adder.
 
 endmodule</code></pre>
 </div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>Note: because this is only one line <em>in the block</em> you do not need begin and end</td>
+</tr>
+</table>
 </div>
 <div class="paragraph">
 <p>And the output from the above source code:</p>
@@ -1122,7 +1130,7 @@ Write out the truth tables for each of your <code>Fn</code> functions and do dec
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2024-10-07 08:16:29 -0600
+Last updated 2024-10-07 08:54:04 -0600
 </div>
 </div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.3/highlight.min.js"></script>
