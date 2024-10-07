@@ -85,6 +85,9 @@ include::src/behavioral.v[lines=3..24]
 <4> Case statements are also possible. We will use these very extensively when we cover state machines in the future.
 <5> Note, no use of `assign` here. We are now using behavioral syntax, and `reg` types do not need `assign`.
 
+CAUTION: This does not execute in any given order, like a program would, but rather describes a physical circuit so happens "all at once".
+
+
 Comparing this with the initial implementation, the intended behavior is not only clearer to see, but much easier to write and maintain. As a quick teaser, you can do a lot more than that, see below:
 
 [source,verilog]
