@@ -2,6 +2,7 @@
 :source-highlighter: highlight.js
 :highlightjs-languages: verilog
 :icons: font
+:toc:
 
 This lab is going to open the Pandora's Box of Behavioral Verilog. I say Pandora's Box because behind this door is all of the extremely cool, yet extremely complicated structures within FPGAs and digital logic in general.
 
