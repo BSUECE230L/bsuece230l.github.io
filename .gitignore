@@ -2,3 +2,4 @@
 output/
 dump.vcd
 a.out
+.vscode/
