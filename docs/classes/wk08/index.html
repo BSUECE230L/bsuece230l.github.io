@@ -537,7 +537,7 @@ endmodule</code></pre>
 <p>Prior to this lab, we have been describing things in Structural Verilog, very specifically calling out gates, assignments, etc to build the physical structure of the circuits we are programming onto the FPGA. There&#8217;s another paradigm, though, that is more commonly used.</p>
 </div>
 <div class="paragraph">
-<p>Just as a higher level programming language can save a developer time by handling minutia for him, Behavioral Verilog can reduce the cognitive burden of synthesizing digital circuits. However, with great power comes great responsibility. Just as a higher level language can mask really bad design decisions, or lead to complicity in the programmer&#8201;&#8212;&#8201;so too can Behavioral Verilog. That is why we start teaching structural, so you understand the underlying concepts to which the FPGA synthesizes.</p>
+<p>Just as a higher level programming language can save a developer time by handling minutia for them, Behavioral Verilog can reduce the cognitive burden of synthesizing digital circuits. However, with great power comes great responsibility. Just as a higher level language can mask really bad design decisions, or lead to complicity in the programmer&#8201;&#8212;&#8201;so too can Behavioral Verilog. That is why we start teaching structural, so you understand the underlying concepts to which the FPGA synthesizes.</p>
 </div>
 <div class="paragraph">
 <p>With that disclaimer out of the way, let&#8217;s see how we actually write this fanciful "Behavioral Verilog"</p>
@@ -884,7 +884,7 @@ endmodule</code></pre>
 <p>Where <code>F1</code> is the first four rows, dependent on now only B and C, and <code>F2</code> being the last four rows, dependent now only on B and C. We can say that they are only dependent on B and C because throughout their entire truth tables, only B and C change. From here, we can solve two 2-variable KMaps to derive <code>F1</code> and <code>F2</code>:</p>
 </div>
 <div class="exampleblock">
-<div class="title">Example 2. F1 and F2</div>
+<div class="title">Example 2. F1 and F2 derived equations</div>
 <div class="content">
 <div class="ulist">
 <ul>
@@ -1110,7 +1110,7 @@ Write out the truth tables for each of your <code>Fn</code> functions and do dec
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2024-10-07 07:27:13 -0600
+Last updated 2024-10-07 07:42:14 -0600
 </div>
 </div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.3/highlight.min.js"></script>

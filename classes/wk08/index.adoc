@@ -36,7 +36,7 @@ Obviously, something is wrong here. Let's introduce the protagonist of this lab:
 
 Prior to this lab, we have been describing things in Structural Verilog, very specifically calling out gates, assignments, etc to build the physical structure of the circuits we are programming onto the FPGA. There's another paradigm, though, that is more commonly used.
 
-Just as a higher level programming language can save a developer time by handling minutia for him, Behavioral Verilog can reduce the cognitive burden of synthesizing digital circuits. However, with great power comes great responsibility. Just as a higher level language can mask really bad design decisions, or lead to complicity in the programmer -- so too can Behavioral Verilog. That is why we start teaching structural, so you understand the underlying concepts to which the FPGA synthesizes.
+Just as a higher level programming language can save a developer time by handling minutia for them, Behavioral Verilog can reduce the cognitive burden of synthesizing digital circuits. However, with great power comes great responsibility. Just as a higher level language can mask really bad design decisions, or lead to complicity in the programmer -- so too can Behavioral Verilog. That is why we start teaching structural, so you understand the underlying concepts to which the FPGA synthesizes.
 
 With that disclaimer out of the way, let's see how we actually write this fanciful "Behavioral Verilog"
 
@@ -127,7 +127,7 @@ include::a_is_one.adoc[]
 
 Where `F1` is the first four rows, dependent on now only B and C, and `F2` being the last four rows, dependent now only on B and C. We can say that they are only dependent on B and C because throughout their entire truth tables, only B and C change. From here, we can solve two 2-variable KMaps to derive `F1` and `F2`:
 
-.F1 and F2
+.F1 and F2 derived equations
 ====
 * `F1 = (~C | B)`
 * `F2 = (B | C)`
