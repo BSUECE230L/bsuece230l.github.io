@@ -157,6 +157,6 @@ Given the following truth table:
 | 1 | 1 | 1 | 1 | 1
 |===
 
-Decompose twice and implement using 2-input MUXes designed with behavioral verilog.
+Decompose twice and implement using a 4-input MUX designed with behavioral verilog.
 
 NOTE: Write out the truth tables for each of your `Fn` functions and do decomposition on the most significant bits. Make sure your bit order is correct when wiring up to the MUXes.
