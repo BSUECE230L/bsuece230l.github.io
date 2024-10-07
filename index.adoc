@@ -1,0 +1,8 @@
+= Boise State University ECE 230 Lab
+
+== Assignments
+
+=== Week 8
+
+* xref:classes/wk08/index.adoc[Week 8 Lab]
+* xref:classes/wk08/slides.adoc[Week 8 Slides]
