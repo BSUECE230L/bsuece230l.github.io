@@ -114,7 +114,7 @@ We can note that there are two discrete states, easily visible in the most signi
 
 .Three Variable Decomposition
 ====
-`F(A, B, C) = ~A & F1(1, B, C) | A & F2(1, B, C)`
+`F(A, B, C) = ~A & F1(0, B, C) | A & F2(1, B, C)`
 ====
 
 Where `F1` is the first four rows, dependent on now only B and C, and `F2` being the last four rows, dependent now only on B and C. We can say that they are only dependent on B and C because throughout their entire truth tables, only B and C change. From here, we can solve two 2-variable KMaps to derive `F1` and `F2`:
@@ -157,6 +157,15 @@ Given the following truth table:
 | 1 | 1 | 1 | 1 | 1
 |===
 
-Decompose twice and implement using a 4-input MUX designed with behavioral verilog.
+Decompose twice and implement using a 4-input MUX designed with behavioral verilog. Use the I/O Table below:
+
+|===
+| Signal   | Purpose | Direction
+| `sw[0]`  |   D     |  IN
+| `sw[1]`  |   C     |  IN
+| `sw[2]`  |   B     |  IN
+| `sw[3]`  |   A     |  IN
+| `led[0]` |   Y     |  OUT
+|===
 
 NOTE: Write out the truth tables for each of your `Fn` functions and do decomposition on the most significant bits. Make sure your bit order is correct when wiring up to the MUXes.
