@@ -2,8 +2,12 @@ import pathlib
 import subprocess
 import shutil
 
-REVEAL_JS = "bundle exec asciidoctor-revealjs \
-  -a revealjsdir=https://cdn.jsdelivr.net/npm/reveal.js@4.1.2"
+if shutil.which("asciidoctor-revealjs"):
+    REVEAL_JS = "asciidoctor-revealjs"
+else:
+    REVEAL_JS = "bundle exec asciidoctor-revealjs"
+
+REVEAL_JS += " -a revealjsdir=https://cdn.jsdelivr.net/npm/reveal.js@4.1.2"
 
 HTML5 = "asciidoctor"
 
