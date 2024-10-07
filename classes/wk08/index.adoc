@@ -117,6 +117,13 @@ We can note that there are two discrete states, easily visible in the most signi
 `F(A, B, C) = ~A & F1(0, B, C) | A & F2(1, B, C)`
 ====
 
+
+Here are the truth tables:
+
+include::a_is_zero.adoc[]
+
+include::a_is_one.adoc[]
+
 Where `F1` is the first four rows, dependent on now only B and C, and `F2` being the last four rows, dependent now only on B and C. We can say that they are only dependent on B and C because throughout their entire truth tables, only B and C change. From here, we can solve two 2-variable KMaps to derive `F1` and `F2`:
 
 .F1 and F2

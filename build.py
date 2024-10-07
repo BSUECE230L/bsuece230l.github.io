@@ -7,7 +7,7 @@ REVEAL_JS = "bundle exec asciidoctor-revealjs \
 
 HTML5 = "asciidoctor"
 
-OUTPUT_PATH = pathlib.Path("output/")
+OUTPUT_PATH = pathlib.Path("docs/")
 
 def process_slides(input: pathlib.Path):
     output = OUTPUT_PATH / input.with_suffix(".html")
@@ -29,7 +29,9 @@ def main():
     input_sources = list(pathlib.Path("./").glob("**/*.adoc"))
     filtered_sources = [x for x in input_sources if not x.parts[0].startswith(".")]
 
-    shutil.rmtree(str(OUTPUT_PATH))
+    if OUTPUT_PATH.exists():
+        shutil.rmtree(str(OUTPUT_PATH))
+
     OUTPUT_PATH.mkdir()
     
     for src in filtered_sources:
