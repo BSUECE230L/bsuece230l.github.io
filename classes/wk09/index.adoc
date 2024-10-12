@@ -4,7 +4,7 @@
 :icons: font
 :toc:
 
-In this lab we will broach the last foundational topic within RTL and digital logic design -- that of Synchronous Logic. Prior to this, we have only utilized continuous assignment, wherein the output of a circuit immediately reacts to the chane in any of its inputs, but this is a very limiting constraint. Everything hereafter will be compositions of structural verilog, continuous assignment, behavioral verilog, and Synchronous assignment.
+In this lab we will broach the last foundational topic within RTL and digital logic design -- that of Synchronous Logic. Prior to this, we have only utilized continuous assignment, wherein the output of a circuit immediately reacts to the change in any of its inputs, but this is a very limiting constraint. Everything hereafter will be compositions of structural Verilog, continuous assignment, behavioral Verilog, and Synchronous assignment.
 
 All more complicated digital designs, like that for the CPU in the device on which you are reading this lab, require carefully synchronized changes in the various modules in order to function. And more than that, they need certain values to persist throughout time to be used and reused later. Both of these concepts rely on synchronous logic.
 
@@ -200,4 +200,13 @@ Notice how `NotY` and `Y` remain latched even after the inputs go back to zero? 
 
 However, if you try to implement this circuit using Vivado and synthesize it for the Basys3, you will run into the same problem as Lab 6 -- where it errors out about the combinatorial loop and will not let you proceed.
 
-Thankfully, we have our answer in Behavioral Verilog! Now comes the explanation of `reg` from last lab.
+Thankfully, we have our answer in Behavioral Verilog! Now comes the explanation of `reg` from last lab. We saw that in order to assign values in Behavioral Verilog, we had to add the `reg` keyword to the declaration as well as omit `assign` from the assignment. We do all that because when in behavioral mode, circuits _can generate memory_, which is exactly what our SR-Latch here is.
+
+In the case of Verilog, `reg` means Register. Usually, these types synthesize to use flip-flop or register hardware on the device, but in the case of `pass:[always @(*)]` blocks, they can even contain regular continuous assignment wherein no memory is needed. It is just for silly syntax reasons we *must* use `reg` inside of an `always` block... always.
+
+So, let's rewrite our SR-Latch like the Verilog Gods intended:
+
+[source,verilog]
+----
+
+----

@@ -450,7 +450,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div id="preamble">
 <div class="sectionbody">
 <div class="paragraph">
-<p>In this lab we will broach the last foundational topic within RTL and digital logic design&#8201;&#8212;&#8201;that of Synchronous Logic. Prior to this, we have only utilized continuous assignment, wherein the output of a circuit immediately reacts to the chane in any of its inputs, but this is a very limiting constraint.</p>
+<p>In this lab we will broach the last foundational topic within RTL and digital logic design&#8201;&#8212;&#8201;that of Synchronous Logic. Prior to this, we have only utilized continuous assignment, wherein the output of a circuit immediately reacts to the chane in any of its inputs, but this is a very limiting constraint. Everything hereafter will be compositions of structural verilog, continuous assignment, behavioral verilog, and Synchronous assignment.</p>
 </div>
 <div class="paragraph">
 <p>All more complicated digital designs, like that for the CPU in the device on which you are reading this lab, require carefully synchronized changes in the various modules in order to function. And more than that, they need certain values to persist throughout time to be used and reused later. Both of these concepts rely on synchronous logic.</p>
@@ -474,7 +474,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </div>
 <div class="imageblock">
 <div class="content">
-<img src="diag-plantuml-md5-a6e1b5143f3341ce7003148ba13b9740.png" alt="Diagram" width="386" height="228">
+<img src="diag-plantuml-md5-a6e1b5143f3341ce7003148ba13b9740.png" alt="Diagram" width="378" height="235">
 </div>
 <div class="title">Figure 1. How it is now</div>
 </div>
@@ -483,7 +483,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </div>
 <div id="how_we_want" class="imageblock">
 <div class="content">
-<img src="diag-plantuml-md5-8306a0df56b76d0c62d9624d1dadecb4.png" alt="Diagram" width="386" height="228">
+<img src="diag-plantuml-md5-8306a0df56b76d0c62d9624d1dadecb4.png" alt="Diagram" width="378" height="235">
 </div>
 <div class="title">Figure 2. How we want it to be</div>
 </div>
@@ -498,7 +498,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </div>
 <div class="imageblock">
 <div class="content">
-<img src="diag-plantuml-md5-c8a6052400d67792b68659639ca2985e.png" alt="Diagram" width="356" height="142">
+<img src="diag-plantuml-md5-c8a6052400d67792b68659639ca2985e.png" alt="Diagram" width="355" height="146">
 </div>
 </div>
 <div class="admonitionblock note">
@@ -612,6 +612,12 @@ endmodule</code></pre>
 </div>
 <div class="paragraph">
 <p>Notice how <code>NotY</code> and <code>Y</code> remain latched even after the inputs go back to zero? This is memory! The SR-Latch is remembering its state without the inputs needing to remain present. This unlocks very significant and exciting behaviors.</p>
+</div>
+<div class="paragraph">
+<p>However, if you try to implement this circuit using Vivado and synthesize it for the Basys3, you will run into the same problem as Lab 6&#8201;&#8212;&#8201;where it errors out about the combinatorial loop and will not let you proceed.</p>
+</div>
+<div class="paragraph">
+<p>Thankfully, we have our answer in Behavioral Verilog! Now comes the explanation of <code>reg</code> from last lab.</p>
 </div>
 </div>
 </div>
