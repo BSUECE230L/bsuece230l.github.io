@@ -1,0 +1,203 @@
+= Synchronous Bitflipping
+:source-highlighter: highlight.js
+:highlightjs-languages: verilog
+:icons: font
+:toc:
+
+In this lab we will broach the last foundational topic within RTL and digital logic design -- that of Synchronous Logic. Prior to this, we have only utilized continuous assignment, wherein the output of a circuit immediately reacts to the chane in any of its inputs, but this is a very limiting constraint. Everything hereafter will be compositions of structural verilog, continuous assignment, behavioral verilog, and Synchronous assignment.
+
+All more complicated digital designs, like that for the CPU in the device on which you are reading this lab, require carefully synchronized changes in the various modules in order to function. And more than that, they need certain values to persist throughout time to be used and reused later. Both of these concepts rely on synchronous logic.
+
+== Synchronous Logic
+
+You deal with synchronous systems all the time. I imagine you've even done so very recently, maybe to log into GitHub and get things ready for this lab -- the login page.
+
+GitHub would be a really poor website if it instantly tried to log you in on every key press, saying "wrong password" each time you entered a character until you finished typing. No -- it *waits* for you to hit the enter key or press the Login button to look at its inputs. That event, either the keyboard or UI, is the synchronous event that triggers the system to operate.
+
+To bring the concept down to the labs/board we have been using, think back to the Multiplexer/Demultiplexer lab, where you had the really crappy "ISP" set up to send data from one of four places to any one of four other places. The CEO, for instance, could not wait to send their data until they had decided on a pattern for the four switches -- that data was always available. And unless you can, in the exact same instant, flip all four switches then intermediary data is making it out on the bus.
+
+See here an example to clarify:
+
+.How it is now
+[plantuml]
+....
+@startuml
+
+binary "sw[0]" as s0
+binary "sw[1]" as s1
+binary "sw[2]" as s2
+binary "sw[0]" as s3
+concise CEO
+
+@0
+s0 is low
+s1 is low
+s2 is low
+s3 is low
+CEO is 0
+
+@10
+s0 is high
+s1 is low
+s2 is low
+s3 is low
+CEO is 1
+
+@20
+s0 is high
+s1 is low
+s2 is high
+s3 is low
+CEO is 5
+
+@30
+s0 is high
+s1 is low
+s2 is high
+s3 is high
+CEO is 13
+
+@50
+
+
+highlight 10 to 30 : Changing
+highlight 30 to 50 : Stable
+
+@enduml
+....
+
+We can see as the CEO is changing the switches, there's a period of time where the wrong values are going out on the bus! In this instance, it is the time highlighted by "Changing", and the values 1 and 5 are not the desired 13.
+
+.How we want it to be
+[[how_we_want]]
+[plantuml]
+....
+@startuml
+
+binary "sw[0]" as s0
+binary "sw[1]" as s1
+binary "sw[2]" as s2
+binary "sw[0]" as s3
+concise CEO
+
+@0
+s0 is low
+s1 is low
+s2 is low
+s3 is low
+CEO is 0
+
+@10
+s0 is high
+s1 is low
+s2 is low
+s3 is low
+
+@20
+s0 is high
+s1 is low
+s2 is high
+s3 is low
+
+@30
+s0 is high
+s1 is low
+s2 is high
+s3 is high
+CEO is 13
+
+@50
+
+
+highlight 10 to 30 : Stable
+highlight 30 to 50 : Stable
+@enduml
+....
+
+So -- how do we get to the state in the second diagram? Well, obviously with synchronous logic (I mean it's even in the title of this section!), but what does that entail?
+
+Well, we have to break the rules we established in week 6 -- we need combinatorial loops! We want to make a light switch we can flip internally in the FPGA, that is an electronically actuated latching circuit. We want to be able to *set* this latch to turn it on, and *reset* this latch to turn it off. Perhaps... we should call it the Set-Reset Latch? I should patent this!
+
+Jokes aside, the solution to this is the SR-Latch, or the Set-Reset Latch. It's a circuit that can be set to on, then reset to off. And, what's important to this circuit, is that if both the set and reset inputs are off, it _holds its state_. Let's see what the output looks like below:
+
+[plantuml]
+....
+@startuml
+
+scale 10 as 100 pixels
+
+binary "Y" as Y
+binary "S" as S
+binary "R" as R
+
+@0
+Y is {low,high}
+S is low
+R is low
+
+@10
+S is high
+Y is high
+
+@11
+S is low
+
+@20
+R is high
+Y is low
+
+@21
+R is low
+
+highlight 0 to 10 : Unknown state
+
+@enduml
+....
+
+NOTE: This unknown state will be a common thing you have to deal with in Synchronous circuits. Before a reset condition, it is physically impossible to know what state a circuit is in. For this reason, we will use reset lines in all of our modules.
+
+What does the circuit that behaves like this even _look_ like? Well, as I hinted, it leverages combinatorial loops:
+
+image::img/sr_latch.drawio.png[]
+
+Here, we have two NOR gates looped together. We will call them A (who outputs Y) and B (who outputs ~Y), and their equations are:
+
+.SR-Latch Equations
+====
+* `A = Y = Reset NOR ~Y`
+* `B = ~Y = Set NOR Y`
+====
+
+Why and how on earth does this work, though? It seems really simple, and luckily it is. Let's assume, at `t=0` we have `Y=0` and `~Y=1`. This is known as the "reset" case. Let's look through the timeline of events as we assert the "Set" line:
+
+. NOR gate B has inputs of `0 ~| 0` (from Y and Set) which outputs 1 (~Y)
+. NOR gate A has inputs of `0 ~| 1` (from Reset and Y~) which outputs 0
+. *SET IS ASSERTED*
+. NOR gate B now has inputs `0 ~| 1` from Y and Set respectively
+. NOR gate B deasserts its output
+. NOR gate A now has inputs of `0 ~| 0` (from Reset and Y~) and asserts its output (Y)
+. NOR gate B now has inputs of `1 ~| 1` (from Y and Set) and remains deasserted
+. *SET IS DEASSERTED*
+. NOR gate B now has inputs of `1 ~| 0` (from Y and Set) and remains deasserted
+. Circuit has reached a stable state
+
+We can see from the flow above that asserting Set then deasserting it leaves the circuit flipped -- its Y output remains high and ~Y is now low. More importantly, it will remain this way until you toggle the Reset line. This circuit can store a value without needing its inputs to remain active at all times.
+
+== How to Make It
+
+If you were to go ahead and try to implement the above circuit by literally typing:
+
+[source,verilog]
+----
+include::src/structural_sr_latch.v[tag=module_source]
+----
+
+It will simulate in Icarus Verilog and GTKWave will show you what looks to be the correct output:
+
+image::img/structural_sr_output.png[]
+
+Notice how `NotY` and `Y` remain latched even after the inputs go back to zero? This is memory! The SR-Latch is remembering its state without the inputs needing to remain present. This unlocks very significant and exciting behaviors.
+
+However, if you try to implement this circuit using Vivado and synthesize it for the Basys3, you will run into the same problem as Lab 6 -- where it errors out about the combinatorial loop and will not let you proceed.
+
+Thankfully, we have our answer in Behavioral Verilog! Now comes the explanation of `reg` from last lab.

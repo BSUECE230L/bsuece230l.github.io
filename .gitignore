@@ -4,3 +4,4 @@ dump.vcd
 a.out
 .vscode/
 .envrc
+.asciidoctor/

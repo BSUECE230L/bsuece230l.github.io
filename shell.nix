@@ -7,5 +7,8 @@ pkgs.mkShellNoCC {
   packages = with pkgs; [
     asciidoctor-with-extensions
     python3
+    plantuml
+    verilog
+    gtkwave
   ];
 }

@@ -9,7 +9,7 @@ else:
 
 REVEAL_JS += " -a revealjsdir=https://cdn.jsdelivr.net/npm/reveal.js@4.1.2"
 
-HTML5 = "asciidoctor"
+HTML5 = "asciidoctor -r asciidoctor-diagram"
 
 OUTPUT_PATH = pathlib.Path("docs/")
 
