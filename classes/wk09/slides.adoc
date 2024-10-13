@@ -1,4 +1,4 @@
-= Pepperidge Farm Remembers and So Does Digital Logic
+= Making The Circuits Remember
 :source-highlighter: highlight.js
 :highlightjs-languages: verilog
 :revealjs_theme: simple

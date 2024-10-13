@@ -11,3 +11,4 @@
 
 * xref:classes/wk09/index.adoc[Week 9 Lab]
 * xref:classes/wk09/slides.adoc[Week 9 Slides]
+* xref:classes/wk09/class.zip[Week 9 Materials]

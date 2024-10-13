@@ -8,7 +8,7 @@ module behavioral_sr_latch(
     output NotQ
 );
 
-    always @(Set, Reset) begin
+    always @(Set, Reset) begin <2>
         if (Set)
             Q = 1;
         else if (Reset)

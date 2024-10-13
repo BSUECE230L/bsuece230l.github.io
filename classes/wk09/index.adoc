@@ -4,6 +4,8 @@
 :icons: font
 :toc:
 
+xref:class.zip[Download Class Materials]
+
 In this lab we will broach the last foundational topic within RTL and digital logic design -- that of Synchronous Logic. Prior to this, we have only utilized continuous assignment, wherein the output of a circuit immediately reacts to the change in any of its inputs, but this is a very limiting constraint. Everything hereafter will be compositions of structural Verilog, continuous assignment, behavioral Verilog, and Synchronous assignment.
 
 All more complicated digital designs, like that for the CPU in the device on which you are reading this lab, require carefully synchronized changes in the various modules in order to function. And more than that, they need certain values to persist throughout time to be used and reused later. Both of these concepts rely on synchronous logic.
@@ -104,12 +106,13 @@ include::src/behavioral_sr_latch.v[tag=module_source]
 ----
 
 <1> Notice, we can do something really cool here. I can use some structural continuous assignments to mimick the behavior of the inverted output. It is totally valid, and even common, to mix structural and behavioral Verilog in designs.
+<2> The Sensitivity List isn't just a * here, note that since we are synchronous to Set and Reset, we have both in this list.
 
 This will now _behave_ the same, but synthesize correctly in Vivado. However, we have a problem with this design. What if we assert both Set and Reset? Obviously, functionally speaking this has no meaning. How are we supposed to derive the output state given this? The state where Set and Reset are high is known as the "invalid" state of the SR-Latch.
 
 == Where to Go From Here
 
-Obviously, the SR-Latch isn't the end-game of memory and synchronous logic. I thas that "invalid" state mentioned above. How do we stop this? The solution to any digital logic problem is always more digital logic. We need to design an interface to the SR-Latch that _cannot_ be in the invalid state. This could take many forms, but in today's lab, we are going to focus on the D-Latch. It has the following truth table:
+Obviously, the SR-Latch isn't the end-game of memory and synchronous logic. It has that "invalid" state mentioned above. How do we stop this? The solution to any digital logic problem is always more digital logic. We need to design an interface to the SR-Latch that _cannot_ be in the invalid state. This could take many forms, but in today's lab, we are going to focus on the D-Latch. It has the following truth table:
 
 include::d_latch_truth.adoc[]
 
@@ -124,6 +127,8 @@ Notice how the outputs of Q and ~Q only change when E goes high. This circuit is
 
 == Lab Deliverables
 
+=== Part 1: Single Bit Memory
+
 Your mission, should you choose to accept it (note: enrollment in this class is implicit acceptance), is to implement the D-Latch in Behavioral Verilog using the below IO table:
 
 |===
@@ -134,4 +139,104 @@ Your mission, should you choose to accept it (note: enrollment in this class is 
 | led[1] | ~Q      | OUT
 |===
 
-NOTE: The D-Latch should be implemented as a set of additional logic that feeds into an SR-Latch, controlling the S and R lines.
+NOTE: Use the sensitivity list here. An important feature of the D-Latch is that it is only synchronous to the E signal.
+
+WARNING: This class, please use the constraints file as-is. It contains an additional instruction to Vivado at the bottom to allow your D-Latches to implement.
+
+=== Part 2: Four Bytes!
+
+Using the D-Latch you developed above, and the behavioral mux from the previous lab, we're going to implement a very basic computer memory system. Using the same "store" command as above (btnC), we want to make a four byte memory system!
+
+For this, you will need to build several blocks:
+
+. 8-bit memory block
+. Data demultiplexer
+. Output data multiplexer
+
+The de/multiplexer blocks you have already written in previous labs, and this will just be an extension thereof, where we have a four input, 8 bit wide multiplexer, and a four output, 8 bit wide demultiplexer.
+
+The data block is more interesting, see a block diagram below:
+
+.Byte Storage Block Diagram
+image::img/eight_bit_mem.drawio.png[]
+
+For your 8 bits of memory, you will use 8 D-Latches with their Enable lines hooked together so they store at at the same time. You are free to implement this however you feel. You can instantiate 8 D-Latches in the module, or create a new D-Latch module that is 8 bits wide. Then, hook up four of them as shown below:
+
+.Data Block Diagram
+image::img/block_diagram.drawio.png[]
+
+NOTE: Enable line not shown for brevity. However, it will also need to be demultiplexed into each of the four bytes.
+
+The 8 data bits come in to a demultiplexer, controlled by the address select lines. These feed to the inputs of four 8-bit wide D-Latches. Not shown is another 1 bit multiplexer putting the store line (btnC) into the E line of each of the 8-bit wide D-Latches. The intended behavior of this circuit is to allow the user to select which byte to target, see its output on the LEDs (output bits), then optionally store a new value in that address with the store command (btnC).
+
+|===
+| Signal    | Purpose        | Direction
+| sw[15:8]  | 8 data bits    | IN
+| sw[7:6]   | Address Select | IN
+| btnC      | Store          | IN
+| led[15:8] | 8 output bits  | OUT
+|===
+
+WARNING: There is only one new bit of Verilog syntax here -- the array syntax. See <<array_appendix>> below for more information.
+
+NOTE: If you are having trouble, see <<scaffold_appendix>> for some scaffolding to help you get started.
+
+[[array_appendix]]
+== Appendix 1: Array Syntax
+
+So, we've seen how to declare vectors in Verilog, but there are also arrays. These are distinct from vectors, which are a single signal that is N bits wide, in that they are M signals N bits wide, declared like so:
+
+[source,verilog]
+----
+wire [N-1:0] arr[M-1:0];
+----
+
+To make a 4 element array (M=4) of 8 bit signals (N=8), you would do the following:
+
+[source,verilog]
+----
+wire [7:0] arr[3:0];
+----
+
+And for a reference:
+
+[source,verilog]
+----
+include::src/arrays.v[tags=module_source;!*]
+----
+
+<1> This is a single signal, 8 bits wide
+<2> This is four 1 bit signals
+<3> This is four 8 bit signals
+
+Now, the confusing part. Since this is Verilog, none of the syntax is allowed to make any sense. Accessing a single bit of a vector is done with the `[x]` operator, where x is the bit or slice you want to access. Now, with vectors, instead of the `[]` taking a single bit, it takes a single signal. See below:
+
+[source,verilog]
+----
+include::src/arrays.v[tag=access_example]
+----
+
+<1> This grabs the third single bit signal in `arr`
+<2> This grabs the fourth 8 bit signal in `arr_vec`
+<3> This grabs the third signal, then the 8th bit in that signal from `arr_vec`
+
+[[scaffold_appendix]]
+== Appendix 2: Module Scaffolding
+
+.byte_memory.v
+[source,verilog]
+----
+include::src/scaffolding.v[tag=byte_mem]
+----
+
+.memory_system.v
+[source,verilog]
+----
+include::src/scaffolding.v[tag=mem_system]
+----
+
+.top.v
+[source,verilog]
+----
+include::src/scaffolding.v[tag=top]
+----
