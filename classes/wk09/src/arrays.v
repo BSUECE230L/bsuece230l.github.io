@@ -14,7 +14,7 @@ module arrays();
 
 // tag::access_example[]
     // Single signal:
-    assign arr[2] = 4; // <1>
+    assign arr[2] = 'b1; // <1>
 
     // Single signal:
     assign arr_vec[3] = 8'b10100101; // <2>
