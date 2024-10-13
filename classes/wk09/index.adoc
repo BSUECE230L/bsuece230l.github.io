@@ -21,49 +21,7 @@ See here an example to clarify:
 .How it is now
 [plantuml]
 ....
-@startuml
-
-binary "sw[0]" as s0
-binary "sw[1]" as s1
-binary "sw[2]" as s2
-binary "sw[0]" as s3
-concise CEO
-
-@0
-s0 is low
-s1 is low
-s2 is low
-s3 is low
-CEO is 0
-
-@10
-s0 is high
-s1 is low
-s2 is low
-s3 is low
-CEO is 1
-
-@20
-s0 is high
-s1 is low
-s2 is high
-s3 is low
-CEO is 5
-
-@30
-s0 is high
-s1 is low
-s2 is high
-s3 is high
-CEO is 13
-
-@50
-
-
-highlight 10 to 30 : Changing
-highlight 30 to 50 : Stable
-
-@enduml
+include::img/current_state.puml[]
 ....
 
 We can see as the CEO is changing the switches, there's a period of time where the wrong values are going out on the bus! In this instance, it is the time highlighted by "Changing", and the values 1 and 5 are not the desired 13.
@@ -72,46 +30,7 @@ We can see as the CEO is changing the switches, there's a period of time where t
 [[how_we_want]]
 [plantuml]
 ....
-@startuml
-
-binary "sw[0]" as s0
-binary "sw[1]" as s1
-binary "sw[2]" as s2
-binary "sw[0]" as s3
-concise CEO
-
-@0
-s0 is low
-s1 is low
-s2 is low
-s3 is low
-CEO is 0
-
-@10
-s0 is high
-s1 is low
-s2 is low
-s3 is low
-
-@20
-s0 is high
-s1 is low
-s2 is high
-s3 is low
-
-@30
-s0 is high
-s1 is low
-s2 is high
-s3 is high
-CEO is 13
-
-@50
-
-
-highlight 10 to 30 : Stable
-highlight 30 to 50 : Stable
-@enduml
+include::img/synch_state.puml[]
 ....
 
 So -- how do we get to the state in the second diagram? Well, obviously with synchronous logic (I mean it's even in the title of this section!), but what does that entail?
@@ -122,36 +41,7 @@ Jokes aside, the solution to this is the SR-Latch, or the Set-Reset Latch. It's 
 
 [plantuml]
 ....
-@startuml
-
-scale 10 as 100 pixels
-
-binary "Y" as Y
-binary "S" as S
-binary "R" as R
-
-@0
-Y is {low,high}
-S is low
-R is low
-
-@10
-S is high
-Y is high
-
-@11
-S is low
-
-@20
-R is high
-Y is low
-
-@21
-R is low
-
-highlight 0 to 10 : Unknown state
-
-@enduml
+include::img/sr_latch.puml[]
 ....
 
 NOTE: This unknown state will be a common thing you have to deal with in Synchronous circuits. Before a reset condition, it is physically impossible to know what state a circuit is in. For this reason, we will use reset lines in all of our modules.
@@ -160,28 +50,30 @@ What does the circuit that behaves like this even _look_ like? Well, as I hinted
 
 image::img/sr_latch.drawio.png[]
 
-Here, we have two NOR gates looped together. We will call them A (who outputs Y) and B (who outputs ~Y), and their equations are:
+Here, we have two NOR gates looped together. We will call them A (who outputs Q) and B (who outputs ~Q), and their equations are:
 
 .SR-Latch Equations
 ====
-* `A = Y = Reset NOR ~Y`
-* `B = ~Y = Set NOR Y`
+* `A = Q = Reset NOR ~Q`
+* `B = ~Q = Set NOR Q`
 ====
 
-Why and how on earth does this work, though? It seems really simple, and luckily it is. Let's assume, at `t=0` we have `Y=0` and `~Y=1`. This is known as the "reset" case. Let's look through the timeline of events as we assert the "Set" line:
+include::sr_latch_truth.adoc[]
 
-. NOR gate B has inputs of `0 ~| 0` (from Y and Set) which outputs 1 (~Y)
-. NOR gate A has inputs of `0 ~| 1` (from Reset and Y~) which outputs 0
+Why and how on earth does this work, though? It seems really simple, and luckily it is. Let's assume, at `t=0` we have `Q=0` and `~Q=1`. This is known as the "reset" case. Let's look through the timeline of events as we assert the "Set" line:
+
+. NOR gate B has inputs of `0 ~| 0` (from Q and Set) which outputs 1 (~Q)
+. NOR gate A has inputs of `0 ~| 1` (from Reset and Q~) which outputs 0
 . *SET IS ASSERTED*
-. NOR gate B now has inputs `0 ~| 1` from Y and Set respectively
+. NOR gate B now has inputs `0 ~| 1` from Q and Set respectively
 . NOR gate B deasserts its output
-. NOR gate A now has inputs of `0 ~| 0` (from Reset and Y~) and asserts its output (Y)
-. NOR gate B now has inputs of `1 ~| 1` (from Y and Set) and remains deasserted
+. NOR gate A now has inputs of `0 ~| 0` (from Reset and Q~) and asserts its output (Q)
+. NOR gate B now has inputs of `1 ~| 1` (from Q and Set) and remains deasserted
 . *SET IS DEASSERTED*
-. NOR gate B now has inputs of `1 ~| 0` (from Y and Set) and remains deasserted
+. NOR gate B now has inputs of `1 ~| 0` (from Q and Set) and remains deasserted
 . Circuit has reached a stable state
 
-We can see from the flow above that asserting Set then deasserting it leaves the circuit flipped -- its Y output remains high and ~Y is now low. More importantly, it will remain this way until you toggle the Reset line. This circuit can store a value without needing its inputs to remain active at all times.
+We can see from the flow above that asserting Set then deasserting it leaves the circuit flipped -- its Q output remains high and ~Q is now low. More importantly, it will remain this way until you toggle the Reset line. This circuit can store a value without needing its inputs to remain active at all times. The outputs Q and ~Q are _synchronized_ to Set and Reset.
 
 == How to Make It
 
@@ -196,7 +88,7 @@ It will simulate in Icarus Verilog and GTKWave will show you what looks to be th
 
 image::img/structural_sr_output.png[]
 
-Notice how `NotY` and `Y` remain latched even after the inputs go back to zero? This is memory! The SR-Latch is remembering its state without the inputs needing to remain present. This unlocks very significant and exciting behaviors.
+Notice how `NotQ` and `Q` remain latched even after the inputs go back to zero? This is memory! The SR-Latch is remembering its state without the inputs needing to remain present. This unlocks very significant and exciting behaviors.
 
 However, if you try to implement this circuit using Vivado and synthesize it for the Basys3, you will run into the same problem as Lab 6 -- where it errors out about the combinatorial loop and will not let you proceed.
 
@@ -208,5 +100,38 @@ So, let's rewrite our SR-Latch like the Verilog Gods intended:
 
 [source,verilog]
 ----
-
+include::src/behavioral_sr_latch.v[tag=module_source]
 ----
+
+<1> Notice, we can do something really cool here. I can use some structural continuous assignments to mimick the behavior of the inverted output. It is totally valid, and even common, to mix structural and behavioral Verilog in designs.
+
+This will now _behave_ the same, but synthesize correctly in Vivado. However, we have a problem with this design. What if we assert both Set and Reset? Obviously, functionally speaking this has no meaning. How are we supposed to derive the output state given this? The state where Set and Reset are high is known as the "invalid" state of the SR-Latch.
+
+== Where to Go From Here
+
+Obviously, the SR-Latch isn't the end-game of memory and synchronous logic. I thas that "invalid" state mentioned above. How do we stop this? The solution to any digital logic problem is always more digital logic. We need to design an interface to the SR-Latch that _cannot_ be in the invalid state. This could take many forms, but in today's lab, we are going to focus on the D-Latch. It has the following truth table:
+
+include::d_latch_truth.adoc[]
+
+Or, presented as a waveform:
+
+[plantuml]
+....
+include::img/d_latch.puml[]
+....
+
+Notice how the outputs of Q and ~Q only change when E goes high. This circuit is _synchronous_ to E only, rather than to both S and R as the SR-Latch is. It is impossible to get this into an invalid state.
+
+== Lab Deliverables
+
+Your mission, should you choose to accept it (note: enrollment in this class is implicit acceptance), is to implement the D-Latch in Behavioral Verilog using the below IO table:
+
+|===
+| Signal | Purpose | Direction
+| sw[0]  | D       | IN
+| btnC   | E       | IN
+| led[0] | Q       | OUT
+| led[1] | ~Q      | OUT
+|===
+
+NOTE: The D-Latch should be implemented as a set of additional logic that feeds into an SR-Latch, controlling the S and R lines.

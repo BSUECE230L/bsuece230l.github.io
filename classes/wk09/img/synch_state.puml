@@ -1,0 +1,47 @@
+@startuml "synch_state"
+
+scale 10 as 70 pixels
+
+binary "sw[0]" as s0
+binary "sw[1]" as s1
+binary "sw[2]" as s2
+binary "sw[0]" as s3
+binary "Send"  as S
+concise CEO
+
+@0
+s0 is low
+s1 is low
+s2 is low
+s3 is low
+S is low
+CEO is 0
+
+@10
+s0 is high
+s1 is low
+s2 is low
+s3 is low
+
+@20
+s0 is high
+s1 is low
+s2 is high
+s3 is low
+
+@30
+s0 is high
+s1 is low
+s2 is high
+s3 is high
+S is high
+CEO is 13
+
+@35
+S is low
+
+@50
+
+highlight 10 to 30 : Stable
+highlight 30 to 50 : Stable
+@enduml

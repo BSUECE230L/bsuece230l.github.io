@@ -1,0 +1,81 @@
+= Pepperidge Farm Remembers and So Does Digital Logic
+:source-highlighter: highlight.js
+:highlightjs-languages: verilog
+:revealjs_theme: simple
+:revealjs_width: 1600
+:revealjs_height: 900
+:revealjs_margin: 0.05
+:customcss: img/extra.css
+:icons: font
+
+[.columns]
+== Continuous Assignment
+
+[.column]
+* Continuous assignment always happens
+* Cannot "wait" for an event
+* Cannot "remember" the past
+
+[.column]
+[plantuml]
+....
+include::img/current_state.puml[]
+....
+
+[.columns]
+== Synchronous Logic
+
+[.column]
+* Happens on certain events
+* Signals the output is _synchronous_ to
+* Contains memory
+
+[.column]
+[plantuml]
+....
+include::img/synch_state.puml[]
+....
+
+[.columns]
+== The SR-Latch
+
+[.column]
+* Basic form of memory
+* Uses combinatorial loops
+* Should be implemented using behavioral verilog
+
+[.column]
+image::img/sr_latch.drawio.png[width=600]
+
+=== Structural Implementation
+
+[.mid-code]
+[source,verilog]
+----
+include::src/structural_sr_latch.v[tag=module_source]
+----
+
+=== Behavioral Implementation
+[.mid-code]
+[source,verilog]
+----
+include::src/behavioral_sr_latch.v[tag=module_source]
+----
+
+<1> Note the use of continuous assignment here
+
+=== Truth Table and Considerations
+
+include::sr_latch_truth.adoc[]
+
+[.columns]
+== Fixing the Problems: D-Latch
+
+[.column]
+include::d_latch_truth.adoc[]
+
+[.column]
+[plantuml,width=600px]
+....
+include::img/d_latch.puml[]
+....

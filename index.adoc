@@ -6,3 +6,8 @@
 
 * xref:classes/wk08/index.adoc[Week 8 Lab]
 * xref:classes/wk08/slides.adoc[Week 8 Slides]
+
+=== Week 9
+
+* xref:classes/wk09/index.adoc[Week 9 Lab]
+* xref:classes/wk09/slides.adoc[Week 9 Slides]

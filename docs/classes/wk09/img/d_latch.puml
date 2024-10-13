@@ -1,0 +1,46 @@
+@startuml "d_latch"
+
+scale 10 as 100 pixels
+
+binary "Q" as Q
+binary "~Q" as Qnot
+binary "D" as D
+binary "E" as E
+
+@0
+Q is {low,high}
+Qnot is {low,high}
+D is low
+E is low
+
+@10
+E is high
+Q is low
+Qnot is high
+
+@11
+E is low
+
+@14
+D is high
+
+@15
+D is low
+
+@19
+D is high
+
+@20
+E is high
+Q is high
+Qnot is low
+
+@21
+E is low
+
+@22
+D is low
+
+highlight 0 to 10 : Unknown state
+
+@enduml

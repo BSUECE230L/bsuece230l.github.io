@@ -4,18 +4,18 @@
 module behavioral_sr_latch(
     input Set,
     input Reset,
-    output reg Y,
-    output NotY
+    output reg Q,
+    output NotQ
 );
 
     always @(Set, Reset) begin
         if (Set)
-            Y = 1;
+            Q = 1;
         else if (Reset)
-            Y = 0;
+            Q = 0;
     end
 
-    assign NotY = ~Y;
+    assign NotQ = ~Q; // <1>
 
 endmodule
 // end::module_source[]
@@ -23,13 +23,13 @@ endmodule
 module test();
 
     reg Set, Reset;
-    wire Y, NotY;
+    wire Q, NotQ;
 
     behavioral_sr_latch uut(
         .Set(Set),
         .Reset(Reset),
-        .Y(Y),
-        .NotY(NotY)
+        .Q(Q),
+        .NotQ(NotQ)
     );
 
     initial begin

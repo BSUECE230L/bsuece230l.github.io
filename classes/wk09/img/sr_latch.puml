@@ -1,0 +1,30 @@
+@startuml "sr_latch"
+
+scale 10 as 100 pixels
+
+binary "Q" as Q
+binary "S" as S
+binary "R" as R
+
+@0
+Q is {low,high}
+S is low
+R is low
+
+@10
+S is high
+Q is high
+
+@11
+S is low
+
+@20
+R is high
+Q is low
+
+@21
+R is low
+
+highlight 0 to 10 : Unknown state
+
+@enduml

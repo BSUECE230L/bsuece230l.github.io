@@ -4,12 +4,12 @@
 module structural_sr_latch(
     input Set,
     input Reset,
-    output Y,
-    output NotY
+    output Q,
+    output NotQ
 );
 
-    assign Y = ~(Reset | NotY);
-    assign NotY = ~(Set | Y);
+    assign Q = ~(Reset | NotQ);
+    assign NotQ = ~(Set | Q);
 
 endmodule
 // end::module_source[]
@@ -17,13 +17,13 @@ endmodule
 module test();
 
     reg Set, Reset;
-    wire Y, NotY;
+    wire Q, NotQ;
 
     structural_sr_latch uut(
         .Set(Set),
         .Reset(Reset),
-        .Y(Y),
-        .NotY(NotY)
+        .Q(Q),
+        .NotQ(NotQ)
     );
 
     initial begin

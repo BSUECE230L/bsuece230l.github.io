@@ -1,0 +1,8 @@
+.D-Latch Truth Table
+|===
+| Data (D) | Enable (E) | Q | ~Q
+| 0  | 0 | Latch | Latch
+| 0  | 1 | Latch | Latch
+| 1  | 0 | 1 | 0
+| 1  | 1 | 0 | 1
+|===

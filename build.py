@@ -7,7 +7,7 @@ if shutil.which("asciidoctor-revealjs"):
 else:
     REVEAL_JS = "bundle exec asciidoctor-revealjs"
 
-REVEAL_JS += " -a revealjsdir=https://cdn.jsdelivr.net/npm/reveal.js@4.1.2"
+REVEAL_JS += " -r asciidoctor-diagram -a revealjsdir=https://cdn.jsdelivr.net/npm/reveal.js@4.1.2"
 
 HTML5 = "asciidoctor -r asciidoctor-diagram"
 

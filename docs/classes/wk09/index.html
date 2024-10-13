@@ -443,6 +443,8 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <ul class="sectlevel1">
 <li><a href="#_synchronous_logic">Synchronous Logic</a></li>
 <li><a href="#_how_to_make_it">How to Make It</a></li>
+<li><a href="#_where_to_go_from_here">Where to Go From Here</a></li>
+<li><a href="#_lab_deliverables">Lab Deliverables</a></li>
 </ul>
 </div>
 </div>
@@ -450,7 +452,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div id="preamble">
 <div class="sectionbody">
 <div class="paragraph">
-<p>In this lab we will broach the last foundational topic within RTL and digital logic design&#8201;&#8212;&#8201;that of Synchronous Logic. Prior to this, we have only utilized continuous assignment, wherein the output of a circuit immediately reacts to the chane in any of its inputs, but this is a very limiting constraint. Everything hereafter will be compositions of structural verilog, continuous assignment, behavioral verilog, and Synchronous assignment.</p>
+<p>In this lab we will broach the last foundational topic within RTL and digital logic design&#8201;&#8212;&#8201;that of Synchronous Logic. Prior to this, we have only utilized continuous assignment, wherein the output of a circuit immediately reacts to the change in any of its inputs, but this is a very limiting constraint. Everything hereafter will be compositions of structural Verilog, continuous assignment, behavioral Verilog, and Synchronous assignment.</p>
 </div>
 <div class="paragraph">
 <p>All more complicated digital designs, like that for the CPU in the device on which you are reading this lab, require carefully synchronized changes in the various modules in order to function. And more than that, they need certain values to persist throughout time to be used and reused later. Both of these concepts rely on synchronous logic.</p>
@@ -474,7 +476,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </div>
 <div class="imageblock">
 <div class="content">
-<img src="diag-plantuml-md5-a6e1b5143f3341ce7003148ba13b9740.png" alt="Diagram" width="378" height="235">
+<img src="diag-plantuml-md5-75a8a869bea8ebb4999d84ef98d72b66.png" alt="Diagram" width="498" height="235">
 </div>
 <div class="title">Figure 1. How it is now</div>
 </div>
@@ -483,7 +485,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </div>
 <div id="how_we_want" class="imageblock">
 <div class="content">
-<img src="diag-plantuml-md5-8306a0df56b76d0c62d9624d1dadecb4.png" alt="Diagram" width="378" height="235">
+<img src="diag-plantuml-md5-e24bd2d162c100252a6f75171c98990e.png" alt="Diagram" width="498" height="265">
 </div>
 <div class="title">Figure 2. How we want it to be</div>
 </div>
@@ -498,7 +500,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </div>
 <div class="imageblock">
 <div class="content">
-<img src="diag-plantuml-md5-c8a6052400d67792b68659639ca2985e.png" alt="Diagram" width="355" height="146">
+<img src="diag-plantuml-md5-538c94b7b7dc5c99ff11f2d2be4fce76.png" alt="Diagram" width="357" height="146">
 </div>
 </div>
 <div class="admonitionblock note">
@@ -522,7 +524,7 @@ This unknown state will be a common thing you have to deal with in Synchronous c
 </div>
 </div>
 <div class="paragraph">
-<p>Here, we have two NOR gates looped together. We will call them A (who outputs Y) and B (who outputs ~Y), and their equations are:</p>
+<p>Here, we have two NOR gates looped together. We will call them A (who outputs Q) and B (who outputs ~Q), and their equations are:</p>
 </div>
 <div class="exampleblock">
 <div class="title">Example 1. SR-Latch Equations</div>
@@ -530,46 +532,87 @@ This unknown state will be a common thing you have to deal with in Synchronous c
 <div class="ulist">
 <ul>
 <li>
-<p><code>A = Y = Reset NOR ~Y</code></p>
+<p><code>A = Q = Reset NOR ~Q</code></p>
 </li>
 <li>
-<p><code>B = ~Y = Set NOR Y</code></p>
+<p><code>B = ~Q = Set NOR Q</code></p>
 </li>
 </ul>
 </div>
 </div>
 </div>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 1. SR-Latch Truth Table</caption>
+<colgroup>
+<col style="width: 25%;">
+<col style="width: 25%;">
+<col style="width: 25%;">
+<col style="width: 25%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">S</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">R</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Q</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">~Q</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Latch</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Latch</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
+</tr>
+</tbody>
+</table>
 <div class="paragraph">
-<p>Why and how on earth does this work, though? It seems really simple, and luckily it is. Let&#8217;s assume, at <code>t=0</code> we have <code>Y=0</code> and <code>~Y=1</code>. This is known as the "reset" case. Let&#8217;s look through the timeline of events as we assert the "Set" line:</p>
+<p>Why and how on earth does this work, though? It seems really simple, and luckily it is. Let&#8217;s assume, at <code>t=0</code> we have <code>Q=0</code> and <code>~Q=1</code>. This is known as the "reset" case. Let&#8217;s look through the timeline of events as we assert the "Set" line:</p>
 </div>
 <div class="olist arabic">
 <ol class="arabic">
 <li>
-<p>NOR gate B has inputs of <code>0 ~| 0</code> (from Y and Set) which outputs 1 (~Y)</p>
+<p>NOR gate B has inputs of <code>0 ~| 0</code> (from Q and Set) which outputs 1 (~Q)</p>
 </li>
 <li>
-<p>NOR gate A has inputs of <code>0 ~| 1</code> (from Reset and Y~) which outputs 0</p>
+<p>NOR gate A has inputs of <code>0 ~| 1</code> (from Reset and Q~) which outputs 0</p>
 </li>
 <li>
 <p><strong>SET IS ASSERTED</strong></p>
 </li>
 <li>
-<p>NOR gate B now has inputs <code>0 ~| 1</code> from Y and Set respectively</p>
+<p>NOR gate B now has inputs <code>0 ~| 1</code> from Q and Set respectively</p>
 </li>
 <li>
 <p>NOR gate B deasserts its output</p>
 </li>
 <li>
-<p>NOR gate A now has inputs of <code>0 ~| 0</code> (from Reset and Y~) and asserts its output (Y)</p>
+<p>NOR gate A now has inputs of <code>0 ~| 0</code> (from Reset and Q~) and asserts its output (Q)</p>
 </li>
 <li>
-<p>NOR gate B now has inputs of <code>1 ~| 1</code> (from Y and Set) and remains deasserted</p>
+<p>NOR gate B now has inputs of <code>1 ~| 1</code> (from Q and Set) and remains deasserted</p>
 </li>
 <li>
 <p><strong>SET IS DEASSERTED</strong></p>
 </li>
 <li>
-<p>NOR gate B now has inputs of <code>1 ~| 0</code> (from Y and Set) and remains deasserted</p>
+<p>NOR gate B now has inputs of <code>1 ~| 0</code> (from Q and Set) and remains deasserted</p>
 </li>
 <li>
 <p>Circuit has reached a stable state</p>
@@ -577,7 +620,7 @@ This unknown state will be a common thing you have to deal with in Synchronous c
 </ol>
 </div>
 <div class="paragraph">
-<p>We can see from the flow above that asserting Set then deasserting it leaves the circuit flipped&#8201;&#8212;&#8201;its Y output remains high and ~Y is now low. More importantly, it will remain this way until you toggle the Reset line. This circuit can store a value without needing its inputs to remain active at all times.</p>
+<p>We can see from the flow above that asserting Set then deasserting it leaves the circuit flipped&#8201;&#8212;&#8201;its Q output remains high and ~Q is now low. More importantly, it will remain this way until you toggle the Reset line. This circuit can store a value without needing its inputs to remain active at all times. The outputs Q and ~Q are <em>synchronized</em> to Set and Reset.</p>
 </div>
 </div>
 </div>
@@ -592,12 +635,12 @@ This unknown state will be a common thing you have to deal with in Synchronous c
 <pre class="highlightjs highlight"><code class="language-verilog hljs" data-lang="verilog">module structural_sr_latch(
     input Set,
     input Reset,
-    output Y,
-    output NotY
+    output Q,
+    output NotQ
 );
 
-    assign Y = ~(Reset | NotY);
-    assign NotY = ~(Set | Y);
+    assign Q = ~(Reset | NotQ);
+    assign NotQ = ~(Set | Q);
 
 endmodule</code></pre>
 </div>
@@ -611,13 +654,165 @@ endmodule</code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p>Notice how <code>NotY</code> and <code>Y</code> remain latched even after the inputs go back to zero? This is memory! The SR-Latch is remembering its state without the inputs needing to remain present. This unlocks very significant and exciting behaviors.</p>
+<p>Notice how <code>NotQ</code> and <code>Q</code> remain latched even after the inputs go back to zero? This is memory! The SR-Latch is remembering its state without the inputs needing to remain present. This unlocks very significant and exciting behaviors.</p>
 </div>
 <div class="paragraph">
 <p>However, if you try to implement this circuit using Vivado and synthesize it for the Basys3, you will run into the same problem as Lab 6&#8201;&#8212;&#8201;where it errors out about the combinatorial loop and will not let you proceed.</p>
 </div>
 <div class="paragraph">
-<p>Thankfully, we have our answer in Behavioral Verilog! Now comes the explanation of <code>reg</code> from last lab.</p>
+<p>Thankfully, we have our answer in Behavioral Verilog! Now comes the explanation of <code>reg</code> from last lab. We saw that in order to assign values in Behavioral Verilog, we had to add the <code>reg</code> keyword to the declaration as well as omit <code>assign</code> from the assignment. We do all that because when in behavioral mode, circuits <em>can generate memory</em>, which is exactly what our SR-Latch here is.</p>
+</div>
+<div class="paragraph">
+<p>In the case of Verilog, <code>reg</code> means Register. Usually, these types synthesize to use flip-flop or register hardware on the device, but in the case of <code>always @(*)</code> blocks, they can even contain regular continuous assignment wherein no memory is needed. It is just for silly syntax reasons we <strong>must</strong> use <code>reg</code> inside of an <code>always</code> block&#8230;&#8203; always.</p>
+</div>
+<div class="paragraph">
+<p>So, let&#8217;s rewrite our SR-Latch like the Verilog Gods intended:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-verilog hljs" data-lang="verilog">module behavioral_sr_latch(
+    input Set,
+    input Reset,
+    output reg Q,
+    output NotQ
+);
+
+    always @(Set, Reset) begin
+        if (Set)
+            Q = 1;
+        else if (Reset)
+            Q = 0;
+    end
+
+    assign NotQ = ~Q; <i class="conum" data-value="1"></i><b>(1)</b>
+
+endmodule</code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>Notice, we can do something really cool here. I can use some structural continuous assignments to mimick the behavior of the inverted output. It is totally valid, and even common, to mix structural and behavioral Verilog in designs.</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>This will now <em>behave</em> the same, but synthesize correctly in Vivado. However, we have a problem with this design. What if we assert both Set and Reset? Obviously, functionally speaking this has no meaning. How are we supposed to derive the output state given this? The state where Set and Reset are high is known as the "invalid" state of the SR-Latch.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_where_to_go_from_here">Where to Go From Here</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Obviously, the SR-Latch isn&#8217;t the end-game of memory and synchronous logic. I thas that "invalid" state mentioned above. How do we stop this? The solution to any digital logic problem is always more digital logic. We need to design an interface to the SR-Latch that <em>cannot</em> be in the invalid state. This could take many forms, but in today&#8217;s lab, we are going to focus on the D-Latch. It has the following truth table:</p>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 2. D-Latch Truth Table</caption>
+<colgroup>
+<col style="width: 25%;">
+<col style="width: 25%;">
+<col style="width: 25%;">
+<col style="width: 25%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Data (D)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Enable (E)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Q</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">~Q</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Latch</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Latch</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Latch</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Latch</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p>Or, presented as a waveform:</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="diag-plantuml-md5-89f99d29d8893d74bbb0302d7b6d456b.png" alt="Diagram" width="375" height="176">
+</div>
+</div>
+<div class="paragraph">
+<p>Notice how the outputs of Q and ~Q only change when E goes high. This circuit is <em>synchronous</em> to E only, rather than to both S and R as the SR-Latch is. It is impossible to get this into an invalid state.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_lab_deliverables">Lab Deliverables</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Your mission, should you choose to accept it (note: enrollment in this class is implicit acceptance), is to implement the D-Latch in Behavioral Verilog using the below IO table:</p>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 33.3333%;">
+<col style="width: 33.3333%;">
+<col style="width: 33.3334%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Signal</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Purpose</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Direction</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">sw[0]</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">D</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">IN</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">btnC</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">E</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">IN</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">led[0]</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Q</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">OUT</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">led[1]</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">~Q</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">OUT</p></td>
+</tr>
+</tbody>
+</table>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+The D-Latch should be implemented as a set of additional logic that feeds into an SR-Latch, controlling the S and R lines.
+</td>
+</tr>
+</table>
 </div>
 </div>
 </div>

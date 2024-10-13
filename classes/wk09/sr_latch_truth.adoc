@@ -1,0 +1,8 @@
+.SR-Latch Truth Table
+|===
+| S | R | Q | ~Q
+| 0 | 0 | Latch | Latch
+| 0 | 1 | 0 | 1
+| 1 | 0 | 1 | 0
+| 1 | 1 | 0 | 0
+|===
