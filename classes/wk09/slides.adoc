@@ -48,6 +48,10 @@ include::img/synch_state.puml[]
 [.column]
 image::img/sr_latch.drawio.png[width=600]
 
+=== Truth Table and Considerations
+
+include::sr_latch_truth.adoc[]
+
 === Structural Implementation
 
 [.mid-code]
@@ -64,10 +68,6 @@ include::src/behavioral_sr_latch.v[tag=module_source]
 ----
 
 <1> Note the use of continuous assignment here
-
-=== Truth Table and Considerations
-
-include::sr_latch_truth.adoc[]
 
 [.columns]
 == The D-Latch

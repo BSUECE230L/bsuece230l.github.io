@@ -798,7 +798,7 @@ endmodule</code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p>Notice how the outputs of Q and ~Q only change when E goes high. This circuit is <em>synchronous</em> to E only, rather than to both S and R as the SR-Latch is. It is impossible to get this into an invalid state.</p>
+<p>Notice how the outputs of Q and ~Q only change while E is high. This circuit is <em>synchronous</em> to E and D, rather than to both S and R as the SR-Latch is. It is impossible to get this into an invalid state.</p>
 </div>
 </div>
 </div>
@@ -844,14 +844,14 @@ endmodule</code></pre>
 </tr>
 </tbody>
 </table>
-<div class="admonitionblock note">
+<div class="admonitionblock tip">
 <table>
 <tr>
 <td class="icon">
-<i class="fa icon-note" title="Note"></i>
+<i class="fa icon-tip" title="Tip"></i>
 </td>
 <td class="content">
-Use the sensitivity list here. An important feature of the D-Latch is that it is <strong>only synchronous to the E signal</strong>.
+Think about the sensitivity list in your <code>always</code> block. The output of the D-Latch changes while E is high.
 </td>
 </tr>
 </table>
@@ -1148,7 +1148,7 @@ endmodule</code></pre>
 <table>
 <tr>
 <td><i class="conum" data-value="1"></i><b>1</b></td>
-<td>Output is sensitive both to <code>sel</code> and <code>data</code></td>
+<td>Output is sensitive both to <code>sel</code> and <code>data</code>.</td>
 </tr>
 <tr>
 <td><i class="conum" data-value="2"></i><b>2</b></td>

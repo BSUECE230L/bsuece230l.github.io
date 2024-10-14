@@ -127,7 +127,7 @@ Or, presented as a waveform:
 include::img/d_latch.puml[]
 ....
 
-Notice how the outputs of Q and ~Q only change when E goes high. This circuit is _synchronous_ to E only, rather than to both S and R as the SR-Latch is. It is impossible to get this into an invalid state.
+Notice how the outputs of Q and ~Q only change while E is high. This circuit is _synchronous_ to E and D, rather than to both S and R as the SR-Latch is. It is impossible to get this into an invalid state.
 
 == Lab Deliverables
 
@@ -143,8 +143,7 @@ Your mission, should you choose to accept it (note: enrollment in this class is 
 | led[1] | ~Q      | OUT
 |===
 
-NOTE: Use the sensitivity list here. An important feature of the D-Latch is that it is *only synchronous to the E signal*.
-
+TIP: Think about the sensitivity list in your `always` block. The output of the D-Latch changes while E is high.
 
 === Part 2: Four Bytes!
 
@@ -252,7 +251,7 @@ include::src/scaffolding.v[tag=top]
 include::src/demultiplex.v[tag=module_source]
 ----
 
-<1> Output is sensitive both to `sel` and `data`
+<1> Output is sensitive both to `sel` and `data`.
 <2> We need to assign all other outputs to zero that are not the currently selected output. One way to do this is by concatenating zeros with the input data into the output. Make sure the width of the zeros matches the width of the outputs. In this case, each output is four bits, so we have to pack `4'b0` into them.
 
 .Demux Example Output
