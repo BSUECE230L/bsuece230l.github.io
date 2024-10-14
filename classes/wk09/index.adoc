@@ -50,7 +50,7 @@ Jokes aside, the solution to this is the SR-Latch, or the Set-Reset Latch. It's 
 include::img/sr_latch.puml[]
 ....
 
-NOTE: This unknown state will be a common thing you have to deal with in Synchronous circuits. Before a reset condition, it is physically impossible to know what state a circuit is in. For this reason, we will use reset lines in all of our modules.
+NOTE: This unknown state will be a common thing you have to deal with in Synchronous circuits. Before a reset condition, it is physically impossible to know what state a circuit is in. For this reason, we will use reset lines in all of our modules. Vivado notates this with "X" for unknown/don't care. If you see "X" as the value of your signal, it is because it hasn't been set yet.
 
 What does the circuit that behaves like this even _look_ like? Well, as I hinted, it leverages combinatorial loops:
 
