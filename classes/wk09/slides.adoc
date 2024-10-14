@@ -114,7 +114,7 @@ image::img/block_diagram.drawio.png[]
 === How it Should Work
 
 [.stretch]
-Video here of working board
+video::6819vS2GoIY[youtube]
 
 == New Syntax
 
