@@ -530,7 +530,34 @@ endmodule</code></pre></div></div></div></section><section id="_instantiating_pa
         sw = 'hFFFF;
         #10;
     end
-endmodule</code></pre></div></div></div></section></section></div></div><script src="https://cdn.jsdelivr.net/npm/reveal.js@4.1.2/dist/reveal.js"></script><script>Array.prototype.slice.call(document.querySelectorAll('.slides section')).forEach(function(slide) {
+endmodule</code></pre></div></div></div></section><section id="_blocking_vs_non_blocking" class="columns"><h2>Blocking vs. Non-blocking</h2><div class="slide-content"><div class="listingblock column big-code"><div class="content"><pre class="highlightjs highlight"><code class="language-verilog hljs" data-noescape="true" data-lang="verilog">module block_nonblock(
+    input Sig,
+    output reg A, B, C, D, E, F
+);
+
+    // Blocking assignment
+    always @(Sig) begin
+        A = Sig; // A immediately gets sig
+        B = A; // B immediately gets sig
+        C = B; // C immediately gets sig
+    end
+    // In blocking assignment, Verilog will generate
+    // circuits that require full propogation of signals
+    // until continuing
+
+    // Non-Blocking assignment
+    always @(Sig) begin
+        D &lt;= Sig; // D immediately gets sig
+        E &lt;= D; // E gets D next time
+        F &lt;= E; // F gets E next time
+    end
+    // In non-blocking assignment, Verilog will generate
+    // synchronous logic that ends immediately, and does
+    // not block until all circuits propogate
+    // USE THIS UNLESS YOU KNOW WHAT YOU ARE DOING
+
+endmodule</code></pre></div></div>
+<div class="imageblock column"><img src="img/blocking_nonblocking_output.png" alt="blocking nonblocking output"></div></div></section></section></div></div><script src="https://cdn.jsdelivr.net/npm/reveal.js@4.1.2/dist/reveal.js"></script><script>Array.prototype.slice.call(document.querySelectorAll('.slides section')).forEach(function(slide) {
   if (slide.getAttribute('data-background-color')) return;
   // user needs to explicitly say he wants CSS color to override otherwise we might break custom css or theme (#226)
   if (!(slide.classList.contains('canvas') || slide.classList.contains('background'))) return;
