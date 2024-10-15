@@ -454,6 +454,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li><a href="#scaffold_appendix">Appendix 2: Module Scaffolding</a></li>
 <li><a href="#demultiplex_appendix">Appendix 3: Demultiplexing</a></li>
 <li><a href="#looping_appendix">Appendix 4: Looping, <code>genvar</code>, and <code>parameter</code></a></li>
+<li><a href="#block_nonblock">Appendix 5: Blocking vs. Non Blocking Assignment</a></li>
 </ul>
 </div>
 </div>
@@ -715,9 +716,9 @@ endmodule</code></pre>
 
     always @(Set, Reset) begin <i class="conum" data-value="2"></i><b>(2)</b>
         if (Set)
-            Q = 1;
+            Q &lt;= 1; <i class="conum" data-value="3"></i><b>(3)</b>
         else if (Reset)
-            Q = 0;
+            Q &lt;= 0;
     end
 
     assign NotQ = ~Q; <i class="conum" data-value="1"></i><b>(1)</b>
@@ -734,6 +735,10 @@ endmodule</code></pre>
 <tr>
 <td><i class="conum" data-value="2"></i><b>2</b></td>
 <td>The Sensitivity List isn&#8217;t just a * here, note that since we are synchronous to Set and Reset, we have both in this list.</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="3"></i><b>3</b></td>
+<td>Notice the <strong>non blocking</strong> assignment, for more see <a href="#block_nonblock">Appendix 5: Blocking vs. Non Blocking Assignment</a>. Use non blocking for the remainder of the lab.</td>
 </tr>
 </table>
 </div>
@@ -1134,10 +1139,10 @@ endmodule</code></pre>
 
     always @(*) begin <i class="conum" data-value="1"></i><b>(1)</b>
         case(sel)
-            2'b00: {D, C, B, A} = {4'b0, 4'b0, 4'b0, data}; <i class="conum" data-value="2"></i><b>(2)</b>
-            2'b01: {D, C, B, A} = {4'b0, 4'b0, data, 4'b0};
-            2'b10: {D, C, B, A} = {4'b0, data, 4'b0, 4'b0};
-            2'b11: {D, C, B, A} = {data, 4'b0, 4'b0, 4'b0};
+            2'b00: {D, C, B, A} &lt;= {4'b0, 4'b0, 4'b0, data}; <i class="conum" data-value="2"></i><b>(2)</b>
+            2'b01: {D, C, B, A} &lt;= {4'b0, 4'b0, data, 4'b0};
+            2'b10: {D, C, B, A} &lt;= {4'b0, data, 4'b0, 4'b0};
+            2'b11: {D, C, B, A} &lt;= {data, 4'b0, 4'b0, 4'b0};
         endcase
     end
 
@@ -1261,6 +1266,53 @@ endmodule</code></pre>
 <td>Notice we provide parameters in a <code>#()</code> block before the name, and use the same <code>.Parameter(Value)</code> syntax as port list.</td>
 </tr>
 </table>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="block_nonblock">Appendix 5: Blocking vs. Non Blocking Assignment</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>See the example below:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-verilog hljs" data-lang="verilog">module block_nonblock(
+    input Sig,
+    output reg A, B, C, D, E, F
+);
+
+    // Blocking assignment
+    always @(Sig) begin
+        A = Sig; // A immediately gets sig
+        B = A; // B immediately gets sig
+        C = B; // C immediately gets sig
+    end
+    // In blocking assignment, Verilog will generate
+    // circuits that require full propogation of signals
+    // until continuing
+
+    // Non-Blocking assignment
+    always @(Sig) begin
+        D &lt;= Sig; // D immediately gets sig
+        E &lt;= D; // E gets D next time
+        F &lt;= E; // F gets E next time
+    end
+    // In non-blocking assignment, Verilog will generate
+    // synchronous logic that ends immediately, and does
+    // not block until all circuits propogate
+    // USE THIS UNLESS YOU KNOW WHAT YOU ARE DOING
+
+endmodule</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>And it outputs the following:</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="img/blocking_nonblocking_output.png" alt="blocking nonblocking output">
+</div>
 </div>
 </div>
 </div>

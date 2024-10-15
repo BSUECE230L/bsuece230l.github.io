@@ -436,9 +436,9 @@ endmodule</code></pre></div></div></div></section><section id="_behavioral_imple
 
     always @(Set, Reset) begin <i class="conum" data-value="2"></i><b>(2)</b>
         if (Set)
-            Q = 1;
+            Q &lt;= 1; <i class="conum" data-value="3"></i><b>(3)</b>
         else if (Reset)
-            Q = 0;
+            Q &lt;= 0;
     end
 
     assign NotQ = ~Q; <i class="conum" data-value="1"></i><b>(1)</b>
@@ -481,10 +481,10 @@ endmodule</code></pre></div></div></div></section><section id="_array_syntax_pt_
 
     always @(*) begin <i class="conum" data-value="1"></i><b>(1)</b>
         case(sel)
-            2'b00: {D, C, B, A} = {4'b0, 4'b0, 4'b0, data}; <i class="conum" data-value="2"></i><b>(2)</b>
-            2'b01: {D, C, B, A} = {4'b0, 4'b0, data, 4'b0};
-            2'b10: {D, C, B, A} = {4'b0, data, 4'b0, 4'b0};
-            2'b11: {D, C, B, A} = {data, 4'b0, 4'b0, 4'b0};
+            2'b00: {D, C, B, A} &lt;= {4'b0, 4'b0, 4'b0, data}; <i class="conum" data-value="2"></i><b>(2)</b>
+            2'b01: {D, C, B, A} &lt;= {4'b0, 4'b0, data, 4'b0};
+            2'b10: {D, C, B, A} &lt;= {4'b0, data, 4'b0, 4'b0};
+            2'b11: {D, C, B, A} &lt;= {data, 4'b0, 4'b0, 4'b0};
         endcase
     end
 

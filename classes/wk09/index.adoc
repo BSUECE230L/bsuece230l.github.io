@@ -111,6 +111,7 @@ include::src/behavioral_sr_latch.v[tag=module_source]
 
 <1> Notice, we can do something really cool here. I can use some structural continuous assignments to mimick the behavior of the inverted output. It is totally valid, and even common, to mix structural and behavioral Verilog in designs.
 <2> The Sensitivity List isn't just a * here, note that since we are synchronous to Set and Reset, we have both in this list.
+<3> Notice the *non blocking* assignment, for more see <<block_nonblock>>. Use non blocking for the remainder of the lab.
 
 This will now _behave_ the same, but synthesize correctly in Vivado. However, we have a problem with this design. What if we assert both Set and Reset? Obviously, functionally speaking this has no meaning. How are we supposed to derive the output state given this? The state where Set and Reset are high is known as the "invalid" state of the SR-Latch.
 
@@ -284,3 +285,17 @@ include::src/genvar.v[tag=module_instance]
 ----
 
 <1> Notice we provide parameters in a `#()` block before the name, and use the same `.Parameter(Value)` syntax as port list.
+
+[[block_nonblock]]
+== Appendix 5: Blocking vs. Non Blocking Assignment
+
+See the example below:
+
+[source,verilog]
+----
+include::src/block_nonblock.v[tag=module_source]
+----
+
+And it outputs the following:
+
+image::img/blocking_nonblocking_output.png[]

@@ -8,11 +8,11 @@ module behavioral_sr_latch(
     output NotQ
 );
 
-    always @(Set, Reset) begin <2>
+    always @(Set, Reset) begin // <2>
         if (Set)
-            Q = 1;
+            Q <= 1; // <3>
         else if (Reset)
-            Q = 0;
+            Q <= 0;
     end
 
     assign NotQ = ~Q; // <1>
