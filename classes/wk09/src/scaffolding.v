@@ -35,17 +35,40 @@ module memory_system(
     // memory specified by addr into the memory
     // output for display on the LEDs
 
+    // you will need 2 demultiplexers:
+    // 1. Demultiplex data -> selected byte
+    // 2. Demultiplex store -> selected byte
+
+    // and one multiplexer:
+    // 1. Multiplex selected byte -> memory
+
 endmodule
 // end::mem_system[]
 
-// tag::top[]
-module top(
-    input [15:6] sw,
-    input btnC,
-    output [15:8] led
+// tag::d_latch[]
+module d_latch(
+    input D, E,
+    output Q, NotQ
 );
 
-    memory_system mem(
+    // Will contain D-Latch behavior
+
+endmodule
+// end::d_latch[]
+
+// tag::top[]
+module top(
+    input [15:0] sw,
+    input btnC,
+    output [15:0] led
+);
+    d_latch part1(
+        .D(sw[0]),
+        .Q(led[0]),
+        .NotQ(led[1]),
+        .E(btnC)
+    );
+    memory_system part2(
         .data(sw[15:8]),
         .addr(sw[7:6]),
         .store(btnC),

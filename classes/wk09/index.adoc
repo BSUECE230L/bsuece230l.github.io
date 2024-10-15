@@ -180,8 +180,13 @@ The 8 data bits come in to a demultiplexer, controlled by the address select lin
 | led[15:8] | 8 output bits  | OUT
 |===
 
+NOTE: Store/Enable are interchangeable terms on D-Latches. You may also call it Enable, as it is equivalent to what we learned in part 1.
 
 NOTE: If you are having trouble, see <<scaffold_appendix>> for some scaffolding to help you get started. To help instantiate multiple blocks, see <<looping_appendix>>.
+
+For additional context, see a zoomed in/cropped design diagram:
+
+image::img/zoomed_block_diagram.drawio.svg[]
 
 [[array_appendix]]
 == Appendix 1: Array Syntax
@@ -235,6 +240,12 @@ include::src/scaffolding.v[tag=byte_mem]
 [source,verilog]
 ----
 include::src/scaffolding.v[tag=mem_system]
+----
+
+.d_latch.v
+[source,verilog]
+----
+include::src/scaffolding.v[tag=d_latch]
 ----
 
 .top.v

@@ -960,10 +960,30 @@ Enable line not shown for brevity. However, it will also need to be demultiplexe
 <i class="fa icon-note" title="Note"></i>
 </td>
 <td class="content">
+Store/Enable are interchangeable terms on D-Latches. You may also call it Enable, as it is equivalent to what we learned in part 1.
+</td>
+</tr>
+</table>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
 If you are having trouble, see <a href="#scaffold_appendix">Appendix 2: Module Scaffolding</a> for some scaffolding to help you get started. To help instantiate multiple blocks, see <a href="#looping_appendix">Appendix 4: Looping, <code>genvar</code>, and <code>parameter</code></a>.
 </td>
 </tr>
 </table>
+</div>
+<div class="paragraph">
+<p>For additional context, see a zoomed in/cropped design diagram:</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="img/zoomed_block_diagram.drawio.svg" alt="zoomed block diagram.drawio">
+</div>
 </div>
 </div>
 </div>
@@ -1098,6 +1118,26 @@ endmodule</code></pre>
     // memory specified by addr into the memory
     // output for display on the LEDs
 
+    // you will need 2 demultiplexers:
+    // 1. Demultiplex data -&gt; selected byte
+    // 2. Demultiplex store -&gt; selected byte
+
+    // and one multiplexer:
+    // 1. Multiplex selected byte -&gt; memory
+
+endmodule</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="title">d_latch.v</div>
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-verilog hljs" data-lang="verilog">module d_latch(
+    input D, E,
+    output Q, NotQ
+);
+
+    // Will contain D-Latch behavior
+
 endmodule</code></pre>
 </div>
 </div>
@@ -1105,12 +1145,17 @@ endmodule</code></pre>
 <div class="title">top.v</div>
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-verilog hljs" data-lang="verilog">module top(
-    input [15:6] sw,
+    input [15:0] sw,
     input btnC,
-    output [15:8] led
+    output [15:0] led
 );
-
-    memory_system mem(
+    d_latch part1(
+        .D(sw[0]),
+        .Q(led[0]),
+        .NotQ(led[1]),
+        .E(btnC)
+    );
+    memory_system part2(
         .data(sw[15:8]),
         .addr(sw[7:6]),
         .store(btnC),
