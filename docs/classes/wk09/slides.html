@@ -530,7 +530,7 @@ endmodule</code></pre></div></div></div></section><section id="_instantiating_pa
         sw = 'hFFFF;
         #10;
     end
-endmodule</code></pre></div></div></div></section><section id="_blocking_vs_non_blocking" class="columns"><h2>Blocking vs. Non-blocking</h2><div class="slide-content"><div class="listingblock column big-code"><div class="content"><pre class="highlightjs highlight"><code class="language-verilog hljs" data-noescape="true" data-lang="verilog">module block_nonblock(
+endmodule</code></pre></div></div></div></section><section id="_blocking_vs_non_blocking"><h2>Blocking vs. Non-blocking</h2><div class="slide-content"><div class="listingblock big-code"><div class="content"><pre class="highlightjs highlight"><code class="language-verilog hljs" data-noescape="true" data-lang="verilog">module block_nonblock(
     input Sig,
     output reg A, B, C, D, E, F
 );
@@ -556,8 +556,7 @@ endmodule</code></pre></div></div></div></section><section id="_blocking_vs_non_
     // not block until all circuits propogate
     // USE THIS UNLESS YOU KNOW WHAT YOU ARE DOING
 
-endmodule</code></pre></div></div>
-<div class="imageblock column"><img src="img/blocking_nonblocking_output.png" alt="blocking nonblocking output"></div></div></section></section></div></div><script src="https://cdn.jsdelivr.net/npm/reveal.js@4.1.2/dist/reveal.js"></script><script>Array.prototype.slice.call(document.querySelectorAll('.slides section')).forEach(function(slide) {
+endmodule</code></pre></div></div></div></section><section id="_blocking_vs_non_blocking_output"><h2>Blocking vs. Non-blocking Output</h2><div class="slide-content"><div class="imageblock stretch"><img src="img/blocking_nonblocking_output.png" alt="blocking nonblocking output" height="100%"></div></div></section></section></div></div><script src="https://cdn.jsdelivr.net/npm/reveal.js@4.1.2/dist/reveal.js"></script><script>Array.prototype.slice.call(document.querySelectorAll('.slides section')).forEach(function(slide) {
   if (slide.getAttribute('data-background-color')) return;
   // user needs to explicitly say he wants CSS color to override otherwise we might break custom css or theme (#226)
   if (!(slide.classList.contains('canvas') || slide.classList.contains('background'))) return;

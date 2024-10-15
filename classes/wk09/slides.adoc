@@ -198,15 +198,14 @@ include::src/genvar.v[tags=module_source]
 include::src/genvar.v[tags=module_instance]
 ----
 
-[.columns]
 === Blocking vs. Non-blocking
 
-[.column]
 [.big-code]
 [source,verilog]
 ----
 include::src/block_nonblock.v[tag=module_source]
 ----
 
-[.column]
+=== Blocking vs. Non-blocking Output
+[.stretch]
 image::img/blocking_nonblocking_output.png[]
