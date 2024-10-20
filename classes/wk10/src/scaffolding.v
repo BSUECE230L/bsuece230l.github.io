@@ -29,7 +29,7 @@ module math_block(
     input [3:0] A,
     input [3:0] B,
     output reg [3:0] AplusB,
-    output reg [3:0] AplusB,
+    output reg [3:0] AminusB
 );
 
     // This one should be relatively easy.  You can either use your previous
@@ -68,7 +68,7 @@ module seven_seg_decoder(
     input [3:0] A,
     input [3:0] B,
     input [3:0] AplusB,
-    input [3:0] BminusB,
+    input [3:0] AminusB,
     input [3:0] anode,
     output reg [6:0] segs
 );
@@ -80,8 +80,8 @@ module seven_seg_decoder(
     // Recommended you do a simple behavioral implementation:
     // alwyas @(*) begin
     //   case (anode)
-    //      'b0001: A
-    //      'b0010: B
+    //      'b1110: A
+    //      'b1101: B
     //      ...
     //   endcase
 
