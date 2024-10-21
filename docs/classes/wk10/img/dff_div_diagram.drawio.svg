@@ -1,0 +1,40 @@
+<svg host="65bd71144e" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" width="247px" height="102px" viewBox="-0.5 -0.5 247 102" content="&lt;mxfile&gt;&lt;diagram id=&quot;SFGffzgwqJeE8neqHbjW&quot; name=&quot;Page-1&quot;&gt;7ZhZj9sgEMc/TR4b+YiT9HFzbPehlVbaSm2fItae2DTYWJgc7qcvmMHn3lcP7UsEf4YBZn4c8chfpqdPguTJFx4BG3lOdBr5q5Hn+TNH/WqhNMJ04hkhFjQyktsIV/QXoIj94j2NoOgYSs6ZpHlXDHmWQSg7GhGCH7tmW866o+YkhoFwFRI2VL/RSCZGnQdOo18AjRM7sutgS0qsMQpFQiJ+bEn+euQvBefSlNLTEpiOnY2L6Xd+S2s9MQGZfEiHKU5DlnZtEKmlYpULmfCYZ4StG3Wh5pzrVowuF0oTfJ9FoJ06qpbIlKmiq4pwovI7yrr8Q5fHswCrq1OrbVW2KpcgaAoShNUyKcrK03gazKxg3AUT3wqNw6pWtmt9l4xcA1uQcBdX019ypteyimBL9kzqlUrBdzDUtzyT5ySlTLu/AHYASUOCDYir62J92B2y6ExTqMSMZ2CUc8oYzsvkRCfi1qyiVPC9CNEKt5AkIga0Cmqi1E4ErtYuSmUigBFJD13vBPdEXNs12KgCknMzRfO3osjtUOQ9nqL/PuWzN0r5xz+T8iccHH9ryn/u09zGi4jweRA8I+PY9ZJTNYjn4B3t+XhD4RU9sXXrwkCHvRpu1JJJ2TLLtUFx+zh+b5zA7V1Y99jbeTXYmhk0ENcxeRDX9onx1jfi+1n2T2Ncc2PHmd2N8cD+hTHGm+FA2B5DN8D6AEKnnX3WGF3ygkrKM9V0zaXkqaHavE11UiNSJDXNhNFYm4YqoRrHNt7W7RnaSJ63dkh6ivU/gjEwtU+EthszHtNwExMJxTjayDKHzZbR/MOWVT1xIcornO7maQiPDbbXC7Z9qB+bx3v9RE9aD/d5D5anXJTBIBMh221oNsiHDdGRlBVtOmo7kGGCQd+qHWaPoYIz7X9RmM06VcWqD4j1ATSoJhdIrXIfLEbBCp3YHY2bV4DyQq4rv051cEkiW/W8deyYhLcOokWRkfwrN3SbQZ95urAejgy2soVVn9aURlF1BlsmhUnfgMPa8AWAcue9S8sZAuXdwJP3AjzNbuSJ7+U7UA8Dqg/IvUT1CHwNoPxJ74SavhpQqtp8XjA3S/ONxl//Bg==&lt;/diagram&gt;&lt;/mxfile&gt;">
+    <defs/>
+    <g>
+        <path d="M 68 80 L 38 80" fill="none" stroke="rgb(0, 0, 0)" stroke-miterlimit="10" pointer-events="stroke"/>
+        <path d="M 168 40 L 198 40" fill="none" stroke="rgb(0, 0, 0)" stroke-miterlimit="10" pointer-events="stroke"/>
+        <path d="M 168 80 L 178 80 L 178 43 C 181.9 43 181.9 37 178 37 L 178 37 L 178 0 L 78 0" fill="none" stroke="rgb(0, 0, 0)" stroke-miterlimit="10" pointer-events="stroke"/>
+        <path d="M 68 40 L 58 40 L 58 0 L 78 0" fill="none" stroke="rgb(0, 0, 0)" stroke-miterlimit="10" pointer-events="stroke"/>
+        <rect x="88" y="20" width="60" height="80" fill="rgb(255, 255, 255)" stroke="rgb(0, 0, 0)" pointer-events="all"/>
+        <path d="M 68 40 L 88 40 M 68 80 L 88 80 M 148 40 L 168 40 M 139 75 L 147 75 M 88 75 L 98 80 L 88 85 M 148 80 L 168 80" fill="none" stroke="rgb(0, 0, 0)" stroke-miterlimit="10" pointer-events="all"/>
+        <g fill="#000000" font-family="Arial,Helvetica" text-anchor="middle" font-size="11px">
+            <text x="92.5" y="42.5">
+                D
+            </text>
+        </g>
+        <g fill="#000000" font-family="Arial,Helvetica" text-anchor="middle" font-size="11px">
+            <text x="142.5" y="42.5">
+                Q
+            </text>
+        </g>
+        <g fill="#000000" font-family="Arial,Helvetica" text-anchor="middle" font-size="11px">
+            <text x="142.5" y="82.5">
+                Q
+            </text>
+        </g>
+        <ellipse cx="38" cy="80" rx="3" ry="3" fill="rgb(0, 0, 0)" stroke="none" pointer-events="all"/>
+        <rect x="28" y="70" width="20" height="20" fill="none" stroke="none" pointer-events="all"/>
+        <g fill="rgb(0, 0, 0)" font-family="Helvetica" text-anchor="end" font-size="11px">
+            <text x="25.5" y="84">
+                clk_in
+            </text>
+        </g>
+        <ellipse cx="198" cy="40" rx="3" ry="3" fill="rgb(0, 0, 0)" stroke="none" pointer-events="all"/>
+        <rect x="188" y="30" width="20" height="20" fill="none" stroke="none" pointer-events="all"/>
+        <g fill="rgb(0, 0, 0)" font-family="Helvetica" font-size="11px">
+            <text x="209.5" y="44">
+                clk_out
+            </text>
+        </g>
+    </g>
+</svg>
