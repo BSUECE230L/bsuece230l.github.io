@@ -287,6 +287,7 @@ include::src/scaffolding.v[tag=top]
 include::src/pd_dlatch_sim.v[]
 ----
 
+[[edge_level_counters]]
 == Appendix 2: Edge and Level Sensitive Counters
 [source,verilog]
 ----
