@@ -181,7 +181,7 @@ The highlighted block is a ton of gates and a large usage -- it is the section o
 
 To add some fun to this lab, we are going to visualize things with the Seven Segment display for the first time! It is wired up as a common anode, switched cathode style. See below:
 
-NOTE: For much more detail on this and other things about the Basys3, see xref:https://digilent.com/reference/programmable-logic/basys-3/reference-manual#seven_segment_display[the reference manual]. The following two images are from this web page.
+NOTE: For much more detail on this and other things about the Basys3, see https://digilent.com/reference/programmable-logic/basys-3/reference-manual#seven_segment_display[the reference manual]. The following two images are from this web page.
 
 .Common Anode (source: Digilent Reference Manual)
 image:img/basys3_7seg_segment.png[]
