@@ -62,3 +62,6 @@ image:img/lab_block_diagram.drawio.svg[width=800px]
 image:img/basys3_7seg_segment.png[width=900px]
 
 === Video Demo
+
+[.stretch]
+video::4SU6DP_Tv3Y[youtube]
