@@ -2,7 +2,11 @@
 
 // tag::clock_div[]
 // clock_div.v
-module clock_div(
+module clock_div
+#(
+    parameter BIT_COUNT = 17
+)
+(
     input clock,
     input reset,
     output reg div_clock
@@ -19,6 +23,11 @@ module clock_div(
 
     // If you use the counter block, try using parameters in the counter module
     // to specify the number of bits
+    
+    // IMPORTANT NOTE!! If you do a counter based divider, make sure to only
+    // divide clock by 2 during test bench runs or your tests will fail. This
+    // will automatically happen for you if you use 2^N divider and the
+    // BIT_COUNT parameter
 
 endmodule
 // end::clock_div[]
@@ -80,8 +89,8 @@ module seven_seg_decoder(
     // Recommended you do a simple behavioral implementation:
     // alwyas @(*) begin
     //   case (anode)
-    //      'b1110: A
-    //      'b1101: B
+    //      'b1110: selected_sig <= A
+    //      'b1101: selected_sig <= B
     //      ...
     //   endcase
 
@@ -89,29 +98,39 @@ module seven_seg_decoder(
     // based on the 4 bit input number to hexidecimal digit
 
     // For reference:
-    // 0 -> A, B, C, D, E, F
-    // 1 -> B, C
-    // 2 -> A, B, G, E, D
-    // 3 -> A, B, G, C, D
-    // 4 -> F, G, B, C
-    // 5 -> A, F, G, C, D
-    // 6 -> A, F, G, E, D, C
-    // 7 -> A, B, C
-    // 8 -> A, B, C, D, E, F, G
-    // 9 -> A, B, G, F, C, D
-    // A -> A, B, C, G, F, E
-    // b -> F, G, C, D, E
-    // C -> A, F, E, D
-    // d -> B, G, E, D, C
-    // E -> A, F, G, E, D
-    // F -> A, F, G, E
+    always @(*) begin
+        case(selected_sig)
+            //            GFEDCBA
+            0: segs  = 7'b1000000;        
+            1: segs  = 7'b1111001;        
+            2: segs  = 7'b0100100;        
+            3: segs  = 7'b0110000;        
+            4: segs  = 7'b0011001;        
+            5: segs  = 7'b0010010;        
+            6: segs  = 7'b0000010;        
+            7: segs  = 7'b1111000;        
+            8: segs  = 7'b0000000;
+            9: segs  = 7'b0010000;        
+            10: segs = 7'b0001000;        
+            11: segs = 7'b0000011;        
+            12: segs = 7'b1000110;        
+            13: segs = 7'b0100001;        
+            14: segs = 7'b0000110;        
+            15: segs = 7'b0001110;       
+        endcase
+    end
 
 endmodule
 // end::seven_seg_decoder[]
 
 // tag::top[]
 // top.v
-module top(
+module top
+#(
+    parameter BIT_COUNT = 17 // Use this when passing in to your clock div!
+    // The test bench will set it appropriately
+)
+(
     input [7:0] sw, // A and B
     input clk, // 100 MHz board clock
     input btnC, // Reset

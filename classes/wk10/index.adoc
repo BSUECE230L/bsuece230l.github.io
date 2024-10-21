@@ -228,6 +228,8 @@ The following table describes the meaning of each segment:
 
 NOTE: For this, refer to the sections above (primarily <<flipflop_div>>) about creating clock dividers.
 
+WARNING: Please use the exact module names and parameters below.
+
 Create a simple module that takes in the 100 MHz clock integrated into the Basys3 board and generates an approximately 1 KHz signal out. If you feel like going the extra mile, you can go ahead and make it precisely 1 KHz output. See the following code segment for scaffolding:
 
 [source,verilog]
