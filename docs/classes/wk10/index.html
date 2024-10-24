@@ -947,27 +947,39 @@ For much more detail on this and other things about the Basys3, see <a href="htt
 <td class="tableblock halign-left valign-top"><p class="tableblock">Signal</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">L</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Left</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">A - B</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">an[3]</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">LC</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Left Center</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">A + B</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">an[2]</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">RC</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Right Center</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">B</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">an[1]</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">R</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Right</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">A</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">an[0]</p></td>
 </tr>
 </tbody>
 </table>
+<div class="admonitionblock warning">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-warning" title="Warning"></i>
+</td>
+<td class="content">
+Please use the exact module names and parameters below, or modify <code>test.v</code> appropriately for your solution.
+</td>
+</tr>
+</table>
+</div>
 <div class="sect2">
 <h3 id="_part_1_generating_clock_signal">Part 1: Generating clock signal</h3>
 <div class="admonitionblock note">
@@ -982,18 +994,6 @@ For this, refer to the sections above (primarily <a href="#flipflop_div">Using F
 </tr>
 </table>
 </div>
-<div class="admonitionblock warning">
-<table>
-<tr>
-<td class="icon">
-<i class="fa icon-warning" title="Warning"></i>
-</td>
-<td class="content">
-Please use the exact module names and parameters below.
-</td>
-</tr>
-</table>
-</div>
 <div class="paragraph">
 <p>Create a simple module that takes in the 100 MHz clock integrated into the Basys3 board and generates an approximately 1 KHz signal out. If you feel like going the extra mile, you can go ahead and make it precisely 1 KHz output. See the following code segment for scaffolding:</p>
 </div>
@@ -1002,7 +1002,7 @@ Please use the exact module names and parameters below.
 <pre class="highlightjs highlight"><code class="language-verilog hljs" data-lang="verilog">// clock_div.v
 module clock_div
 #(
-    parameter BIT_COUNT = 17
+    parameter DIVIDE_BY = 17 // Or 100,000 if you are using counter divider
 )
 (
     input clock,
@@ -1030,6 +1030,12 @@ module clock_div
 endmodule</code></pre>
 </div>
 </div>
+<div class="paragraph">
+<p>It is important to parameterize this module. In the test bench, which is critical to understanding and debugging your code when you face issues, we don&#8217;t want to actually simulate a 100 MHz clock. That would make the simulation take an extremely long time. There is a divide by parameter shown at the top of this scaffolded module. You are responsible for setting its default value for whatever implementation you use (1/2<sup>N</sup> or counter) and interpreting what that means, just know that the test bench will pass <code>2</code> in for this value, and it expects that your clock divider, under test, will only divide the input clock by 2.</p>
+</div>
+<div class="paragraph">
+<p>It is recommended that you use it to drive either the number of chained D-FlipFlops or the count value you are comparing to in your counter. See <a href="https://www.chipverify.com/verilog/verilog-math-functions">this link</a> for additional information on what calculations you can do on and with parameters. To be clear&#8201;&#8212;&#8201;you have two options with how to implement the clock divider for your circuit, and it does not matter which you use as long as it produces an ~1KHz clock. Take this design freedom and have some fun!</p>
+</div>
 </div>
 <div class="sect2">
 <h3 id="_part_2_writing_the_segment_scanner">Part 2: Writing the segment scanner</h3>
@@ -1041,6 +1047,7 @@ endmodule</code></pre>
 </td>
 <td class="content">
 For this, refer to <a href="#displaying">Displaying Our Count</a> for more information.
+NOTE: For a counter implementation see: <a href="#edge_level_counters">Appendix 2: Edge and Level Sensitive Counters</a>, specifically the <code>edge_counter</code> module.
 </td>
 </tr>
 </table>
@@ -1064,10 +1071,10 @@ module seven_seg_scanner(
     // The reset line should set things back to segment 0
 
     // Anodes are:
-    // 0: R
-    // 1: RC
-    // 2: LC
-    // 3: L
+    // 0: Right
+    // 1: Right Center
+    // 2: Left Center
+    // 3: Left
 
 endmodule</code></pre>
 </div>
@@ -1189,8 +1196,8 @@ endmodule</code></pre>
 <pre class="highlightjs highlight"><code class="language-verilog hljs" data-lang="verilog">// top.v
 module top
 #(
-    parameter BIT_COUNT = 17 // Use this when passing in to your clock div!
-    // The test bench will set it appropriately
+    parameter DIVIDE_BY = 17 // Use this when passing in to your clock div!
+    // The test bench will set it to 2 when testing
 )
 (
     input [7:0] sw, // A and B

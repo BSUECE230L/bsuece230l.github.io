@@ -4,7 +4,7 @@
 // clock_div.v
 module clock_div
 #(
-    parameter BIT_COUNT = 17
+    parameter DIVIDE_BY = 17 // Or 100,000 if you are using counter divider
 )
 (
     input clock,
@@ -63,10 +63,10 @@ module seven_seg_scanner(
     // The reset line should set things back to segment 0
 
     // Anodes are:
-    // 0: R
-    // 1: RC
-    // 2: LC
-    // 3: L
+    // 0: Right
+    // 1: Right Center
+    // 2: Left Center
+    // 3: Left
 
 endmodule
 // end::seven_seg_scanner[]
@@ -127,8 +127,8 @@ endmodule
 // top.v
 module top
 #(
-    parameter BIT_COUNT = 17 // Use this when passing in to your clock div!
-    // The test bench will set it appropriately
+    parameter DIVIDE_BY = 17 // Use this when passing in to your clock div!
+    // The test bench will set it to 2 when testing
 )
 (
     input [7:0] sw, // A and B

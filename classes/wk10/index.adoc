@@ -217,18 +217,18 @@ You will need the following components:
 The following table describes the meaning of each segment:
 
 |===
-| Segment | Purpose | Signal
-| L       | A - B   | an[3]
-| LC      | A + B   | an[2]
-| RC      | B       | an[1]
-| R       | A       | an[0]
+| Segment      | Purpose | Signal
+| Left         | A - B   | an[3]
+| Left Center  | A + B   | an[2]
+| Right Center | B       | an[1]
+| Right        | A       | an[0]
 |===
+
+WARNING: Please use the exact module names and parameters below, or modify `test.v` appropriately for your solution.
 
 === Part 1: Generating clock signal
 
 NOTE: For this, refer to the sections above (primarily <<flipflop_div>>) about creating clock dividers.
-
-WARNING: Please use the exact module names and parameters below.
 
 Create a simple module that takes in the 100 MHz clock integrated into the Basys3 board and generates an approximately 1 KHz signal out. If you feel like going the extra mile, you can go ahead and make it precisely 1 KHz output. See the following code segment for scaffolding:
 
@@ -237,9 +237,14 @@ Create a simple module that takes in the 100 MHz clock integrated into the Basys
 include::src/scaffolding.v[tag=clock_div]
 ----
 
+It is important to parameterize this module. In the test bench, which is critical to understanding and debugging your code when you face issues, we don't want to actually simulate a 100 MHz clock. That would make the simulation take an extremely long time. There is a divide by parameter shown at the top of this scaffolded module. You are responsible for setting its default value for whatever implementation you use (1/2^N^ or counter) and interpreting what that means, just know that the test bench will pass `2` in for this value, and it expects that your clock divider, under test, will only divide the input clock by 2.
+
+It is recommended that you use it to drive either the number of chained D-FlipFlops or the count value you are comparing to in your counter. See https://www.chipverify.com/verilog/verilog-math-functions[this link] for additional information on what calculations you can do on and with parameters. To be clear -- you have two options with how to implement the clock divider for your circuit, and it does not matter which you use as long as it produces an ~1KHz clock. Take this design freedom and have some fun!
+
 === Part 2: Writing the segment scanner
 
 NOTE: For this, refer to <<displaying>> for more information.
+NOTE: For a counter implementation see: <<edge_level_counters>>, specifically the `edge_counter` module.
 
 This component will need to take in the divided clock and scan through the four segments' anodes. See the following code segment for scaffolding:
 
