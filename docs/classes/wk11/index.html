@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="generator" content="Asciidoctor 2.0.20">
-<title>Boise State University ECE 230 Lab</title>
+<title>Lab Final Project</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700">
 <style>
 /*! Asciidoctor default stylesheet | MIT License | https://asciidoctor.org */
@@ -432,69 +432,546 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 #footer-text{color:rgba(0,0,0,.6);font-size:.9em}}
 @media amzn-kf8{#header,#content,#footnotes,#footer{padding:0}}
 </style>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.3/styles/github.min.css">
 </head>
 <body class="article">
 <div id="header">
-<h1>Boise State University ECE 230 Lab</h1>
+<h1>Lab Final Project</h1>
+<div id="toc" class="toc">
+<div id="toctitle">Table of Contents</div>
+<ul class="sectlevel1">
+<li><a href="#_introduction">Introduction</a></li>
+<li><a href="#_the_arithmetic_logic_unit">The Arithmetic Logic Unit</a>
+<ul class="sectlevel2">
+<li><a href="#_arithmetics">Arithmetics</a></li>
+<li><a href="#_logics">Logics</a></li>
+<li><a href="#_units">Units</a></li>
+</ul>
+</li>
+<li><a href="#_io_planning">IO Planning</a></li>
+<li><a href="#_theory_of_operation">Theory of Operation</a></li>
+<li><a href="#_procedure">Procedure</a></li>
+</ul>
+</div>
 </div>
 <div id="content">
-<div class="sect1">
-<h2 id="_assignments">Assignments</h2>
+<div id="preamble">
 <div class="sectionbody">
+<div class="paragraph">
+<p><a href="class.zip">Download Class Materials</a></p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_introduction">Introduction</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Welcome to the lab final! This assignment will take place over the next several weeks and combine all that you have learned this semester into one functional end product. So, what will we be working on? We will be designing a simple, custom Arithmetic Logic Unit using behavioral verilog. This lab is intentionally going to be significantly more light on details than the previous labs. You&#8217;re intended to combine what you&#8217;ve learned and the content from this entire semester into one larger functional unit.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_the_arithmetic_logic_unit">The Arithmetic Logic Unit</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>A core component of all computers is what is called the Arithmetic Logic Unit, or ALU for short. It is a piece of the CPU that is responsible for actually <strong>doing</strong> all operations, from addition to comparison. In this lab we are going to make a simplistic 8-bit ALU.</p>
+</div>
+<div class="paragraph">
+<p>Your ALU must have the following external interface:</p>
+</div>
+<div class="paragraph">
+<p><span class="image"><img src="img/alu_interface.drawio.svg" alt="alu interface.drawio"></span></p>
+</div>
+<div class="paragraph">
+<p>Internally, it must have two registers A and B, which are both 8 bits wide. Those registers are what the ALU will operate on, and all input values to the various operations will come from A and B (see more in Units below). The reset signal should set A, B, and Y to zero.</p>
+</div>
 <div class="sect2">
-<h3 id="_week_8">Week 8</h3>
+<h3 id="_arithmetics">Arithmetics</h3>
+<div class="paragraph">
+<p>Your ALU will have to do the following arithmetic operations:</p>
+</div>
 <div class="ulist">
 <ul>
 <li>
-<p><a href="classes/wk08/index.html">Week 8 Lab</a></p>
+<p>Addition</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Y = A + B</p>
+</li>
+</ul>
+</div>
 </li>
 <li>
-<p><a href="classes/wk08/slides.html">Week 8 Slides</a></p>
+<p>Subtraction</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Y = A - B</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>Shift left</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Y = A &lt;&lt; 1</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>Shift right</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Y = A &gt;&gt; 1</p>
+</li>
+</ul>
+</div>
 </li>
 </ul>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_week_9">Week 9</h3>
+<h3 id="_logics">Logics</h3>
+<div class="paragraph">
+<p>Your ALU will have to do the following logical operations:</p>
+</div>
 <div class="ulist">
 <ul>
 <li>
-<p><a href="classes/wk09/index.html">Week 9 Lab</a></p>
+<p>Comparison</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Y = 0 if A = B</p>
 </li>
 <li>
-<p><a href="classes/wk09/slides.html">Week 9 Slides</a></p>
+<p>Y = 1 if A &gt; B</p>
 </li>
 <li>
-<p><a href="classes/wk09/class.zip">Week 9 Materials</a></p>
+<p>Y = -1 if A &gt; B</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>Bitwise AND</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Y = A &amp; B</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>Bitwise OR</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Y = A | B</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>Bitwise XOR</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Y = A ^ B</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>Bitwise NAND</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Y = A ~&amp; B</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>Bitwise NOR</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Y = A ~| B</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>Bitwise XNOR</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Y = A ~^ B</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>Bitwise NOT</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Y = ~A</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>Two&#8217;s Compliment</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Y = -A</p>
+</li>
+</ul>
+</div>
 </li>
 </ul>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_week_10">Week 10</h3>
+<h3 id="_units">Units</h3>
+<div class="paragraph">
+<p>All numbers in your ALU are signed 8 bit integers, via Two&#8217;s Compliment.</p>
+</div>
 <div class="ulist">
 <ul>
 <li>
-<p><a href="classes/wk10/index.html">Week 10 Lab</a></p>
+<p>Store A</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Store Y in A</p>
+</li>
+</ul>
+</div>
 </li>
 <li>
-<p><a href="classes/wk10/slides.html">Week 10 Slides</a></p>
+<p>Swap A/B</p>
+<div class="ulist">
+<ul>
+<li>
+<p>A = B, B = A</p>
+</li>
+</ul>
+</div>
 </li>
 <li>
-<p><a href="classes/wk10/class.zip">Week 10 Materials</a></p>
+<p>Load into A</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Load switches into A</p>
+</li>
+</ul>
+</div>
 </li>
 </ul>
 </div>
 </div>
-<div class="sect2">
-<h3 id="_final">Final</h3>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_io_planning">IO Planning</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>The IO Table is as follows:</p>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 1. IO Planning Table</caption>
+<colgroup>
+<col style="width: 33.3333%;">
+<col style="width: 33.3333%;">
+<col style="width: 33.3334%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Pins</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Description</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Direction</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">sw[3:0]</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Operation selector</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">IN</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">sw[15:8]</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">8 <strong>input bits</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">IN</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">btnC</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Do operation</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">IN</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">led[15:8]</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Display A value from inside the ALU</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">OUT</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">led[7:0]</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Display B value from inside the ALU</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">OUT</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">seg[6:0]</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Display segments</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">OUT</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">an[3:0]</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Display anodes</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">OUT</p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p>The operation table is as follows:</p>
+</div>
+<table id="operation_table" class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 2. Operations Table</caption>
+<colgroup>
+<col style="width: 33.3333%;">
+<col style="width: 33.3333%;">
+<col style="width: 33.3334%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Index</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Operation</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Short Code</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0 (0x0)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Addition</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">ADD</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1 (0x1)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Subtraction</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">SUB</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2 (0x2)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Shift left</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">SHL</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">3 (0x3)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Shift right</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">SHR</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">4 (0x4)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Comparison</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">CMP</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">5 (0x5)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Bitwise AND</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">AND</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">6 (0x6)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Bitwise OR</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">OR</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">7 (0x7)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Bitwise XOR</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">XOR</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">8 (0x8)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Bitwise NAND</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">NAND</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">9 (0x9)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Bitwise NOR</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">NOR</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">10 (0xA)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Bitwise XNOR</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">XNOR</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">11 (0xB)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Bitwise NOT</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">INV</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">12 (0xC)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Twos Compliment</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">NEG</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">13 (0xD)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Store A</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">STO</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">14 (0xE)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Swap A/B</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">SWP</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">15 (0xF)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Load into A</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">LOAD</p></td>
+</tr>
+</tbody>
+</table>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 3. Display Table</caption>
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Display</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Purpose</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Right</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Value of operation selector</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Right Center</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">N/A</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Left Center</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Lower four bits of Y</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Left</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Upper four bits of Y</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_theory_of_operation">Theory of Operation</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>The usage and operation of the ALU is fairly straightforward. You select an operation by flipping the Operation select switches, then invoke the operation by hitting button C. Let&#8217;s look at a few examples:</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+For all examples "input bits" refers to sw[15:8], and "select operation" refers to sw[3:0]
+</td>
+</tr>
+</table>
+</div>
+<div class="exampleblock">
+<div class="title">Example 1. Add two numbers 10 + 12</div>
+<div class="content">
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Press bntU to reset</p>
+</li>
+<li>
+<p>Select operation <code>Load into A</code> (15)</p>
+</li>
+<li>
+<p>Dial 10 into input bits (0000 1010)</p>
+</li>
+<li>
+<p>Press btnC to load 10 into A</p>
+</li>
+<li>
+<p>Select operation <code>Swap A/B</code> (14)</p>
+</li>
+<li>
+<p>Press btnC to swap A and B</p>
+</li>
+<li>
+<p>Select operation <code>Load into A</code> (15)</p>
+</li>
+<li>
+<p>Dial 12 into input bits (0000 1100)</p>
+</li>
+<li>
+<p>Press btnC to load 12 into A</p>
+</li>
+<li>
+<p>Select operation <code>Addition</code> (0)</p>
+</li>
+<li>
+<p>Press btnC to evaluate the addition</p>
+</li>
+<li>
+<p>Observe the hex value 16 displayed on the left displays</p>
+</li>
+</ol>
+</div>
+</div>
+</div>
+<div class="paragraph">
+<p>In effect, you as the user physically selecting switches and pressing buttons, are acting as the coordination sections of a real CPU. In a full CPU, there are additional pieces of circuitry that increment through instructions, and the instructions encode the operation to do. In fact, we can represent these steps in something that <strong>almost</strong> looks like assembly code (see the <a href="#operation_table">Operations Table</a> for the short codes)!</p>
+</div>
+<div class="listingblock">
+<div class="title">Add two numbers (assembly lookalike)</div>
+<div class="content">
+<pre>DATA 10 # Set input data to 10
+OP LOAD # Run load operation
+OP SWAP # run swap operation
+DATA 12 # Set input data to 12
+OP LOAD # Run load operation
+OP ADD  # Run add operation</pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_procedure">Procedure</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>You will have three weeks to complete this lab. Take your time, come up with a design, reuse components from the previous labs, and have fun!</p>
+</div>
+<div class="paragraph">
+<p>Think about the following things:</p>
+</div>
 <div class="ulist">
 <ul>
 <li>
-<p><a href="classes/wk11/index.html">Week 11 Lab</a></p>
+<p>What blocks will you need?</p>
+</li>
+<li>
+<p>Where do you need to multiplex or demultiplex data?</p>
+</li>
+<li>
+<p>What memory do you need to use and where will you put it?</p>
+</li>
+<li>
+<p>How will you test this design?</p>
 </li>
 </ul>
-</div>
 </div>
 </div>
 </div>
@@ -504,5 +981,37 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 Last updated 1980-01-01 00:00:00 UTC
 </div>
 </div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.3/highlight.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.3/languages/verilog.min.js"></script>
+<script>
+if (!hljs.initHighlighting.called) {
+  hljs.initHighlighting.called = true
+  ;[].slice.call(document.querySelectorAll('pre.highlight > code[data-lang]')).forEach(function (el) { hljs.highlightBlock(el) })
+}
+</script>
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  messageStyle: "none",
+  tex2jax: {
+    inlineMath: [["\\(", "\\)"]],
+    displayMath: [["\\[", "\\]"]],
+    ignoreClass: "nostem|nolatexmath"
+  },
+  asciimath2jax: {
+    delimiters: [["\\$", "\\$"]],
+    ignoreClass: "nostem|noasciimath"
+  },
+  TeX: { equationNumbers: { autoNumber: "none" } }
+})
+MathJax.Hub.Register.StartupHook("AsciiMath Jax Ready", function () {
+  MathJax.InputJax.AsciiMath.postfilterHooks.Add(function (data, node) {
+    if ((node = data.script.parentNode) && (node = node.parentNode) && node.classList.contains("stemblock")) {
+      data.math.root.display = "block"
+    }
+    return data
+  })
+})
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/MathJax.js?config=TeX-MML-AM_HTMLorMML"></script>
 </body>
 </html>

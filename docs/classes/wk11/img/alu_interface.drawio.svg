@@ -1,0 +1,124 @@
+<svg host="65bd71144e" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" width="458px" height="302px" viewBox="-0.5 -0.5 458 302" content="&lt;mxfile&gt;&lt;diagram id=&quot;fDRqWNQYS7AYNQJLS3zV&quot; name=&quot;Page-1&quot;&gt;7Vtdc+o2EP01nmlfOpa/II8Bkt7OtNPMTTvtfRS2ADWy5ZFFgP76rmzZBgsCJWB8E79krGNpLa3OHq/WxHLH8fpngdPFbzwizHLsaG25E8txvDsP/ipgUwCDQANzQaMCQjXwTP8lGrQ1uqQRyXY6Ss6ZpOkuGPIkIaHcwbAQfLXbbcbZ7lNTPCcG8BxiZqJ/0UguCnTo2zX+hdD5onwysvWdGJedNZAtcMRXW5D7YLljwbksruL1mDDlu9IvxbjHA3eriQmSyFMGOMWAV8yWem16XnJTLna1oJI8pzhU7RXsp+WOFjJm0EJwibO0cPGMrglYHWmLREiyPjgrVK0VOEJ4TKTYQBc9wCn9pfnhlp5d1d5GdxpbbHu6BLHe4Xllu3YCXGg/HHCifdwpJAJC6CYXcsHnPMHsoUa3XUSS6F6xDpoJT0iBPFI1gYkNrX+WcVoawyIERPBlEilv5veLp6tHvu1PmCFfilD3cnVgYDEnutfdfq8LwrCkr7vW3+NB13DgL0m6lABNsMSWE1iOi9TKhgBNqcwM/0JcpDnf8CblVK1ylL0QGS60S2bgvdJlGWfqwaOs0IkALvMxRDy8goMyvQs5li/KH1n+RBsZc8ZFvTGCgBU8ze3a+UZImHHdTomg4A6ihoREPeOpRkZZgtM/+FMx4fyhDE8Je+IZlZQngImCqyMVHhQE5dfG/ZhGUU4fzOhcAYzMtvvfa7jqd4Foq4KmjLbAjDZnT7A5F4g1z2DK7+BinHsDCEGY0paaL17Pl+7xxbPb44tv8AX8OeMiBpDXzKkI85VmNJmX6gkZAePhS8+eLrFnz7v9WuwJDPZ8JRm8HHs+dIcPfotqgoZnJHYlOfThQu1fI18z87mtZDDfkxEOX+b5oJIBEZnhJcuZJgV/ISY+44l8xDFlylFfCHslak/0DX1GQki3zeHHktAMEkXZ6HFe4nlow09OM/XQgskVUbymcHj+roki09WjGiSopnESLwaGTnyD5g98KSGL/fEz568NQTgqIE3FuYaCuMMGMVy/NQW5M5iSrWB/kG+590O1S/+XGF0kQXMz95H3XKJckxg3PNcgv/03C3hFbP5WPX9yg7L9LW8H9qAEJmttq2httltbNMjBrr6rznsvIV3G2a6IeO98VZ3MB7PQlguFCzph9zrRKZ1o8zyLgpvqhHOHdoXCQ71QOGhP6dRvSyjM2ulUJuNeHzqkDy1WLNCgfX34YMHsmcEctBXMZnkbgvnPPpi7E8xtlpscMwnso/t90T0wg7tj5SfDkHvMULG+S9SxylW+RbjvWXu0npwiPSeXvq+pPd4NK1XODSoSXdWaC9a63/uTigMa4ewSJWgy4HK17j0/1hh95gp3MeYNpZA83ZIgo3upG1MuJY8voxsuaiQtbotJyw0qFJ9ANwbX0Y1Be7phnm3ue93omG4EN9SN4fHc89MKyZmisaeU0TEhOWrI9xqGLnjaMT/bM6DJR/0aWynIKcefo+pUyU5TjwrZuoIYBag9MSp1rxejy4nRno8kHTsNHTV0TTEyfxlSiNHgI37x/e60CLWmRdCs/52nIFL9P1Huw38=&lt;/diagram&gt;&lt;/mxfile&gt;">
+    <defs/>
+    <g>
+        <rect x="156" y="0" width="190" height="190" fill="rgb(255, 255, 255)" stroke="rgb(0, 0, 0)" pointer-events="all"/>
+        <path d="M 156 20 L 56 20" fill="none" stroke="rgb(0, 0, 0)" stroke-miterlimit="10" pointer-events="stroke"/>
+        <ellipse cx="156" cy="20" rx="3" ry="3" fill="rgb(0, 0, 0)" stroke="none" pointer-events="all"/>
+        <rect x="146" y="10" width="20" height="20" fill="none" stroke="none" pointer-events="all"/>
+        <g fill="rgb(0, 0, 0)" font-family="Helvetica" font-size="12px">
+            <text x="167.5" y="17.5">
+                Input Data
+            </text>
+            <text x="167.5" y="31.5">
+                8 bits
+            </text>
+        </g>
+        <ellipse cx="156" cy="60" rx="3" ry="3" fill="rgb(0, 0, 0)" stroke="none" pointer-events="all"/>
+        <rect x="146" y="50" width="20" height="20" fill="none" stroke="none" pointer-events="all"/>
+        <g fill="rgb(0, 0, 0)" font-family="Helvetica" font-size="12px">
+            <text x="167.5" y="57.5">
+                Operation select
+            </text>
+            <text x="167.5" y="71.5">
+                4 bits
+            </text>
+        </g>
+        <ellipse cx="156" cy="110" rx="3" ry="3" fill="rgb(0, 0, 0)" stroke="none" pointer-events="all"/>
+        <rect x="146" y="100" width="20" height="20" fill="none" stroke="none" pointer-events="all"/>
+        <g fill="rgb(0, 0, 0)" font-family="Helvetica" font-size="12px">
+            <text x="167.5" y="107.5">
+                Perform operation
+            </text>
+            <text x="167.5" y="121.5">
+                Rising edge clock
+            </text>
+        </g>
+        <ellipse cx="156" cy="160" rx="3" ry="3" fill="rgb(0, 0, 0)" stroke="none" pointer-events="all"/>
+        <rect x="146" y="150" width="20" height="20" fill="none" stroke="none" pointer-events="all"/>
+        <g fill="rgb(0, 0, 0)" font-family="Helvetica" font-size="12px">
+            <text x="167.5" y="164.5">
+                Reset
+            </text>
+        </g>
+        <ellipse cx="346" cy="95" rx="3" ry="3" fill="rgb(0, 0, 0)" stroke="none" pointer-events="all"/>
+        <rect x="336" y="85" width="20" height="20" fill="none" stroke="none" pointer-events="all"/>
+        <g fill="rgb(0, 0, 0)" font-family="Helvetica" text-anchor="end" font-size="12px">
+            <text x="333.5" y="92.5">
+                Y (output)
+            </text>
+            <text x="333.5" y="106.5">
+                8 bits
+            </text>
+        </g>
+        <ellipse cx="56" cy="20" rx="3" ry="3" fill="rgb(0, 0, 0)" stroke="none" pointer-events="all"/>
+        <rect x="46" y="10" width="20" height="20" fill="none" stroke="none" pointer-events="all"/>
+        <g fill="rgb(0, 0, 0)" font-family="Helvetica" text-anchor="end" font-size="12px">
+            <text x="43.5" y="24.5">
+                sw[15:8]
+            </text>
+        </g>
+        <path d="M 56 60 L 156 60" fill="none" stroke="rgb(0, 0, 0)" stroke-miterlimit="10" pointer-events="stroke"/>
+        <ellipse cx="56" cy="60" rx="3" ry="3" fill="rgb(0, 0, 0)" stroke="none" pointer-events="all"/>
+        <rect x="46" y="50" width="20" height="20" fill="none" stroke="none" pointer-events="all"/>
+        <g fill="rgb(0, 0, 0)" font-family="Helvetica" text-anchor="end" font-size="12px">
+            <text x="43.5" y="64.5">
+                sw[3:0]
+            </text>
+        </g>
+        <path d="M 56 110 L 156 110" fill="none" stroke="rgb(0, 0, 0)" stroke-miterlimit="10" pointer-events="stroke"/>
+        <ellipse cx="56" cy="110" rx="3" ry="3" fill="rgb(0, 0, 0)" stroke="none" pointer-events="all"/>
+        <rect x="46" y="100" width="20" height="20" fill="none" stroke="none" pointer-events="all"/>
+        <g fill="rgb(0, 0, 0)" font-family="Helvetica" text-anchor="end" font-size="12px">
+            <text x="43.5" y="114.5">
+                btnC
+            </text>
+        </g>
+        <path d="M 56 160 L 156 160" fill="none" stroke="rgb(0, 0, 0)" stroke-miterlimit="10" pointer-events="stroke"/>
+        <ellipse cx="56" cy="160" rx="3" ry="3" fill="rgb(0, 0, 0)" stroke="none" pointer-events="all"/>
+        <rect x="46" y="150" width="20" height="20" fill="none" stroke="none" pointer-events="all"/>
+        <g fill="rgb(0, 0, 0)" font-family="Helvetica" text-anchor="end" font-size="12px">
+            <text x="43.5" y="164.5">
+                btnU
+            </text>
+        </g>
+        <path d="M 346 95 L 446 95" fill="none" stroke="rgb(0, 0, 0)" stroke-miterlimit="10" pointer-events="stroke"/>
+        <ellipse cx="446" cy="95" rx="3" ry="3" fill="rgb(0, 0, 0)" stroke="none" pointer-events="all"/>
+        <rect x="436" y="85" width="20" height="20" fill="none" stroke="none" pointer-events="all"/>
+        <ellipse cx="276" cy="190" rx="3" ry="3" fill="rgb(0, 0, 0)" stroke="none" pointer-events="all"/>
+        <rect x="266" y="180" width="20" height="20" fill="none" stroke="none" pointer-events="all"/>
+        <g fill="rgb(0, 0, 0)" font-family="Helvetica" text-anchor="middle" font-size="12px">
+            <text x="275.5" y="160.5">
+                B
+            </text>
+            <text x="275.5" y="174.5">
+                8 bits
+            </text>
+        </g>
+        <ellipse cx="326" cy="190" rx="3" ry="3" fill="rgb(0, 0, 0)" stroke="none" pointer-events="all"/>
+        <rect x="316" y="180" width="20" height="20" fill="none" stroke="none" pointer-events="all"/>
+        <g fill="rgb(0, 0, 0)" font-family="Helvetica" text-anchor="middle" font-size="12px">
+            <text x="325.5" y="160.5">
+                A
+            </text>
+            <text x="325.5" y="174.5">
+                8 bits
+            </text>
+        </g>
+        <path d="M 326 190 L 326 270" fill="none" stroke="rgb(0, 0, 0)" stroke-miterlimit="10" pointer-events="stroke"/>
+        <ellipse cx="326" cy="270" rx="3" ry="3" fill="rgb(0, 0, 0)" stroke="none" pointer-events="all"/>
+        <rect x="316" y="260" width="20" height="20" fill="none" stroke="none" pointer-events="all"/>
+        <g fill="rgb(0, 0, 0)" font-family="Helvetica" text-anchor="middle" font-size="12px">
+            <text x="325.5" y="297.5">
+                led[15:8]
+            </text>
+        </g>
+        <path d="M 276 190 L 276 270" fill="none" stroke="rgb(0, 0, 0)" stroke-miterlimit="10" pointer-events="stroke"/>
+        <ellipse cx="276" cy="270" rx="3" ry="3" fill="rgb(0, 0, 0)" stroke="none" pointer-events="all"/>
+        <rect x="266" y="260" width="20" height="20" fill="none" stroke="none" pointer-events="all"/>
+        <g fill="rgb(0, 0, 0)" font-family="Helvetica" text-anchor="middle" font-size="12px">
+            <text x="275.5" y="297.5">
+                led[7:0]
+            </text>
+        </g>
+    </g>
+</svg>

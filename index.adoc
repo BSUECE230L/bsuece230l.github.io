@@ -18,3 +18,7 @@
 * xref:classes/wk10/index.adoc[Week 10 Lab]
 * xref:classes/wk10/slides.adoc[Week 10 Slides]
 * xref:classes/wk10/class.zip[Week 10 Materials]
+
+=== Final
+
+* xref:classes/wk11/index.adoc[Week 11 Lab]
