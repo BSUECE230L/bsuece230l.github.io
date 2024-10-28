@@ -163,3 +163,5 @@ Think about the following things:
 * Where do you need to multiplex or demultiplex data?
 * What memory do you need to use and where will you put it?
 * How will you test this design?
+
+NOTE: For the addition, subtraction, and Two's Compliment conversion, please use your implementations from previous labs rather than a behavioral implementation.
