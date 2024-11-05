@@ -147,7 +147,7 @@ In effect, you as the user physically selecting switches and pressing buttons, a
 ----
 DATA 10 # Set input data to 10
 OP LOAD # Run load operation
-OP SWAP # run swap operation
+OP SWP # run swap operation
 DATA 12 # Set input data to 12
 OP LOAD # Run load operation
 OP ADD  # Run add operation
@@ -165,3 +165,67 @@ Think about the following things:
 * How will you test this design?
 
 NOTE: For the addition, subtraction, and Two's Compliment conversion, please use your implementations from previous labs rather than a behavioral implementation.
+
+== Sample Programs
+
+.Add two numbers
+----
+DATA 10 # Set input data to 10
+OP LOAD # Run load operation
+OP SWP # run swap operation
+DATA 12 # Set input data to 12
+OP LOAD # Run load operation
+OP ADD  # Run add operation - Should display 22 on Y (hex 16)
+----
+
+.Subtract two numbers
+----
+DATA 20 
+OP LOAD 
+OP SWP 
+DATA 12 
+OP LOAD 
+OP SUB # Should display 8 on Y (hex 8)
+----
+
+.Simple counter
+----
+DATA 1
+OP LOAD
+OP SWP
+DATA 0
+OP LOAD
+OP ADD # Repeat these two steps
+OP STO # To keep counting
+
+# To count down do the following
+OP SWP
+OP NEG
+OP STO
+OP SWP
+OP ADD # Repeat these two steps
+OP STO # To keep counting (down)
+----
+
+.Comparisons
+----
+DATA 10
+OP LOAD
+OP SWP
+OP LOAD
+OP CMP # Equal (hex 0 on Y)
+DATA 11
+OP LOAD
+OP CMP # Greater (hex 1 on Y)
+DATA 9
+OP LOAD
+OP CMP # Less (hex FF on Y aka -1)
+----
+
+.Shifting
+----
+DATA 2
+OP LOAD
+OP SHL # Should display hex 4 on Y
+OP SHR # Should display hex 1 on Y
+----

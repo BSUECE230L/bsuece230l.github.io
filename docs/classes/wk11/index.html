@@ -452,6 +452,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li><a href="#_io_planning">IO Planning</a></li>
 <li><a href="#_theory_of_operation">Theory of Operation</a></li>
 <li><a href="#_procedure">Procedure</a></li>
+<li><a href="#_sample_programs">Sample Programs</a></li>
 </ul>
 </div>
 </div>
@@ -940,7 +941,7 @@ For all examples "input bits" refers to sw[15:8], and "select operation" refers 
 <div class="content">
 <pre>DATA 10 # Set input data to 10
 OP LOAD # Run load operation
-OP SWAP # run swap operation
+OP SWP # run swap operation
 DATA 12 # Set input data to 12
 OP LOAD # Run load operation
 OP ADD  # Run add operation</pre>
@@ -984,6 +985,78 @@ For the addition, subtraction, and Two&#8217;s Compliment conversion, please use
 </td>
 </tr>
 </table>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_sample_programs">Sample Programs</h2>
+<div class="sectionbody">
+<div class="listingblock">
+<div class="title">Add two numbers</div>
+<div class="content">
+<pre>DATA 10 # Set input data to 10
+OP LOAD # Run load operation
+OP SWP # run swap operation
+DATA 12 # Set input data to 12
+OP LOAD # Run load operation
+OP ADD  # Run add operation - Should display 22 on Y (hex 16)</pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="title">Subtract two numbers</div>
+<div class="content">
+<pre>DATA 20
+OP LOAD
+OP SWP
+DATA 12
+OP LOAD
+OP SUB # Should display 8 on Y (hex 8)</pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="title">Simple counter</div>
+<div class="content">
+<pre>DATA 1
+OP LOAD
+OP SWP
+DATA 0
+OP LOAD
+OP ADD # Repeat these two steps
+OP STO # To keep counting
+
+# To count down do the following
+OP SWP
+OP NEG
+OP STO
+OP SWP
+OP ADD # Repeat these two steps
+OP STO # To keep counting (down)</pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="title">Comparisons</div>
+<div class="content">
+<pre>DATA 10
+OP LOAD
+OP SWP
+OP LOAD
+OP CMP # Equal (hex 0 on Y)
+DATA 11
+OP LOAD
+OP CMP # Greater (hex 1 on Y)
+DATA 9
+OP LOAD
+OP CMP # Less (hex FF on Y aka -1)</pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="title">Shifting</div>
+<div class="content">
+<pre>DATA 2
+OP LOAD
+OP SHL # Should display hex 4 on Y
+OP SHR # Should display hex 1 on Y</pre>
+</div>
 </div>
 </div>
 </div>
