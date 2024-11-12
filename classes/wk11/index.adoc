@@ -80,6 +80,7 @@ The IO Table is as follows:
 | sw[3:0] | *Operation selector* | IN
 | sw[15:8] | 8 *input bits* | IN
 | btnC | Do operation | IN
+| btnU | Reset | IN
 | led[15:8] | Display A value from inside the ALU | OUT
 | led[7:0] | Display B value from inside the ALU | OUT
 | seg[6:0] | Display segments | OUT
