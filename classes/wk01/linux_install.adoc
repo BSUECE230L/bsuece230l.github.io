@@ -1,0 +1,47 @@
+== Linux Installation Instructions
+
+xref:index.adoc[Back]
+
+=== Icarus Verilog
+
+To install Icarus Verilog:
+
+`sudo apt install iverilog`
+
+=== GTK Wave
+
+To install GTKWave:
+
+`sudo apt install gtkwave`
+
+To view a waveform file:
+
+`gtkwave dump.vcd &`
+
+=== Vivado
+
+Install the following two packages *before* running the installer.
+
+Ubuntu 22.04 and older (see below for newer):
+
+....
+sudo apt intall libtinfo5
+sudo apt intall libncurses5
+....
+
+*IF YOU ARE ON UBUNTU 24.04*: These packages have been phased out. You
+need to manually download them from here and install them using `gdebi`
+or similar: -
+https://packages.ubuntu.com/jammy-updates/libtinfo5[libtinfo5] <–
+Install this one first -
+https://packages.ubuntu.com/jammy/libncurses5[libncurses5] <– Then this
+one
+
+For other distributions, you will need to find the equivalent packages
+that provide v5 of libtinfo and libncurses. Distribution specific
+methods to locate packages will differ. If you have questions feel free
+to contact your lab instructor.
+
+Read this thread for more info:
+https://support.xilinx.com/s/question/0D52E00006hpmTmSAI/vivado-20183-final-processing-hangs-at-generating-installed-device-list-on-ubuntu-1904?language=en_US[Thread
+about deps]

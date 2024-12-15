@@ -1,0 +1,271 @@
+== Laying Out Verilog Projects
+:source-highlighter: highlight.js
+:highlightjs-languages: verilog
+:icons: font
+:toc:
+
+This document is going to go over some best practices for laying out
+your Verilog projects, taking special account to the structure of this
+lab.
+
+This lab requires combining the full adder several times across several
+different sets of switches outputting to different LEDs. You are asked
+to implement a few discrete behaviors with these – that of the Ones’
+Compliment adder and a Twos’ Compliment converter.
+
+The recommended way to build any Verilog project is to split it at
+functional barriers. That is, the full adder should only know how to add
+two one bit numbers with their carries. It should not care about things
+like LEDs and switches, or even how many other adders are in its
+vicinity.
+
+This careful separation of responsibilities is reflected in software
+design as well – the SOLID design principles. It allows maximum reuse of
+discrete functional components as well as gives the Verilog synthesizer
+clear boundaries to optimize and route around (although modern synthesis
+tools will do this basically regardless of how you write your code). As
+with all things, though, this _can_ go too far. Apply common sense when
+breaking apart your project.
+
+=== The Typical Best Steps
+
+All Verilog projects need the *top level* module. This is the only place
+where anything related directly to the hardware should realistically
+appear. This, usually called `top.v` is where we will assemble the
+entire project. In the case of this lab, this is where we will pull in
+the half subtractor, the Ones’ Compliment adder, and the Twos’
+Compliment converter. Those three modules should be the only ones
+referenced in our top document.
+
+This means we need to push all the behavior of the labs into the
+requisite modules. As we can see, there’s a few files already created in
+this lab for us. We want to construct this kind of hierarchy:
+
+[source,txt]
+----
+top.v
+├ half_sub.v
+├ ones_compliment.v
+└ twos_compliment.v
+----
+
+Inside of `half_sub.v` we will implement our subtractor. Inside of
+`ones_compliment.v` and `twos_compliment.v` we will combine many full
+adder instances to create our functionality.
+
+=== Defining Interfaces
+
+Each of our submodules will have some interface that it defines. This is
+done with the I/O list at the top of the module declaration.
+Effectively, that is the module advertising to the world its
+dependencies and its outputs. What do I mean by this? Let’s examine the
+full adder for reference:
+
+[source,verilog]
+----
+module full_adder(
+    input A, B, Cin,
+    output Y, Cout
+);
+    wire Sum;
+    assign Sum = A ^ B;
+    assign Y = Sum ^ Cin;
+    assign Cout = (Sum & Cin) | (A & B);
+    
+endmodule
+----
+
+The I/O list says to us the following things:
+
+* I require three input signals (dependencies)
+** A
+** B
+** Cin
+* I drive two signals (outputs)
+** Y
+** Cout
+
+What the module actually does with those is up to it, but we see clearly
+what it needs to function. Note, in this list, we don’t see any
+references to switches or LEDs. That is the job of the top level module
+to provide. See below:
+
+[source,verilog]
+----
+module top(
+    input [1:0] sw,
+    output [1:0] led
+);
+
+    full_adder inst(
+        .A(sw[0]),
+        .B(sw[1]),
+        .Cin(1'b0),
+        .Y(led[0]),
+        .Cout(led[1])
+    );
+
+endmodule
+----
+
+The top level module has just provided hardware specific information to
+the full adder through its I/O list. The benefits of this are that we
+can set up a full adder with any arbitrary set of inputs and outputs
+without rewriting it. If we had hardcoded things to specific inputs and
+outputs, we would have to re-implement the adder for every instance.
+
+How does this apply to the lab? Well, we can use the I/O tables provided
+in the README to build the list for our modules. There is generally more
+information than just the interface encoded within this table. I’ll walk
+you through that below for the three required modules for this lab.
+
+==== Half-Subtractor
+
+[cols=",,",options="header",]
+|===
+|Signal |Purpose |Direction
+|sw[0] |A of subtractor |IN
+|sw[1] |B of subtractor |IN
+|led[0] |Y of subtractor |OUT
+|led[1] |Borrow of subtractor |OUT
+|===
+
+What is this table telling us? We want, in the end, an instance of the
+half subtractor to take in two switches and output two LEDs. However, we
+don’t want to tie this straight to the hardware, as we discussed above.
+So, let’s derive an interface from this.
+
+The information we need is in the table. What does our subtractor
+require? It needs two numbers A, B, and it provides two signals, the
+result Y and the borrow out. From that we can construct the following
+interface:
+
+[source,verilog]
+----
+module half_sub(
+    input A, B,
+    output Y, Borrow
+);
+
+    // Nice try ;) Not going to give you this one for free
+
+endmodule
+----
+
+Then, in the top level module, `top.v`, we will actually hook up A, B,
+Y, and Borrow to the signals described in our I/O table.
+
+==== Ones’ Compliment
+
+[cols=",,",options="header",]
+|===
+|Signal |Purpose |Direction
+|sw[2] |Number A bit 0 |IN
+|sw[3] |Number A bit 1 |IN
+|sw[4] |Number A bit 2 |IN
+|sw[5] |Number A bit 3 |IN
+|sw[6] |Number B bit 0 |IN
+|sw[7] |Number B bit 1 |IN
+|sw[8] |Number B bit 2 |IN
+|sw[9] |Number B bit 3 |IN
+|led[2] |Ones’ Compliment addition bit 0 |OUT
+|led[3] |Ones’ Compliment addition bit 1 |OUT
+|led[4] |Ones’ Compliment addition bit 2 |OUT
+|led[5] |Ones’ Compliment addition bit 3 |OUT
+|===
+
+This one is a little more complicated. But, again, let’s tease the
+interface from the information in this table. It is clear that we have
+three main players, A, B, and the output. Each of which is a four bit
+number. So, let’s define our interface.
+
+[source,verilog]
+----
+module ones_compliment(
+    input [3:0] A, // Four bits of A: 3, 2, 1, 0
+    input [3:0] B, // Same for B
+    output [3:0] Y // and for Y
+);
+
+endmodule
+----
+
+==== Twos’ Compliment
+
+[cols=",,",options="header",]
+|===
+|Signal |Purpose |Direction
+|sw[2] |Number bit 0 |IN
+|sw[3] |Number bit 1 |IN
+|sw[4] |Number bit 2 |IN
+|sw[5] |Number bit 3 |IN
+|sw[6] |Number bit 4 |IN
+|sw[7] |Number bit 5 |IN
+|sw[8] |Number bit 6 |IN
+|sw[9] |Number bit 7 |IN
+|led[6] |Twos’ Compliment bit 0 |OUT
+|led[7] |Twos’ Compliment bit 1 |OUT
+|led[8] |Twos’ Compliment bit 2 |OUT
+|led[9] |Twos’ Compliment bit 3 |OUT
+|led[10] |Twos’ Compliment bit 4 |OUT
+|led[11] |Twos’ Compliment bit 5 |OUT
+|led[12] |Twos’ Compliment bit 6 |OUT
+|led[13] |Twos’ Compliment bit 7 |OUT
+|===
+
+This one has even more rows, but is actually more complicated. We only
+have two players for this interface, an 8 bit number input that we want
+to convert into its 8 bit Twos’ Compliment. The module is shown below:
+
+[source,verilog]
+----
+module twos_compliment(
+    input [7:0] A,
+    output [7:0] Y
+);
+endmodule
+----
+
+=== How to write the top file
+
+From here, we have all of our submodules, all of their interfaces, and
+we know what phsical signals we want to hook them up to. How do we do
+this in a sane way in the top level file? Well, we can take slices of
+various vectors when instantiating a module, see below:
+
+[source,verilog]
+----
+module top(
+    input [9:0] sw,
+    output [13:0] led
+);
+
+    half_sub sub(
+        .A(sw[0]), // Take the zeroth signal from switches
+        .B(sw[1]), // and the first for B
+        .Y(led[0]), // Same for LEDs, just as...
+        .Borrow(led[1]) // ... the I/O table declares
+    );
+
+    // Things are a little more complicated for the other modules
+    // They have vector, not scalar inputs
+    ones_compliment ones(
+        .A(sw[5:2]), // Oh! But we can do this!
+        .B(sw[9:6]), // We can take an arbitrary slice of a vector
+        .Y(led[5:2]), // And assign it into our vectors
+    );
+    
+    // Be careful with this. Make sure you do the following:
+    // - [MSB:LSB] ordering
+    // - Ensure the width of each signal matches
+
+    // And, finally:
+    twos_compliment two(
+        .A(sw[9:2]), // 8 bits!
+        .B(led[13:6]) // 8 more bits :)
+    );
+
+endmodule
+----
+
+Armed with this knowledge, go forth and write amazing verilog!

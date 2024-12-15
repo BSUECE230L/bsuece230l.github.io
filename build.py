@@ -3,6 +3,7 @@ import subprocess
 import shutil
 import json
 import uuid
+import sys
 
 if shutil.which("asciidoctor-revealjs"):
     REVEAL_JS = "asciidoctor-revealjs"
@@ -55,6 +56,8 @@ def main():
 
     OUTPUT_PATH.mkdir()
     CLONE_PATH.mkdir()
+
+    do_dl = sys.argv[1] == "d" if len(sys.argv) >= 2 else False
     
     for src in filtered_sources:
         if src.parts[-1].startswith("slides"):
@@ -62,7 +65,10 @@ def main():
         elif src.parts[-1] == "index.adoc":
             process_lab(src)
             copy_images(src)
-            download_class(src)
+            if (do_dl):
+                download_class(src)
+        else:
+            process_lab(src)
     
     shutil.rmtree(str(CLONE_PATH))
 

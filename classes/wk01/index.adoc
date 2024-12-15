@@ -1,0 +1,97 @@
+= Week 01 - ECE230L Introduction
+:source-highlighter: highlight.js
+:highlightjs-languages: verilog
+:icons: font
+:toc:
+
+== Introduction
+
+Welcome to ECE230L! In this lab, we will endeavor to give you a glimpse
+into the true inner workings of computers. This is the companion lab to
+the ECE230 lecture, both focusing on digital logic. Generally, you can
+expect to be using things in this lab that you learned the prior week
+during lecture. You will be learning the practical application of a wide
+range of Verilog features as they relate to digital logic design,
+culminating in a final project that will give you a glimpse into the
+world of computer architecture to prepare you for ECE330 after this.
+
+Each lab will have several "deliverables" as such listed at the bottom
+of the document for each assignment. They will typically be one or more
+Verilog modules you will be expected to implement to achieve some goal.
+The labs are graded fairly simply – demonstrate the function of the
+Verilog code on the Basys 3 board to a TA/instructor, ask a few
+questions, and you get checked off. Partial credit can be awarded as the
+lab instructor sees fit by examining code committed to each GitHub
+project if you are unable to complete the assignments during the lab.
+They are all designed to be completed within the allotted time, however,
+and you should rarely need to use this.
+
+=== Vivado
+
+This will be the main software package installed on the lab PCs. HIGHLY
+recommended to install if you can, however it is only available on
+Windows and Linux. If you are a MacOS user, you can only use the
+software listed below. It is strongly recommended that each student
+bring their own laptop into each lab _especially_ if it is a Windows or
+Linux machine. If you do not, lab PCs will be available to use Vivado to
+load the programs onto the Basys3 boards for demonstration.
+
+See the Digilent instructions here:
+https://digilent.com/reference/programmable-logic/guides/installing-vivado-and-vitis[Vivado
+Download Instructions]. This guide is excellent and shows you how to get
+your PC set up for developing and targeting the Basys3 boards used in
+this class. There are additional instructions to follow in
+xref:linux_install.adoc[Linux Installation] to get the installer to work.
+PLEASE FOLLOW THOSE INSTRUCTIONS.
+
+=== Recommended Software
+
+There are several pieces of recommended software to install. Each repo
+has a `test.py` that can verify your logic is correct:
+
+. https://github.com/steveicarus/iverilog[Icarus Verilog Linux/MacOS]
+. https://bleyer.org/icarus/[Icarus Verilog Windows] (comes with GTKWave)
+. https://gtkwave.sourceforge.net/[GTKWave]
+. https://www.python.org/[Python]
+
+*Note:* Installation of these tools is not required. However, they will
+enable quicker feedback loops when you are iterating on your designs.
+
+See xref:windows_install.adoc[Windows installation] for Windows
+installation instructions.
+
+See xref:linux_install.adoc[Linux installation] for Linux installation
+instructions.
+
+// TODO: write link:macos_install.adoc[MacOS installation].
+
+These tools won’t be present on the lab PCs. They are intended to
+provide a subset of features that the large Vivado software provides. If
+you are running a Linux or Windows machine, you may also install Vivado
+as well. Vivado is required if you wish to load the software onto the
+board.
+
+=== Using the Software
+
+Each git repository (assignment) will include a `test.py` file that you
+can run to verify you have completed the assignment correctly. It will
+compare the simulation results of your Verilog code to a known good
+waveform. It requires both `python` (any relatively recent version of
+Python 3.X) and `iverilog` to be installed. See your OS install
+instructions to get these packages if you do not have them.
+
+To run the tests, you can either open a terminal in the root of each
+assignment and execute `python test.py` or by installing the Python VS
+Code extensions and hitting the `Run file` button in the top right.
+Either will execute the test for you.
+
+If your Verilog code is completely correct, it will print simply
+`Passed` in the terminal. If there are errors, it will let you know in
+what signals and timestamps. In addition, theres’s a commented out
+function at the end of the file that if you uncomment, will open up your
+waveform in GTK Wave to view.
+
+These tools will be critical to developing and debugging your
+assignments during/before each lab session. However, if you do not wish
+to do any of this, the lab can still be entirely accomplished during
+each session with the Verilog software installed on the lab PCs.
