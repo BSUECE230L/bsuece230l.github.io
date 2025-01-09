@@ -63,8 +63,6 @@ installation instructions.
 See xref:linux_install.adoc[Linux installation] for Linux installation
 instructions.
 
-// TODO: write link:macos_install.adoc[MacOS installation].
-
 These tools won’t be present on the lab PCs. They are intended to
 provide a subset of features that the large Vivado software provides. If
 you are running a Linux or Windows machine, you may also install Vivado
