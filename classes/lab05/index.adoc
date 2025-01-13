@@ -4,6 +4,8 @@
 :icons: font
 :toc:
 
+xref:class.zip[Download Class Materials]
+
 == Introduction
 
 In this week’s lab, we will investigate more advanced combinatorial

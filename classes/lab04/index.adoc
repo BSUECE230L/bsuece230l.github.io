@@ -4,6 +4,8 @@
 :icons: font
 :toc:
 
+xref:class.zip[Download Class Materials]
+
 == Minimizing and Optimizing Logic Equations
 
 Please read xref:more_about_kmaps.adoc[more about KMaps] for a deeper

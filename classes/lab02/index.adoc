@@ -4,6 +4,8 @@
 :icons: font
 :toc:
 
+xref:class.zip[Download Class Materials]
+
 == Introduction
 
 Verilog will be very different to you from the other programming

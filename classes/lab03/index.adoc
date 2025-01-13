@@ -4,6 +4,8 @@
 :icons: font
 :toc:
 
+xref:class.zip[Download Class Materials]
+
 == Introduction
 
 In this lab we will dive more into how each of the logic gates function,

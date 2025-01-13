@@ -4,6 +4,8 @@
 :icons: font
 :toc:
 
+xref:class.zip[Download Class Materials]
+
 == Introduction
 
 In a previous lab, we designed adder circuitry to sum two numbers
