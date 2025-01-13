@@ -1,0 +1,1380 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="generator" content="Asciidoctor 2.0.23">
+<title>Lab 09 - Synchronous Circuits</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700">
+<style>
+/*! Asciidoctor default stylesheet | MIT License | https://asciidoctor.org */
+/* Uncomment the following line when using as a custom stylesheet */
+/* @import "https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700"; */
+html{font-family:sans-serif;-webkit-text-size-adjust:100%}
+a{background:none}
+a:focus{outline:thin dotted}
+a:active,a:hover{outline:0}
+h1{font-size:2em;margin:.67em 0}
+b,strong{font-weight:bold}
+abbr{font-size:.9em}
+abbr[title]{cursor:help;border-bottom:1px dotted #dddddf;text-decoration:none}
+dfn{font-style:italic}
+hr{height:0}
+mark{background:#ff0;color:#000}
+code,kbd,pre,samp{font-family:monospace;font-size:1em}
+pre{white-space:pre-wrap}
+q{quotes:"\201C" "\201D" "\2018" "\2019"}
+small{font-size:80%}
+sub,sup{font-size:75%;line-height:0;position:relative;vertical-align:baseline}
+sup{top:-.5em}
+sub{bottom:-.25em}
+img{border:0}
+svg:not(:root){overflow:hidden}
+figure{margin:0}
+audio,video{display:inline-block}
+audio:not([controls]){display:none;height:0}
+fieldset{border:1px solid silver;margin:0 2px;padding:.35em .625em .75em}
+legend{border:0;padding:0}
+button,input,select,textarea{font-family:inherit;font-size:100%;margin:0}
+button,input{line-height:normal}
+button,select{text-transform:none}
+button,html input[type=button],input[type=reset],input[type=submit]{-webkit-appearance:button;cursor:pointer}
+button[disabled],html input[disabled]{cursor:default}
+input[type=checkbox],input[type=radio]{padding:0}
+button::-moz-focus-inner,input::-moz-focus-inner{border:0;padding:0}
+textarea{overflow:auto;vertical-align:top}
+table{border-collapse:collapse;border-spacing:0}
+*,::before,::after{box-sizing:border-box}
+html,body{font-size:100%}
+body{background:#fff;color:rgba(0,0,0,.8);padding:0;margin:0;font-family:"Noto Serif","DejaVu Serif",serif;line-height:1;position:relative;cursor:auto;-moz-tab-size:4;-o-tab-size:4;tab-size:4;word-wrap:anywhere;-moz-osx-font-smoothing:grayscale;-webkit-font-smoothing:antialiased}
+a:hover{cursor:pointer}
+img,object,embed{max-width:100%;height:auto}
+object,embed{height:100%}
+img{-ms-interpolation-mode:bicubic}
+.left{float:left!important}
+.right{float:right!important}
+.text-left{text-align:left!important}
+.text-right{text-align:right!important}
+.text-center{text-align:center!important}
+.text-justify{text-align:justify!important}
+.hide{display:none}
+img,object,svg{display:inline-block;vertical-align:middle}
+textarea{height:auto;min-height:50px}
+select{width:100%}
+.subheader,.admonitionblock td.content>.title,.audioblock>.title,.exampleblock>.title,.imageblock>.title,.listingblock>.title,.literalblock>.title,.stemblock>.title,.openblock>.title,.paragraph>.title,.quoteblock>.title,table.tableblock>.title,.verseblock>.title,.videoblock>.title,.dlist>.title,.olist>.title,.ulist>.title,.qlist>.title,.hdlist>.title{line-height:1.45;color:#7a2518;font-weight:400;margin-top:0;margin-bottom:.25em}
+div,dl,dt,dd,ul,ol,li,h1,h2,h3,#toctitle,.sidebarblock>.content>.title,h4,h5,h6,pre,form,p,blockquote,th,td{margin:0;padding:0}
+a{color:#2156a5;text-decoration:underline;line-height:inherit}
+a:hover,a:focus{color:#1d4b8f}
+a img{border:0}
+p{line-height:1.6;margin-bottom:1.25em;text-rendering:optimizeLegibility}
+p aside{font-size:.875em;line-height:1.35;font-style:italic}
+h1,h2,h3,#toctitle,.sidebarblock>.content>.title,h4,h5,h6{font-family:"Open Sans","DejaVu Sans",sans-serif;font-weight:300;font-style:normal;color:#ba3925;text-rendering:optimizeLegibility;margin-top:1em;margin-bottom:.5em;line-height:1.0125em}
+h1 small,h2 small,h3 small,#toctitle small,.sidebarblock>.content>.title small,h4 small,h5 small,h6 small{font-size:60%;color:#e99b8f;line-height:0}
+h1{font-size:2.125em}
+h2{font-size:1.6875em}
+h3,#toctitle,.sidebarblock>.content>.title{font-size:1.375em}
+h4,h5{font-size:1.125em}
+h6{font-size:1em}
+hr{border:solid #dddddf;border-width:1px 0 0;clear:both;margin:1.25em 0 1.1875em}
+em,i{font-style:italic;line-height:inherit}
+strong,b{font-weight:bold;line-height:inherit}
+small{font-size:60%;line-height:inherit}
+code{font-family:"Droid Sans Mono","DejaVu Sans Mono",monospace;font-weight:400;color:rgba(0,0,0,.9)}
+ul,ol,dl{line-height:1.6;margin-bottom:1.25em;list-style-position:outside;font-family:inherit}
+ul,ol{margin-left:1.5em}
+ul li ul,ul li ol{margin-left:1.25em;margin-bottom:0}
+ul.circle{list-style-type:circle}
+ul.disc{list-style-type:disc}
+ul.square{list-style-type:square}
+ul.circle ul:not([class]),ul.disc ul:not([class]),ul.square ul:not([class]){list-style:inherit}
+ol li ul,ol li ol{margin-left:1.25em;margin-bottom:0}
+dl dt{margin-bottom:.3125em;font-weight:bold}
+dl dd{margin-bottom:1.25em}
+blockquote{margin:0 0 1.25em;padding:.5625em 1.25em 0 1.1875em;border-left:1px solid #ddd}
+blockquote,blockquote p{line-height:1.6;color:rgba(0,0,0,.85)}
+@media screen and (min-width:768px){h1,h2,h3,#toctitle,.sidebarblock>.content>.title,h4,h5,h6{line-height:1.2}
+h1{font-size:2.75em}
+h2{font-size:2.3125em}
+h3,#toctitle,.sidebarblock>.content>.title{font-size:1.6875em}
+h4{font-size:1.4375em}}
+table{background:#fff;margin-bottom:1.25em;border:1px solid #dedede;word-wrap:normal}
+table thead,table tfoot{background:#f7f8f7}
+table thead tr th,table thead tr td,table tfoot tr th,table tfoot tr td{padding:.5em .625em .625em;font-size:inherit;color:rgba(0,0,0,.8);text-align:left}
+table tr th,table tr td{padding:.5625em .625em;font-size:inherit;color:rgba(0,0,0,.8)}
+table tr.even,table tr.alt{background:#f8f8f7}
+table thead tr th,table tfoot tr th,table tbody tr td,table tr td,table tfoot tr td{line-height:1.6}
+h1,h2,h3,#toctitle,.sidebarblock>.content>.title,h4,h5,h6{line-height:1.2;word-spacing:-.05em}
+h1 strong,h2 strong,h3 strong,#toctitle strong,.sidebarblock>.content>.title strong,h4 strong,h5 strong,h6 strong{font-weight:400}
+.center{margin-left:auto;margin-right:auto}
+.stretch{width:100%}
+.clearfix::before,.clearfix::after,.float-group::before,.float-group::after{content:" ";display:table}
+.clearfix::after,.float-group::after{clear:both}
+:not(pre).nobreak{word-wrap:normal}
+:not(pre).nowrap{white-space:nowrap}
+:not(pre).pre-wrap{white-space:pre-wrap}
+:not(pre):not([class^=L])>code{font-size:.9375em;font-style:normal!important;letter-spacing:0;padding:.1em .5ex;word-spacing:-.15em;background:#f7f7f8;border-radius:4px;line-height:1.45;text-rendering:optimizeSpeed}
+pre{color:rgba(0,0,0,.9);font-family:"Droid Sans Mono","DejaVu Sans Mono",monospace;line-height:1.45;text-rendering:optimizeSpeed}
+pre code,pre pre{color:inherit;font-size:inherit;line-height:inherit}
+pre>code{display:block}
+pre.nowrap,pre.nowrap pre{white-space:pre;word-wrap:normal}
+em em{font-style:normal}
+strong strong{font-weight:400}
+.keyseq{color:rgba(51,51,51,.8)}
+kbd{font-family:"Droid Sans Mono","DejaVu Sans Mono",monospace;display:inline-block;color:rgba(0,0,0,.8);font-size:.65em;line-height:1.45;background:#f7f7f7;border:1px solid #ccc;border-radius:3px;box-shadow:0 1px 0 rgba(0,0,0,.2),inset 0 0 0 .1em #fff;margin:0 .15em;padding:.2em .5em;vertical-align:middle;position:relative;top:-.1em;white-space:nowrap}
+.keyseq kbd:first-child{margin-left:0}
+.keyseq kbd:last-child{margin-right:0}
+.menuseq,.menuref{color:#000}
+.menuseq b:not(.caret),.menuref{font-weight:inherit}
+.menuseq{word-spacing:-.02em}
+.menuseq b.caret{font-size:1.25em;line-height:.8}
+.menuseq i.caret{font-weight:bold;text-align:center;width:.45em}
+b.button::before,b.button::after{position:relative;top:-1px;font-weight:400}
+b.button::before{content:"[";padding:0 3px 0 2px}
+b.button::after{content:"]";padding:0 2px 0 3px}
+p a>code:hover{color:rgba(0,0,0,.9)}
+#header,#content,#footnotes,#footer{width:100%;margin:0 auto;max-width:62.5em;*zoom:1;position:relative;padding-left:.9375em;padding-right:.9375em}
+#header::before,#header::after,#content::before,#content::after,#footnotes::before,#footnotes::after,#footer::before,#footer::after{content:" ";display:table}
+#header::after,#content::after,#footnotes::after,#footer::after{clear:both}
+#content{margin-top:1.25em}
+#content::before{content:none}
+#header>h1:first-child{color:rgba(0,0,0,.85);margin-top:2.25rem;margin-bottom:0}
+#header>h1:first-child+#toc{margin-top:8px;border-top:1px solid #dddddf}
+#header>h1:only-child{border-bottom:1px solid #dddddf;padding-bottom:8px}
+#header .details{border-bottom:1px solid #dddddf;line-height:1.45;padding-top:.25em;padding-bottom:.25em;padding-left:.25em;color:rgba(0,0,0,.6);display:flex;flex-flow:row wrap}
+#header .details span:first-child{margin-left:-.125em}
+#header .details span.email a{color:rgba(0,0,0,.85)}
+#header .details br{display:none}
+#header .details br+span::before{content:"\00a0\2013\00a0"}
+#header .details br+span.author::before{content:"\00a0\22c5\00a0";color:rgba(0,0,0,.85)}
+#header .details br+span#revremark::before{content:"\00a0|\00a0"}
+#header #revnumber{text-transform:capitalize}
+#header #revnumber::after{content:"\00a0"}
+#content>h1:first-child:not([class]){color:rgba(0,0,0,.85);border-bottom:1px solid #dddddf;padding-bottom:8px;margin-top:0;padding-top:1rem;margin-bottom:1.25rem}
+#toc{border-bottom:1px solid #e7e7e9;padding-bottom:.5em}
+#toc>ul{margin-left:.125em}
+#toc ul.sectlevel0>li>a{font-style:italic}
+#toc ul.sectlevel0 ul.sectlevel1{margin:.5em 0}
+#toc ul{font-family:"Open Sans","DejaVu Sans",sans-serif;list-style-type:none}
+#toc li{line-height:1.3334;margin-top:.3334em}
+#toc a{text-decoration:none}
+#toc a:active{text-decoration:underline}
+#toctitle{color:#7a2518;font-size:1.2em}
+@media screen and (min-width:768px){#toctitle{font-size:1.375em}
+body.toc2{padding-left:15em;padding-right:0}
+body.toc2 #header>h1:nth-last-child(2){border-bottom:1px solid #dddddf;padding-bottom:8px}
+#toc.toc2{margin-top:0!important;background:#f8f8f7;position:fixed;width:15em;left:0;top:0;border-right:1px solid #e7e7e9;border-top-width:0!important;border-bottom-width:0!important;z-index:1000;padding:1.25em 1em;height:100%;overflow:auto}
+#toc.toc2 #toctitle{margin-top:0;margin-bottom:.8rem;font-size:1.2em}
+#toc.toc2>ul{font-size:.9em;margin-bottom:0}
+#toc.toc2 ul ul{margin-left:0;padding-left:1em}
+#toc.toc2 ul.sectlevel0 ul.sectlevel1{padding-left:0;margin-top:.5em;margin-bottom:.5em}
+body.toc2.toc-right{padding-left:0;padding-right:15em}
+body.toc2.toc-right #toc.toc2{border-right-width:0;border-left:1px solid #e7e7e9;left:auto;right:0}}
+@media screen and (min-width:1280px){body.toc2{padding-left:20em;padding-right:0}
+#toc.toc2{width:20em}
+#toc.toc2 #toctitle{font-size:1.375em}
+#toc.toc2>ul{font-size:.95em}
+#toc.toc2 ul ul{padding-left:1.25em}
+body.toc2.toc-right{padding-left:0;padding-right:20em}}
+#content #toc{border:1px solid #e0e0dc;margin-bottom:1.25em;padding:1.25em;background:#f8f8f7;border-radius:4px}
+#content #toc>:first-child{margin-top:0}
+#content #toc>:last-child{margin-bottom:0}
+#footer{max-width:none;background:rgba(0,0,0,.8);padding:1.25em}
+#footer-text{color:hsla(0,0%,100%,.8);line-height:1.44}
+#content{margin-bottom:.625em}
+.sect1{padding-bottom:.625em}
+@media screen and (min-width:768px){#content{margin-bottom:1.25em}
+.sect1{padding-bottom:1.25em}}
+.sect1:last-child{padding-bottom:0}
+.sect1+.sect1{border-top:1px solid #e7e7e9}
+#content h1>a.anchor,h2>a.anchor,h3>a.anchor,#toctitle>a.anchor,.sidebarblock>.content>.title>a.anchor,h4>a.anchor,h5>a.anchor,h6>a.anchor{position:absolute;z-index:1001;width:1.5ex;margin-left:-1.5ex;display:block;text-decoration:none!important;visibility:hidden;text-align:center;font-weight:400}
+#content h1>a.anchor::before,h2>a.anchor::before,h3>a.anchor::before,#toctitle>a.anchor::before,.sidebarblock>.content>.title>a.anchor::before,h4>a.anchor::before,h5>a.anchor::before,h6>a.anchor::before{content:"\00A7";font-size:.85em;display:block;padding-top:.1em}
+#content h1:hover>a.anchor,#content h1>a.anchor:hover,h2:hover>a.anchor,h2>a.anchor:hover,h3:hover>a.anchor,#toctitle:hover>a.anchor,.sidebarblock>.content>.title:hover>a.anchor,h3>a.anchor:hover,#toctitle>a.anchor:hover,.sidebarblock>.content>.title>a.anchor:hover,h4:hover>a.anchor,h4>a.anchor:hover,h5:hover>a.anchor,h5>a.anchor:hover,h6:hover>a.anchor,h6>a.anchor:hover{visibility:visible}
+#content h1>a.link,h2>a.link,h3>a.link,#toctitle>a.link,.sidebarblock>.content>.title>a.link,h4>a.link,h5>a.link,h6>a.link{color:#ba3925;text-decoration:none}
+#content h1>a.link:hover,h2>a.link:hover,h3>a.link:hover,#toctitle>a.link:hover,.sidebarblock>.content>.title>a.link:hover,h4>a.link:hover,h5>a.link:hover,h6>a.link:hover{color:#a53221}
+details,.audioblock,.imageblock,.literalblock,.listingblock,.stemblock,.videoblock{margin-bottom:1.25em}
+details{margin-left:1.25rem}
+details>summary{cursor:pointer;display:block;position:relative;line-height:1.6;margin-bottom:.625rem;outline:none;-webkit-tap-highlight-color:transparent}
+details>summary::-webkit-details-marker{display:none}
+details>summary::before{content:"";border:solid transparent;border-left:solid;border-width:.3em 0 .3em .5em;position:absolute;top:.5em;left:-1.25rem;transform:translateX(15%)}
+details[open]>summary::before{border:solid transparent;border-top:solid;border-width:.5em .3em 0;transform:translateY(15%)}
+details>summary::after{content:"";width:1.25rem;height:1em;position:absolute;top:.3em;left:-1.25rem}
+.admonitionblock td.content>.title,.audioblock>.title,.exampleblock>.title,.imageblock>.title,.listingblock>.title,.literalblock>.title,.stemblock>.title,.openblock>.title,.paragraph>.title,.quoteblock>.title,table.tableblock>.title,.verseblock>.title,.videoblock>.title,.dlist>.title,.olist>.title,.ulist>.title,.qlist>.title,.hdlist>.title{text-rendering:optimizeLegibility;text-align:left;font-family:"Noto Serif","DejaVu Serif",serif;font-size:1rem;font-style:italic}
+table.tableblock.fit-content>caption.title{white-space:nowrap;width:0}
+.paragraph.lead>p,#preamble>.sectionbody>[class=paragraph]:first-of-type p{font-size:1.21875em;line-height:1.6;color:rgba(0,0,0,.85)}
+.admonitionblock>table{border-collapse:separate;border:0;background:none;width:100%}
+.admonitionblock>table td.icon{text-align:center;width:80px}
+.admonitionblock>table td.icon img{max-width:none}
+.admonitionblock>table td.icon .title{font-weight:bold;font-family:"Open Sans","DejaVu Sans",sans-serif;text-transform:uppercase}
+.admonitionblock>table td.content{padding-left:1.125em;padding-right:1.25em;border-left:1px solid #dddddf;color:rgba(0,0,0,.6);word-wrap:anywhere}
+.admonitionblock>table td.content>:last-child>:last-child{margin-bottom:0}
+.exampleblock>.content{border:1px solid #e6e6e6;margin-bottom:1.25em;padding:1.25em;background:#fff;border-radius:4px}
+.sidebarblock{border:1px solid #dbdbd6;margin-bottom:1.25em;padding:1.25em;background:#f3f3f2;border-radius:4px}
+.sidebarblock>.content>.title{color:#7a2518;margin-top:0;text-align:center}
+.exampleblock>.content>:first-child,.sidebarblock>.content>:first-child{margin-top:0}
+.exampleblock>.content>:last-child,.exampleblock>.content>:last-child>:last-child,.exampleblock>.content .olist>ol>li:last-child>:last-child,.exampleblock>.content .ulist>ul>li:last-child>:last-child,.exampleblock>.content .qlist>ol>li:last-child>:last-child,.sidebarblock>.content>:last-child,.sidebarblock>.content>:last-child>:last-child,.sidebarblock>.content .olist>ol>li:last-child>:last-child,.sidebarblock>.content .ulist>ul>li:last-child>:last-child,.sidebarblock>.content .qlist>ol>li:last-child>:last-child{margin-bottom:0}
+.literalblock pre,.listingblock>.content>pre{border-radius:4px;overflow-x:auto;padding:1em;font-size:.8125em}
+@media screen and (min-width:768px){.literalblock pre,.listingblock>.content>pre{font-size:.90625em}}
+@media screen and (min-width:1280px){.literalblock pre,.listingblock>.content>pre{font-size:1em}}
+.literalblock pre,.listingblock>.content>pre:not(.highlight),.listingblock>.content>pre[class=highlight],.listingblock>.content>pre[class^="highlight "]{background:#f7f7f8}
+.literalblock.output pre{color:#f7f7f8;background:rgba(0,0,0,.9)}
+.listingblock>.content{position:relative}
+.listingblock code[data-lang]::before{display:none;content:attr(data-lang);position:absolute;font-size:.75em;top:.425rem;right:.5rem;line-height:1;text-transform:uppercase;color:inherit;opacity:.5}
+.listingblock:hover code[data-lang]::before{display:block}
+.listingblock.terminal pre .command::before{content:attr(data-prompt);padding-right:.5em;color:inherit;opacity:.5}
+.listingblock.terminal pre .command:not([data-prompt])::before{content:"$"}
+.listingblock pre.highlightjs{padding:0}
+.listingblock pre.highlightjs>code{padding:1em;border-radius:4px}
+.listingblock pre.prettyprint{border-width:0}
+.prettyprint{background:#f7f7f8}
+pre.prettyprint .linenums{line-height:1.45;margin-left:2em}
+pre.prettyprint li{background:none;list-style-type:inherit;padding-left:0}
+pre.prettyprint li code[data-lang]::before{opacity:1}
+pre.prettyprint li:not(:first-child) code[data-lang]::before{display:none}
+table.linenotable{border-collapse:separate;border:0;margin-bottom:0;background:none}
+table.linenotable td[class]{color:inherit;vertical-align:top;padding:0;line-height:inherit;white-space:normal}
+table.linenotable td.code{padding-left:.75em}
+table.linenotable td.linenos,pre.pygments .linenos{border-right:1px solid;opacity:.35;padding-right:.5em;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none}
+pre.pygments span.linenos{display:inline-block;margin-right:.75em}
+.quoteblock{margin:0 1em 1.25em 1.5em;display:table}
+.quoteblock:not(.excerpt)>.title{margin-left:-1.5em;margin-bottom:.75em}
+.quoteblock blockquote,.quoteblock p{color:rgba(0,0,0,.85);font-size:1.15rem;line-height:1.75;word-spacing:.1em;letter-spacing:0;font-style:italic;text-align:justify}
+.quoteblock blockquote{margin:0;padding:0;border:0}
+.quoteblock blockquote::before{content:"\201c";float:left;font-size:2.75em;font-weight:bold;line-height:.6em;margin-left:-.6em;color:#7a2518;text-shadow:0 1px 2px rgba(0,0,0,.1)}
+.quoteblock blockquote>.paragraph:last-child p{margin-bottom:0}
+.quoteblock .attribution{margin-top:.75em;margin-right:.5ex;text-align:right}
+.verseblock{margin:0 1em 1.25em}
+.verseblock pre{font-family:"Open Sans","DejaVu Sans",sans-serif;font-size:1.15rem;color:rgba(0,0,0,.85);font-weight:300;text-rendering:optimizeLegibility}
+.verseblock pre strong{font-weight:400}
+.verseblock .attribution{margin-top:1.25rem;margin-left:.5ex}
+.quoteblock .attribution,.verseblock .attribution{font-size:.9375em;line-height:1.45;font-style:italic}
+.quoteblock .attribution br,.verseblock .attribution br{display:none}
+.quoteblock .attribution cite,.verseblock .attribution cite{display:block;letter-spacing:-.025em;color:rgba(0,0,0,.6)}
+.quoteblock.abstract blockquote::before,.quoteblock.excerpt blockquote::before,.quoteblock .quoteblock blockquote::before{display:none}
+.quoteblock.abstract blockquote,.quoteblock.abstract p,.quoteblock.excerpt blockquote,.quoteblock.excerpt p,.quoteblock .quoteblock blockquote,.quoteblock .quoteblock p{line-height:1.6;word-spacing:0}
+.quoteblock.abstract{margin:0 1em 1.25em;display:block}
+.quoteblock.abstract>.title{margin:0 0 .375em;font-size:1.15em;text-align:center}
+.quoteblock.excerpt>blockquote,.quoteblock .quoteblock{padding:0 0 .25em 1em;border-left:.25em solid #dddddf}
+.quoteblock.excerpt,.quoteblock .quoteblock{margin-left:0}
+.quoteblock.excerpt blockquote,.quoteblock.excerpt p,.quoteblock .quoteblock blockquote,.quoteblock .quoteblock p{color:inherit;font-size:1.0625rem}
+.quoteblock.excerpt .attribution,.quoteblock .quoteblock .attribution{color:inherit;font-size:.85rem;text-align:left;margin-right:0}
+p.tableblock:last-child{margin-bottom:0}
+td.tableblock>.content{margin-bottom:1.25em;word-wrap:anywhere}
+td.tableblock>.content>:last-child{margin-bottom:-1.25em}
+table.tableblock,th.tableblock,td.tableblock{border:0 solid #dedede}
+table.grid-all>*>tr>*{border-width:1px}
+table.grid-cols>*>tr>*{border-width:0 1px}
+table.grid-rows>*>tr>*{border-width:1px 0}
+table.frame-all{border-width:1px}
+table.frame-ends{border-width:1px 0}
+table.frame-sides{border-width:0 1px}
+table.frame-none>colgroup+*>:first-child>*,table.frame-sides>colgroup+*>:first-child>*{border-top-width:0}
+table.frame-none>:last-child>:last-child>*,table.frame-sides>:last-child>:last-child>*{border-bottom-width:0}
+table.frame-none>*>tr>:first-child,table.frame-ends>*>tr>:first-child{border-left-width:0}
+table.frame-none>*>tr>:last-child,table.frame-ends>*>tr>:last-child{border-right-width:0}
+table.stripes-all>*>tr,table.stripes-odd>*>tr:nth-of-type(odd),table.stripes-even>*>tr:nth-of-type(even),table.stripes-hover>*>tr:hover{background:#f8f8f7}
+th.halign-left,td.halign-left{text-align:left}
+th.halign-right,td.halign-right{text-align:right}
+th.halign-center,td.halign-center{text-align:center}
+th.valign-top,td.valign-top{vertical-align:top}
+th.valign-bottom,td.valign-bottom{vertical-align:bottom}
+th.valign-middle,td.valign-middle{vertical-align:middle}
+table thead th,table tfoot th{font-weight:bold}
+tbody tr th{background:#f7f8f7}
+tbody tr th,tbody tr th p,tfoot tr th,tfoot tr th p{color:rgba(0,0,0,.8);font-weight:bold}
+p.tableblock>code:only-child{background:none;padding:0}
+p.tableblock{font-size:1em}
+ol{margin-left:1.75em}
+ul li ol{margin-left:1.5em}
+dl dd{margin-left:1.125em}
+dl dd:last-child,dl dd:last-child>:last-child{margin-bottom:0}
+li p,ul dd,ol dd,.olist .olist,.ulist .ulist,.ulist .olist,.olist .ulist{margin-bottom:.625em}
+ul.checklist,ul.none,ol.none,ul.no-bullet,ol.no-bullet,ol.unnumbered,ul.unstyled,ol.unstyled{list-style-type:none}
+ul.no-bullet,ol.no-bullet,ol.unnumbered{margin-left:.625em}
+ul.unstyled,ol.unstyled{margin-left:0}
+li>p:empty:only-child::before{content:"";display:inline-block}
+ul.checklist>li>p:first-child{margin-left:-1em}
+ul.checklist>li>p:first-child>.fa-square-o:first-child,ul.checklist>li>p:first-child>.fa-check-square-o:first-child{width:1.25em;font-size:.8em;position:relative;bottom:.125em}
+ul.checklist>li>p:first-child>input[type=checkbox]:first-child{margin-right:.25em}
+ul.inline{display:flex;flex-flow:row wrap;list-style:none;margin:0 0 .625em -1.25em}
+ul.inline>li{margin-left:1.25em}
+.unstyled dl dt{font-weight:400;font-style:normal}
+ol.arabic{list-style-type:decimal}
+ol.decimal{list-style-type:decimal-leading-zero}
+ol.loweralpha{list-style-type:lower-alpha}
+ol.upperalpha{list-style-type:upper-alpha}
+ol.lowerroman{list-style-type:lower-roman}
+ol.upperroman{list-style-type:upper-roman}
+ol.lowergreek{list-style-type:lower-greek}
+.hdlist>table,.colist>table{border:0;background:none}
+.hdlist>table>tbody>tr,.colist>table>tbody>tr{background:none}
+td.hdlist1,td.hdlist2{vertical-align:top;padding:0 .625em}
+td.hdlist1{font-weight:bold;padding-bottom:1.25em}
+td.hdlist2{word-wrap:anywhere}
+.literalblock+.colist,.listingblock+.colist{margin-top:-.5em}
+.colist td:not([class]):first-child{padding:.4em .75em 0;line-height:1;vertical-align:top}
+.colist td:not([class]):first-child img{max-width:none}
+.colist td:not([class]):last-child{padding:.25em 0}
+.thumb,.th{line-height:0;display:inline-block;border:4px solid #fff;box-shadow:0 0 0 1px #ddd}
+.imageblock.left{margin:.25em .625em 1.25em 0}
+.imageblock.right{margin:.25em 0 1.25em .625em}
+.imageblock>.title{margin-bottom:0}
+.imageblock.thumb,.imageblock.th{border-width:6px}
+.imageblock.thumb>.title,.imageblock.th>.title{padding:0 .125em}
+.image.left,.image.right{margin-top:.25em;margin-bottom:.25em;display:inline-block;line-height:0}
+.image.left{margin-right:.625em}
+.image.right{margin-left:.625em}
+a.image{text-decoration:none;display:inline-block}
+a.image object{pointer-events:none}
+sup.footnote,sup.footnoteref{font-size:.875em;position:static;vertical-align:super}
+sup.footnote a,sup.footnoteref a{text-decoration:none}
+sup.footnote a:active,sup.footnoteref a:active,#footnotes .footnote a:first-of-type:active{text-decoration:underline}
+#footnotes{padding-top:.75em;padding-bottom:.75em;margin-bottom:.625em}
+#footnotes hr{width:20%;min-width:6.25em;margin:-.25em 0 .75em;border-width:1px 0 0}
+#footnotes .footnote{padding:0 .375em 0 .225em;line-height:1.3334;font-size:.875em;margin-left:1.2em;margin-bottom:.2em}
+#footnotes .footnote a:first-of-type{font-weight:bold;text-decoration:none;margin-left:-1.05em}
+#footnotes .footnote:last-of-type{margin-bottom:0}
+#content #footnotes{margin-top:-.625em;margin-bottom:0;padding:.75em 0}
+div.unbreakable{page-break-inside:avoid}
+.big{font-size:larger}
+.small{font-size:smaller}
+.underline{text-decoration:underline}
+.overline{text-decoration:overline}
+.line-through{text-decoration:line-through}
+.aqua{color:#00bfbf}
+.aqua-background{background:#00fafa}
+.black{color:#000}
+.black-background{background:#000}
+.blue{color:#0000bf}
+.blue-background{background:#0000fa}
+.fuchsia{color:#bf00bf}
+.fuchsia-background{background:#fa00fa}
+.gray{color:#606060}
+.gray-background{background:#7d7d7d}
+.green{color:#006000}
+.green-background{background:#007d00}
+.lime{color:#00bf00}
+.lime-background{background:#00fa00}
+.maroon{color:#600000}
+.maroon-background{background:#7d0000}
+.navy{color:#000060}
+.navy-background{background:#00007d}
+.olive{color:#606000}
+.olive-background{background:#7d7d00}
+.purple{color:#600060}
+.purple-background{background:#7d007d}
+.red{color:#bf0000}
+.red-background{background:#fa0000}
+.silver{color:#909090}
+.silver-background{background:#bcbcbc}
+.teal{color:#006060}
+.teal-background{background:#007d7d}
+.white{color:#bfbfbf}
+.white-background{background:#fafafa}
+.yellow{color:#bfbf00}
+.yellow-background{background:#fafa00}
+span.icon>.fa{cursor:default}
+a span.icon>.fa{cursor:inherit}
+.admonitionblock td.icon [class^="fa icon-"]{font-size:2.5em;text-shadow:1px 1px 2px rgba(0,0,0,.5);cursor:default}
+.admonitionblock td.icon .icon-note::before{content:"\f05a";color:#19407c}
+.admonitionblock td.icon .icon-tip::before{content:"\f0eb";text-shadow:1px 1px 2px rgba(155,155,0,.8);color:#111}
+.admonitionblock td.icon .icon-warning::before{content:"\f071";color:#bf6900}
+.admonitionblock td.icon .icon-caution::before{content:"\f06d";color:#bf3400}
+.admonitionblock td.icon .icon-important::before{content:"\f06a";color:#bf0000}
+.conum[data-value]{display:inline-block;color:#fff!important;background:rgba(0,0,0,.8);border-radius:50%;text-align:center;font-size:.75em;width:1.67em;height:1.67em;line-height:1.67em;font-family:"Open Sans","DejaVu Sans",sans-serif;font-style:normal;font-weight:bold}
+.conum[data-value] *{color:#fff!important}
+.conum[data-value]+b{display:none}
+.conum[data-value]::after{content:attr(data-value)}
+pre .conum[data-value]{position:relative;top:-.125em}
+b.conum *{color:inherit!important}
+.conum:not([data-value]):empty{display:none}
+dt,th.tableblock,td.content,div.footnote{text-rendering:optimizeLegibility}
+h1,h2,p,td.content,span.alt,summary{letter-spacing:-.01em}
+p strong,td.content strong,div.footnote strong{letter-spacing:-.005em}
+p,blockquote,dt,td.content,td.hdlist1,span.alt,summary{font-size:1.0625rem}
+p{margin-bottom:1.25rem}
+.sidebarblock p,.sidebarblock dt,.sidebarblock td.content,p.tableblock{font-size:1em}
+.exampleblock>.content{background:#fffef7;border-color:#e0e0dc;box-shadow:0 1px 4px #e0e0dc}
+.print-only{display:none!important}
+@page{margin:1.25cm .75cm}
+@media print{*{box-shadow:none!important;text-shadow:none!important}
+html{font-size:80%}
+a{color:inherit!important;text-decoration:underline!important}
+a.bare,a[href^="#"],a[href^="mailto:"]{text-decoration:none!important}
+a[href^="http:"]:not(.bare)::after,a[href^="https:"]:not(.bare)::after{content:"(" attr(href) ")";display:inline-block;font-size:.875em;padding-left:.25em}
+abbr[title]{border-bottom:1px dotted}
+abbr[title]::after{content:" (" attr(title) ")"}
+pre,blockquote,tr,img,object,svg{page-break-inside:avoid}
+thead{display:table-header-group}
+svg{max-width:100%}
+p,blockquote,dt,td.content{font-size:1em;orphans:3;widows:3}
+h2,h3,#toctitle,.sidebarblock>.content>.title{page-break-after:avoid}
+#header,#content,#footnotes,#footer{max-width:none}
+#toc,.sidebarblock,.exampleblock>.content{background:none!important}
+#toc{border-bottom:1px solid #dddddf!important;padding-bottom:0!important}
+body.book #header{text-align:center}
+body.book #header>h1:first-child{border:0!important;margin:2.5em 0 1em}
+body.book #header .details{border:0!important;display:block;padding:0!important}
+body.book #header .details span:first-child{margin-left:0!important}
+body.book #header .details br{display:block}
+body.book #header .details br+span::before{content:none!important}
+body.book #toc{border:0!important;text-align:left!important;padding:0!important;margin:0!important}
+body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-break-before:always}
+.listingblock code[data-lang]::before{display:block}
+#footer{padding:0 .9375em}
+.hide-on-print{display:none!important}
+.print-only{display:block!important}
+.hide-for-print{display:none!important}
+.show-for-print{display:inherit!important}}
+@media amzn-kf8,print{#header>h1:first-child{margin-top:1.25rem}
+.sect1{padding:0!important}
+.sect1+.sect1{border:0}
+#footer{background:none}
+#footer-text{color:rgba(0,0,0,.6);font-size:.9em}}
+@media amzn-kf8{#header,#content,#footnotes,#footer{padding:0}}
+</style>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.3/styles/github.min.css">
+</head>
+<body class="article">
+<div id="header">
+<h1>Lab 09 - Synchronous Circuits</h1>
+<div id="toc" class="toc">
+<div id="toctitle">Table of Contents</div>
+<ul class="sectlevel1">
+<li><a href="#_synchronous_logic">Synchronous Logic</a></li>
+<li><a href="#_how_to_make_it">How to Make It</a></li>
+<li><a href="#_where_to_go_from_here">Where to Go From Here</a></li>
+<li><a href="#_lab_deliverables">Lab Deliverables</a>
+<ul class="sectlevel2">
+<li><a href="#_part_1_single_bit_memory">Part 1: Single Bit Memory</a></li>
+<li><a href="#_part_2_four_bytes">Part 2: Four Bytes!</a></li>
+</ul>
+</li>
+<li><a href="#array_appendix">Appendix 1: Array Syntax</a></li>
+<li><a href="#scaffold_appendix">Appendix 2: Module Scaffolding</a></li>
+<li><a href="#demultiplex_appendix">Appendix 3: Demultiplexing</a></li>
+<li><a href="#looping_appendix">Appendix 4: Looping, <code>genvar</code>, and <code>parameter</code></a></li>
+<li><a href="#block_nonblock">Appendix 5: Blocking vs. Non Blocking Assignment</a></li>
+</ul>
+</div>
+</div>
+<div id="content">
+<div id="preamble">
+<div class="sectionbody">
+<div class="paragraph">
+<p><a href="class.zip">Download Class Materials</a></p>
+</div>
+<div class="paragraph">
+<p>In this lab we will broach the last foundational topic within RTL and digital logic design&#8201;&#8212;&#8201;that of Synchronous Logic. Prior to this, we have only utilized continuous assignment, wherein the output of a circuit immediately reacts to the change in any of its inputs, but this is a very limiting constraint. Everything hereafter will be compositions of structural Verilog, continuous assignment, behavioral Verilog, and Synchronous assignment.</p>
+</div>
+<div class="paragraph">
+<p>All more complicated digital designs, like that for the CPU in the device on which you are reading this lab, require carefully synchronized changes in the various modules in order to function. And more than that, they need certain values to persist throughout time to be used and reused later. Both of these concepts rely on synchronous logic.</p>
+</div>
+<div class="admonitionblock warning">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-warning" title="Warning"></i>
+</td>
+<td class="content">
+This class, please use the constraints file as-is. It contains an additional instruction to Vivado at the bottom to allow your D-Latches to implement.
+</td>
+</tr>
+</table>
+</div>
+<div class="admonitionblock warning">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-warning" title="Warning"></i>
+</td>
+<td class="content">
+This lab has some new syntax required to implement all the features. Please read all appendixes at the bottom of this document for examples and explanations.
+</td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_synchronous_logic">Synchronous Logic</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>You deal with synchronous systems all the time. I imagine you&#8217;ve even done so very recently, maybe to log into GitHub and get things ready for this lab&#8201;&#8212;&#8201;the login page.</p>
+</div>
+<div class="paragraph">
+<p>GitHub would be a really poor website if it instantly tried to log you in on every key press, saying "wrong password" each time you entered a character until you finished typing. No&#8201;&#8212;&#8201;it <strong>waits</strong> for you to hit the enter key or press the Login button to look at its inputs. That event, either the keyboard or UI, is the synchronous event that triggers the system to operate.</p>
+</div>
+<div class="paragraph">
+<p>To bring the concept down to the labs/board we have been using, think back to the Multiplexer/Demultiplexer lab, where you had the really crappy "ISP" set up to send data from one of four places to any one of four other places. The CEO, for instance, could not wait to send their data until they had decided on a pattern for the four switches&#8201;&#8212;&#8201;that data was always available. And unless you can, in the exact same instant, flip all four switches then intermediary data is making it out on the bus.</p>
+</div>
+<div class="paragraph">
+<p>See here an example to clarify:</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="diag-plantuml-md5-75a8a869bea8ebb4999d84ef98d72b66.png" alt="Diagram" width="497" height="235">
+</div>
+<div class="title">Figure 1. How it is now</div>
+</div>
+<div class="paragraph">
+<p>We can see as the CEO is changing the switches, there&#8217;s a period of time where the wrong values are going out on the bus! In this instance, it is the time highlighted by "Changing", and the values 1 and 5 are not the desired 13.</p>
+</div>
+<div id="how_we_want" class="imageblock">
+<div class="content">
+<img src="diag-plantuml-md5-e24bd2d162c100252a6f75171c98990e.png" alt="Diagram" width="497" height="265">
+</div>
+<div class="title">Figure 2. How we want it to be</div>
+</div>
+<div class="paragraph">
+<p>So&#8201;&#8212;&#8201;how do we get to the state in the second diagram? Well, obviously with synchronous logic (I mean it&#8217;s even in the title of this section!), but what does that entail?</p>
+</div>
+<div class="paragraph">
+<p>Well, we have to break the rules we established in week 6&#8201;&#8212;&#8201;we need combinatorial loops! We want to make a light switch we can flip internally in the FPGA, that is an electronically actuated latching circuit. We want to be able to <strong>set</strong> this latch to turn it on, and <strong>reset</strong> this latch to turn it off. Perhaps&#8230;&#8203; we should call it the Set-Reset Latch? I should patent this!</p>
+</div>
+<div class="paragraph">
+<p>Jokes aside, the solution to this is the SR-Latch, or the Set-Reset Latch. It&#8217;s a circuit that can be set to on, then reset to off. And, what&#8217;s important to this circuit, is that if both the set and reset inputs are off, it <em>holds its state</em>. Let&#8217;s see what the output looks like below:</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="diag-plantuml-md5-538c94b7b7dc5c99ff11f2d2be4fce76.png" alt="Diagram" width="357" height="146">
+</div>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+This unknown state will be a common thing you have to deal with in Synchronous circuits. Before a reset condition, it is physically impossible to know what state a circuit is in. For this reason, we will use reset lines in all of our modules. Vivado notates this with "X" for unknown/don&#8217;t care. If you see "X" as the value of your signal, it is because it hasn&#8217;t been set yet.
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>What does the circuit that behaves like this even <em>look</em> like? Well, as I hinted, it leverages combinatorial loops:</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="img/sr_latch.drawio.png" alt="sr latch.drawio">
+</div>
+</div>
+<div class="paragraph">
+<p>Here, we have two NOR gates looped together. We will call them A (who outputs Q) and B (who outputs ~Q), and their equations are:</p>
+</div>
+<div class="exampleblock">
+<div class="title">Example 1. SR-Latch Equations</div>
+<div class="content">
+<div class="ulist">
+<ul>
+<li>
+<p><code>A = Q = Reset NOR ~Q</code></p>
+</li>
+<li>
+<p><code>B = ~Q = Set NOR Q</code></p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 1. SR-Latch Truth Table</caption>
+<colgroup>
+<col style="width: 25%;">
+<col style="width: 25%;">
+<col style="width: 25%;">
+<col style="width: 25%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">S</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">R</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Q</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">~Q</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Latch</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Latch</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p>Why and how on earth does this work, though? It seems really simple, and luckily it is. Let&#8217;s assume, at <code>t=0</code> we have <code>Q=0</code> and <code>~Q=1</code>. This is known as the "reset" case. Let&#8217;s look through the timeline of events as we assert the "Set" line:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>NOR gate B has inputs of <code>0 ~| 0</code> (from Q and Set) which outputs 1 (~Q)</p>
+</li>
+<li>
+<p>NOR gate A has inputs of <code>0 ~| 1</code> (from Reset and Q~) which outputs 0</p>
+</li>
+<li>
+<p><strong>SET IS ASSERTED</strong></p>
+</li>
+<li>
+<p>NOR gate B now has inputs <code>0 ~| 1</code> from Q and Set respectively</p>
+</li>
+<li>
+<p>NOR gate B deasserts its output</p>
+</li>
+<li>
+<p>NOR gate A now has inputs of <code>0 ~| 0</code> (from Reset and Q~) and asserts its output (Q)</p>
+</li>
+<li>
+<p>NOR gate B now has inputs of <code>1 ~| 1</code> (from Q and Set) and remains deasserted</p>
+</li>
+<li>
+<p><strong>SET IS DEASSERTED</strong></p>
+</li>
+<li>
+<p>NOR gate B now has inputs of <code>1 ~| 0</code> (from Q and Set) and remains deasserted</p>
+</li>
+<li>
+<p>Circuit has reached a stable state</p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p>We can see from the flow above that asserting Set then deasserting it leaves the circuit flipped&#8201;&#8212;&#8201;its Q output remains high and ~Q is now low. More importantly, it will remain this way until you toggle the Reset line. This circuit can store a value without needing its inputs to remain active at all times. The outputs Q and ~Q are <em>synchronized</em> to Set and Reset.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_how_to_make_it">How to Make It</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>If you were to go ahead and try to implement the above circuit by literally typing:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-verilog hljs" data-lang="verilog">module structural_sr_latch(
+    input Set,
+    input Reset,
+    output Q,
+    output NotQ
+);
+
+    assign Q = ~(Reset | NotQ);
+    assign NotQ = ~(Set | Q);
+
+endmodule</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>It will simulate in Icarus Verilog and GTKWave will show you what looks to be the correct output:</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="img/structural_sr_output.png" alt="structural sr output">
+</div>
+</div>
+<div class="paragraph">
+<p>Notice how <code>NotQ</code> and <code>Q</code> remain latched even after the inputs go back to zero? This is memory! The SR-Latch is remembering its state without the inputs needing to remain present. This unlocks very significant and exciting behaviors.</p>
+</div>
+<div class="paragraph">
+<p>However, if you try to implement this circuit using Vivado and synthesize it for the Basys3, you will run into the same problem as Lab 6&#8201;&#8212;&#8201;where it errors out about the combinatorial loop and will not let you proceed.</p>
+</div>
+<div class="paragraph">
+<p>Thankfully, we have our answer in Behavioral Verilog! Now comes the explanation of <code>reg</code> from last lab. We saw that in order to assign values in Behavioral Verilog, we had to add the <code>reg</code> keyword to the declaration as well as omit <code>assign</code> from the assignment. We do all that because when in behavioral mode, circuits <em>can generate memory</em>, which is exactly what our SR-Latch here is.</p>
+</div>
+<div class="paragraph">
+<p>In the case of Verilog, <code>reg</code> means Register. Usually, these types synthesize to use flip-flop or register hardware on the device, but in the case of <code>always @(*)</code> blocks, they can even contain regular continuous assignment wherein no memory is needed. It is just for silly syntax reasons we <strong>must</strong> use <code>reg</code> inside of an <code>always</code> block&#8230;&#8203; always.</p>
+</div>
+<div class="paragraph">
+<p>So, let&#8217;s rewrite our SR-Latch like the Verilog Gods intended:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-verilog hljs" data-lang="verilog">module behavioral_sr_latch(
+    input Set,
+    input Reset,
+    output reg Q,
+    output NotQ
+);
+
+    always @(Set, Reset) begin <i class="conum" data-value="2"></i><b>(2)</b>
+        if (Set)
+            Q &lt;= 1; <i class="conum" data-value="3"></i><b>(3)</b>
+        else if (Reset)
+            Q &lt;= 0;
+    end
+
+    assign NotQ = ~Q; <i class="conum" data-value="1"></i><b>(1)</b>
+
+endmodule</code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>Notice, we can do something really cool here. I can use some structural continuous assignments to mimick the behavior of the inverted output. It is totally valid, and even common, to mix structural and behavioral Verilog in designs.</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="2"></i><b>2</b></td>
+<td>The Sensitivity List isn&#8217;t just a * here, note that since we are synchronous to Set and Reset, we have both in this list.</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="3"></i><b>3</b></td>
+<td>Notice the <strong>non blocking</strong> assignment, for more see <a href="#block_nonblock">Appendix 5: Blocking vs. Non Blocking Assignment</a>. Use non blocking for the remainder of the lab.</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>This will now <em>behave</em> the same, but synthesize correctly in Vivado. However, we have a problem with this design. What if we assert both Set and Reset? Obviously, functionally speaking this has no meaning. How are we supposed to derive the output state given this? The state where Set and Reset are high is known as the "invalid" state of the SR-Latch.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_where_to_go_from_here">Where to Go From Here</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Obviously, the SR-Latch isn&#8217;t the end-game of memory and synchronous logic. It has that "invalid" state mentioned above. How do we stop this? The solution to any digital logic problem is always more digital logic. We need to design an interface to the SR-Latch that <em>cannot</em> be in the invalid state. This could take many forms, but in today&#8217;s lab, we are going to focus on the D-Latch. It has the following truth table:</p>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 2. D-Latch Truth Table</caption>
+<colgroup>
+<col style="width: 25%;">
+<col style="width: 25%;">
+<col style="width: 25%;">
+<col style="width: 25%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Enable (E)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Data (D)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Q</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">~Q</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Latch</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Latch</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Latch</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Latch</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p>Or, presented as a waveform:</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="diag-plantuml-md5-89f99d29d8893d74bbb0302d7b6d456b.png" alt="Diagram" width="375" height="176">
+</div>
+</div>
+<div class="paragraph">
+<p>Notice how the outputs of Q and ~Q only change while E is high. This circuit is <em>synchronous</em> to E and D, rather than to both S and R as the SR-Latch is. It is impossible to get this into an invalid state.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_lab_deliverables">Lab Deliverables</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_part_1_single_bit_memory">Part 1: Single Bit Memory</h3>
+<div class="paragraph">
+<p>Your mission, should you choose to accept it (note: enrollment in this class is implicit acceptance), is to implement the D-Latch in Behavioral Verilog using the below IO table:</p>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 33.3333%;">
+<col style="width: 33.3333%;">
+<col style="width: 33.3334%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Signal</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Purpose</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Direction</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">sw[0]</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">D</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">IN</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">btnC</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">E</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">IN</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">led[0]</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Q</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">OUT</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">led[1]</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">~Q</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">OUT</p></td>
+</tr>
+</tbody>
+</table>
+<div class="admonitionblock tip">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-tip" title="Tip"></i>
+</td>
+<td class="content">
+Think about the sensitivity list in your <code>always</code> block. The output of the D-Latch changes while E is high.
+</td>
+</tr>
+</table>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_part_2_four_bytes">Part 2: Four Bytes!</h3>
+<div class="paragraph">
+<p>Using the D-Latch you developed above, and the behavioral mux from the previous lab, we&#8217;re going to implement a very basic computer memory system. Using the same "store" command as above (btnC), we want to make a four byte memory system!</p>
+</div>
+<div class="paragraph">
+<p>For this, you will need to build several blocks:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>8-bit memory block</p>
+</li>
+<li>
+<p>Data demultiplexer</p>
+</li>
+<li>
+<p>Output data multiplexer</p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p>The multiplexer block you have already written in previous labs, and this will just be an extension thereof, where we have a four input, 8 bit wide multiplexer, and a four output, 8 bit wide demultiplexer. For the demultiplexer, see <a href="#demultiplex_appendix">Appendix 3: Demultiplexing</a>.</p>
+</div>
+<div class="paragraph">
+<p>The data block is more interesting, see a block diagram below:</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="img/eight_bit_mem.drawio.png" alt="eight bit mem.drawio">
+</div>
+<div class="title">Figure 3. Byte Storage Block Diagram</div>
+</div>
+<div class="paragraph">
+<p>For your 8 bits of memory, you will use 8 D-Latches with their Enable lines hooked together so they store at at the same time. You are free to implement this however you feel. You can instantiate 8 D-Latches in the module, or create a new D-Latch module that is 8 bits wide. Then, hook up four of them as shown below:</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="img/block_diagram.drawio.png" alt="block diagram.drawio">
+</div>
+<div class="title">Figure 4. Data Block Diagram</div>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+Enable line not shown for brevity. However, it will also need to be demultiplexed into each of the four bytes.
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>The 8 data bits come in to a demultiplexer, controlled by the address select lines. These feed to the inputs of four 8-bit wide D-Latches. Not shown is another 1 bit multiplexer putting the store line (btnC) into the E line of each of the 8-bit wide D-Latches. The intended behavior of this circuit is to allow the user to select which byte to target, see its output on the LEDs (output bits), then optionally store a new value in that address with the store command (btnC).</p>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 33.3333%;">
+<col style="width: 33.3333%;">
+<col style="width: 33.3334%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Signal</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Purpose</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Direction</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">sw[15:8]</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">8 data bits</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">IN</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">sw[7:6]</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Address Select</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">IN</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">btnC</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Store</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">IN</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">led[15:8]</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">8 output bits</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">OUT</p></td>
+</tr>
+</tbody>
+</table>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+Store/Enable are interchangeable terms on D-Latches. You may also call it Enable, as it is equivalent to what we learned in part 1.
+</td>
+</tr>
+</table>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+If you are having trouble, see <a href="#scaffold_appendix">Appendix 2: Module Scaffolding</a> for some scaffolding to help you get started. To help instantiate multiple blocks, see <a href="#looping_appendix">Appendix 4: Looping, <code>genvar</code>, and <code>parameter</code></a>.
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>For additional context, see a zoomed in/cropped design diagram:</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="img/zoomed_block_diagram.drawio.svg" alt="zoomed block diagram.drawio">
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="array_appendix">Appendix 1: Array Syntax</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>So, we&#8217;ve seen how to declare vectors in Verilog, but there are also arrays. These are distinct from vectors, which are a single signal that is N bits wide, in that they are M signals N bits wide, declared like so:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-verilog hljs" data-lang="verilog">wire [N-1:0] arr[M-1:0];</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>To make a 4 element array (M=4) of 8 bit signals (N=8), you would do the following:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-verilog hljs" data-lang="verilog">wire [7:0] arr[3:0];</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>And for a reference:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-verilog hljs" data-lang="verilog">module arrays();
+
+    // Traditional vector:
+    wire [7:0] vect; <i class="conum" data-value="1"></i><b>(1)</b>
+
+    // Array:
+    wire arr[3:0]; <i class="conum" data-value="2"></i><b>(2)</b>
+
+    // Array of vectors:
+    wire [7:0] arr_vec[3:0]; <i class="conum" data-value="3"></i><b>(3)</b>
+
+
+endmodule</code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>This is a single signal, 8 bits wide</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="2"></i><b>2</b></td>
+<td>This is four 1 bit signals</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="3"></i><b>3</b></td>
+<td>This is four 8 bit signals</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>Now, the confusing part. Since this is Verilog, none of the syntax is allowed to make any sense. Accessing a single bit of a vector is done with the <code>[x]</code> operator, where x is the bit or slice you want to access. Now, with vectors, instead of the <code>[]</code> taking a single bit, it takes a single signal. See below:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-verilog hljs" data-lang="verilog">    // Single signal:
+    assign arr[2] = 'b1; <i class="conum" data-value="1"></i><b>(1)</b>
+
+    // Single signal:
+    assign arr_vec[3] = 8'b10100101; <i class="conum" data-value="2"></i><b>(2)</b>
+
+    // Single bit of single signal:
+    assign arr_vec[2][7] = 1; <i class="conum" data-value="3"></i><b>(3)</b></code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>This grabs the third single bit signal in <code>arr</code></td>
+</tr>
+<tr>
+<td><i class="conum" data-value="2"></i><b>2</b></td>
+<td>This grabs the fourth 8 bit signal in <code>arr_vec</code></td>
+</tr>
+<tr>
+<td><i class="conum" data-value="3"></i><b>3</b></td>
+<td>This grabs the third signal, then the 8th bit in that signal from <code>arr_vec</code></td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="scaffold_appendix">Appendix 2: Module Scaffolding</h2>
+<div class="sectionbody">
+<div class="listingblock">
+<div class="title">byte_memory.v</div>
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-verilog hljs" data-lang="verilog">module byte_memory(
+    input [7:0] data,
+    input store,
+    output reg [7:0] memory
+);
+
+    // Herein, implement D-Latch style memory
+    // that stores the input data into memory
+    // when store is high
+
+    // Memory should always output the value
+    // stored, and it should only change
+    // when store is high
+
+endmodule</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="title">memory_system.v</div>
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-verilog hljs" data-lang="verilog">module memory_system(
+    input [7:0] data,
+    input store,
+    input [1:0] addr,
+    output [7:0] memory
+);
+
+    // This should instantiate 4 instances of
+    // byte_memory, and then demultiplex
+    // data and store into the one selected by
+    // addr
+
+    // It should then multiplex the output of the
+    // memory specified by addr into the memory
+    // output for display on the LEDs
+
+    // you will need 2 demultiplexers:
+    // 1. Demultiplex data -&gt; selected byte
+    // 2. Demultiplex store -&gt; selected byte
+
+    // and one multiplexer:
+    // 1. Multiplex selected byte -&gt; memory
+
+endmodule</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="title">d_latch.v</div>
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-verilog hljs" data-lang="verilog">module d_latch(
+    input D, E,
+    output Q, NotQ
+);
+
+    // Will contain D-Latch behavior
+
+endmodule</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="title">top.v</div>
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-verilog hljs" data-lang="verilog">module top(
+    input [15:0] sw,
+    input btnC,
+    output [15:0] led
+);
+    d_latch part1(
+        .D(sw[0]),
+        .Q(led[0]),
+        .NotQ(led[1]),
+        .E(btnC)
+    );
+    memory_system part2(
+        .data(sw[15:8]),
+        .addr(sw[7:6]),
+        .store(btnC),
+        .memory(led)
+    );
+
+endmodule</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="demultiplex_appendix">Appendix 3: Demultiplexing</h2>
+<div class="sectionbody">
+<div class="listingblock">
+<div class="title">Four output, 4 bit wide demultiplexer</div>
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-verilog hljs" data-lang="verilog">module demultiplexer(
+    input [3:0] data,
+    input [1:0] sel,
+    output reg [3:0] A,
+    output reg [3:0] B,
+    output reg [3:0] C,
+    output reg [3:0] D
+);
+
+    always @(*) begin <i class="conum" data-value="1"></i><b>(1)</b>
+        case(sel)
+            2'b00: {D, C, B, A} &lt;= {4'b0, 4'b0, 4'b0, data}; <i class="conum" data-value="2"></i><b>(2)</b>
+            2'b01: {D, C, B, A} &lt;= {4'b0, 4'b0, data, 4'b0};
+            2'b10: {D, C, B, A} &lt;= {4'b0, data, 4'b0, 4'b0};
+            2'b11: {D, C, B, A} &lt;= {data, 4'b0, 4'b0, 4'b0};
+        endcase
+    end
+
+endmodule</code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>Output is sensitive both to <code>sel</code> and <code>data</code>.</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="2"></i><b>2</b></td>
+<td>We need to assign all other outputs to zero that are not the currently selected output. One way to do this is by concatenating zeros with the input data into the output. Make sure the width of the zeros matches the width of the outputs. In this case, each output is four bits, so we have to pack <code>4&#8217;b0</code> into them.</td>
+</tr>
+</table>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="img/demux_output.png" alt="demux output">
+</div>
+<div class="title">Figure 5. Demux Example Output</div>
+</div>
+<div class="paragraph">
+<p>For other orders of demultiplexers, the width of the select line and inputs/outputs will be different. Scale accordingly to your design.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="looping_appendix">Appendix 4: Looping, <code>genvar</code>, and <code>parameter</code></h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>When instantiating large numbers of the same block to make a bus, it is often a highly manual effort to name/wire them up. To ease this process, Verilog comes with a concept called a <code>genvar</code>, or a "generator variable". These variables are used within <code>generate</code> blocks to instantiate module instances or repeated logic. See below for an example:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-verilog hljs" data-lang="verilog">module sample(
+    input X, output Y
+);
+    assign Y = ~X;
+endmodule
+
+module genvar_example
+#(
+    parameter BIT_COUNT = 16 <i class="conum" data-value="6"></i><b>(6)</b>
+)
+(
+    input [BIT_COUNT - 1:0] sw,
+    output [BIT_COUNT - 1:0] led
+);
+
+    genvar i; <i class="conum" data-value="1"></i><b>(1)</b>
+    generate <i class="conum" data-value="2"></i><b>(2)</b>
+        for (i = 0; i &lt; BIT_COUNT; i = i + 1) begin <i class="conum" data-value="3"></i><b>(3)</b>
+            sample inst( <i class="conum" data-value="4"></i><b>(4)</b>
+                .X(sw[i]), <i class="conum" data-value="5"></i><b>(5)</b>
+                .Y(led[i])
+            );
+        end
+    endgenerate
+endmodule</code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>Declaring a <code>genvar</code>, similar to how you would declare a <code>wire</code> but can only be used in a <code>generate block</code></td>
+</tr>
+<tr>
+<td><i class="conum" data-value="2"></i><b>2</b></td>
+<td>Begin a generate block. Make sure to end with <code>endgenerate</code></td>
+</tr>
+<tr>
+<td><i class="conum" data-value="3"></i><b>3</b></td>
+<td>Use a for loop <em>almost</em> like you would expect in another language. This will loop from <code>i = 0</code> through to <code>i=15</code>. Note that there is no <code>++</code> operator.</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="4"></i><b>4</b></td>
+<td>Instantiate a block as normal. No need to worry about names colliding, the <code>generate</code> block will append an ID to them.</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="5"></i><b>5</b></td>
+<td>You can use the <code>genvar</code> while assigning inputs.</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="6"></i><b>6</b></td>
+<td>Parameters can be provided to modules, used as design-time constants. They are in a list before the port delcarations and preceded by a "#" character.</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>In the example above, the parameter has a default value, which means if you instantiate it normally, you will get the default value in the parameter. If you need to specify something different, use the following syntax:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-verilog hljs" data-lang="verilog">module test();
+    reg [15:0] sw;
+    wire [15:0] led;
+
+    genvar_example #(.BIT_COUNT(16)) uut( <i class="conum" data-value="1"></i><b>(1)</b>
+        .sw(sw),
+        .led(led)
+    );
+
+    initial begin
+        $dumpvars(0,test);
+        sw = 0;
+        #10;
+        sw = 'hFFFF;
+        #10;
+    end
+endmodule</code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>Notice we provide parameters in a <code>#()</code> block before the name, and use the same <code>.Parameter(Value)</code> syntax as port list.</td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="block_nonblock">Appendix 5: Blocking vs. Non Blocking Assignment</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>See the example below:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-verilog hljs" data-lang="verilog">module block_nonblock(
+    input Sig,
+    output reg A, B, C, D, E, F
+);
+
+    // Blocking assignment
+    always @(Sig) begin
+        A = Sig; // A immediately gets sig
+        B = A; // B immediately gets sig
+        C = B; // C immediately gets sig
+    end
+    // In blocking assignment, Verilog will generate
+    // circuits that require full propogation of signals
+    // until continuing
+
+    // Non-Blocking assignment
+    always @(Sig) begin
+        D &lt;= Sig; // D immediately gets sig
+        E &lt;= D; // E gets D next time
+        F &lt;= E; // F gets E next time
+    end
+    // In non-blocking assignment, Verilog will generate
+    // synchronous logic that ends immediately, and does
+    // not block until all circuits propogate
+    // USE THIS UNLESS YOU KNOW WHAT YOU ARE DOING
+
+endmodule</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>And it outputs the following:</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="img/blocking_nonblocking_output.png" alt="blocking nonblocking output">
+</div>
+</div>
+</div>
+</div>
+</div>
+<div id="footer">
+<div id="footer-text">
+Last updated 1980-01-01 00:00:00 UTC
+</div>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.3/highlight.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.3/languages/verilog.min.js"></script>
+<script>
+if (!hljs.initHighlighting.called) {
+  hljs.initHighlighting.called = true
+  ;[].slice.call(document.querySelectorAll('pre.highlight > code[data-lang]')).forEach(function (el) { hljs.highlightBlock(el) })
+}
+</script>
+</body>
+</html>

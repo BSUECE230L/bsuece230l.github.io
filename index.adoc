@@ -2,59 +2,17 @@
 
 == Assignments
 
+NOTE: Please remember to read the week's lab before coming to class.  It will
+aid you in spending your time wisely, and make things go much more smoothly in
+lab.
+
 === Week 1
 
-* xref:classes/wk01/index.adoc[Week 1 Lab]
-* xref:classes/wk01/class.zip[Week 1 Materials]
+* xref:classes/lab01/index.adoc[Lab 01 - Introduction and Software]
 
-// === Week 2
-//
-// * xref:classes/wk02/index.adoc[Week 2 Lab]
-// * xref:classes/wk02/class.zip[Week 2 Materials]
-//
-// === Week 3
-//
-// * xref:classes/wk03/index.adoc[Week 3 Lab]
-// * xref:classes/wk03/class.zip[Week 3 Materials]
-//
-// === Week 4
-//
-// * xref:classes/wk04/index.adoc[Week 4 Lab]
-// * xref:classes/wk04/class.zip[Week 4 Materials]
-//
-// === Week 5
-//
-// * xref:classes/wk05/index.adoc[Week 5 Lab]
-// * xref:classes/wk05/class.zip[Week 5 Materials]
-//
-// === Week 6
-//
-// * xref:classes/wk06/index.adoc[Week 6 Lab]
-// * xref:classes/wk06/class.zip[Week 6 Materials]
-//
-// === Week 7
-//
-// * xref:classes/wk07/index.adoc[Week 7 Lab]
-// * xref:classes/wk07/class.zip[Week 7 Materials]
-//
-// === Week 8
-//
-// * xref:classes/wk08/index.adoc[Week 8 Lab]
-// * xref:classes/wk08/slides.adoc[Week 8 Slides]
-// * xref:classes/wk08/class.zip[Week 8 Materials]
-//
-// === Week 9
-//
-// * xref:classes/wk09/index.adoc[Week 9 Lab]
-// * xref:classes/wk09/slides.adoc[Week 9 Slides]
-// * xref:classes/wk09/class.zip[Week 9 Materials]
-//
-// === Week 10
-//
-// * xref:classes/wk10/index.adoc[Week 10 Lab]
-// * xref:classes/wk10/slides.adoc[Week 10 Slides]
-// * xref:classes/wk10/class.zip[Week 10 Materials]
-//
-// === Final
-//
-// * xref:classes/wk11/index.adoc[Week 11 Lab]
+== Rubric
+
+* 20% for Lab Report
+* 50% for Verilog code
+* 30% for demonstration in lab (also counts attendance)
+* Absolutely NO plagarism or AI allowed

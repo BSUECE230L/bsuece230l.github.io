@@ -1,0 +1,48 @@
+= Lab 01 - ECE230L Introduction
+:source-highlighter: highlight.js
+:highlightjs-languages: verilog
+:icons: font
+:toc:
+
+== Introduction
+
+Welcome to ECE230L! In this lab, we will endeavor to give you a glimpse into the
+true inner workings of computers. This is the companion lab to the ECE230
+lecture, both focusing on digital logic. Generally, you can expect to be using
+things in this lab that you learned the prior week during lecture. You will be
+learning the practical application of a wide range of Verilog features as they
+relate to digital logic design, culminating in a final project that will give
+you a glimpse into the world of computer architecture to prepare you for ECE330
+after this.
+
+Each lab will have several "deliverables" as such listed at the bottom of the
+document for each assignment. They will typically be one or more Verilog modules
+you will be expected to implement to achieve some goal. The labs are graded
+fairly simply – demonstrate the function of the Verilog code on the Basys board
+to a TA/instructor, ask a few questions, and you get checked off. Partial credit
+can be awarded as the lab instructor sees fit by examining code committed to
+each GitHub project if you are unable to complete the assignments during the
+lab. They are all designed to be completed within the allotted time, however,
+and you should rarely need to use this. In addition to demonstrating in the lab,
+there will be lab reports to write about each lab. Details for these, and how
+they are graded, will be included with each lab.
+
+=== Vivado
+
+This will be the main software package installed on the lab PCs. HIGHLY
+recommended to install it on your personal PCs if you can, however it is only
+available on Windows and Linux. If you are a MacOS user, then you will have to
+use a provided lab PC. It is strongly recommended that each student bring their
+own laptop into each lab if it is a Windows or Linux machine. If you do not, lab
+PCs will be available to use Vivado to load the programs onto the Basys boards
+for demonstration.
+
+See the Digilent instructions here:
+https://digilent.com/reference/programmable-logic/guides/installing-vivado-and-vitis[Vivado
+Download Instructions]. This guide is excellent and shows you how to get your PC
+set up for developing and targeting the Basys3 boards used in this class. The
+same workflow should work for Linux users as well. Additionally, MacOS laptops
+with x86_64 CPUs can use bootcamp/parallels or another virtualization solution
+to install Windows and run Vivado within the virtual machine. However, if you
+have an M-series Macbook, then there is nothing you can do, as Vivado is not
+available for ARM MacOS.

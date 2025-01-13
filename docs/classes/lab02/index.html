@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="generator" content="Asciidoctor 2.0.23">
-<title>Boise State University ECE 230 Lab</title>
+<title>Lab 02 - Introduction to Verilog</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700">
 <style>
 /*! Asciidoctor default stylesheet | MIT License | https://asciidoctor.org */
@@ -433,59 +433,682 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 #footer-text{color:rgba(0,0,0,.6);font-size:.9em}}
 @media amzn-kf8{#header,#content,#footnotes,#footer{padding:0}}
 </style>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.3/styles/github.min.css">
 </head>
 <body class="article">
 <div id="header">
-<h1>Boise State University ECE 230 Lab</h1>
+<h1>Lab 02 - Introduction to Verilog</h1>
+<div id="toc" class="toc">
+<div id="toctitle">Table of Contents</div>
+<ul class="sectlevel1">
+<li><a href="#_introduction">Introduction</a></li>
+<li><a href="#_assignment">Assignment</a></li>
+<li><a href="#_building_your_vivado_project">Building your Vivado Project</a>
+<ul class="sectlevel2">
+<li><a href="#_vivado_walkthrough">Vivado Walkthrough</a></li>
+<li><a href="#_simulating_our_circuit">Simulating our circuit</a></li>
+<li><a href="#_ok_get_on_with_it">Ok, get on with it</a></li>
+<li><a href="#_blast_those_bits">Blast those Bits</a></li>
+</ul>
+</li>
+</ul>
+</div>
 </div>
 <div id="content">
 <div class="sect1">
-<h2 id="_assignments">Assignments</h2>
+<h2 id="_introduction">Introduction</h2>
 <div class="sectionbody">
+<div class="paragraph">
+<p>Verilog will be very different to you from the other programming
+languages you have used in the past. It does not sequentially execute,
+but rather describes the shape of a circuit. We will dive more into this
+as the class progresses, but suffice it to say that there will be a
+learning curve.</p>
+</div>
+<div class="paragraph">
+<p>Let’s start out with a few overarching concepts you will see throughout
+this lab. There are several basic structures to Verilog:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Modules</p>
+</li>
+<li>
+<p>Signals</p>
+</li>
+<li>
+<p>Expressions</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Modules contain signals, and signals are driven by expressions. Signals
+can be of two forms:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>wire</code></p>
+</li>
+<li>
+<p><code>reg</code> (short for Register)</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>We will dive into the difference between these in later labs. These
+signals are driven by expressions, which will look a lot like
+mathematical equations in the beginning. For now, we will use this
+subset of operators:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>&amp;</code> - bitwise AND</p>
+</li>
+<li>
+<p><code>|</code> - bitwise OR</p>
+</li>
+<li>
+<p><code>^</code> - bitwise XOR (exclusive-or)</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>The truth tables for those are below (Y is output, A+B are inputs):</p>
+</div>
+<div class="paragraph">
+<p>AND:</p>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 33.3333%;">
+<col style="width: 33.3333%;">
+<col style="width: 33.3334%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">A</th>
+<th class="tableblock halign-left valign-top">B</th>
+<th class="tableblock halign-left valign-top">Y</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p>OR:</p>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 33.3333%;">
+<col style="width: 33.3333%;">
+<col style="width: 33.3334%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">A</th>
+<th class="tableblock halign-left valign-top">B</th>
+<th class="tableblock halign-left valign-top">Y</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p>XOR:</p>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 33.3333%;">
+<col style="width: 33.3333%;">
+<col style="width: 33.3334%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">A</th>
+<th class="tableblock halign-left valign-top">B</th>
+<th class="tableblock halign-left valign-top">Y</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p>One final operator we will see frequently is the <strong>inverter</strong> operator
+<code>~</code>, which simply bitwise inverts a signal. <code>0</code> becomes <code>1</code> and
+vice-versa. When you invert each of those operators above they become
+NAND, NOR, and XNOR.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_assignment">Assignment</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Your mission, should you choose to accept it, is to light up a single
+LED on the Basys3 board. We will do this by opening up <code>top.v</code>. There is
+a comment within this file noting where to put your equation, but let’s
+quickly go through what is here in the file:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-verilog hljs" data-lang="verilog">module top(
+    input [15:0] sw,
+    output [15:0] led
+);
+
+    //Enter your equation here
+
+endmodule</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The file starts with a <code>module</code> declaration. Think of modules as lego blocks,
+throughout this class we will develop modules with certain behaviors, and
+connect them together through their inputs and outputs.  Our module here has 16
+inputs named <code>sw</code> and 16 outputs named <code>led</code>.  These correspond to the 16 user
+switches and 16 user LEDs on the Basys3 board. These signals are declared as
+vectors, whose syntax is as follows: <code>type [MSB:LSB] name</code>. Type being either
+<code>reg</code> or <code>wire</code> (or <code>input</code>/<code>output</code> in a module, but that just becomes the type
+fed in), name being the name of the signal, and them MSB and LSB are the most
+significant bit number and least significant bit number.</p>
+</div>
+<div class="paragraph">
+<p>In the case of our signals, they are 16 bits wide, with 15 being the
+most significant bit, and 0 being the least. These correspond to
+SW0-SW15 (seen as <code>sw[0]</code> and <code>sw[15]</code> respectively), and LED0-LED15 on
+the board.</p>
+</div>
+<div class="paragraph">
+<p>The logic we are starting with is all asynchronous <code>wire</code> based logic.
+You can think of this as describing a circuit you hook up on a
+breadboard. You declare these expressions with the <code>assign</code> keyword. We
+want to design the following circuit:</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="img/DesiredCircuit.svg" alt="Circuit Diagram">
+</div>
+<div class="title">Figure 1. Circuit Diagram</div>
+</div>
+<div class="paragraph">
+<p>Basically, we want to hook up the signal that is <code>sw[0]</code> directly to the
+signal that is <code>led[0]</code>. To do this, we use the assign statement, then
+the signals much as you might expect from another programming language:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-verilog hljs" data-lang="verilog">assign led[0] = sw[0];</code></pre>
+</div>
+</div>
 <div class="admonitionblock note">
 <table>
 <tr>
 <td class="icon">
-<div class="title">Note</div>
+<i class="fa icon-note" title="Note"></i>
 </td>
 <td class="content">
-Please remember to read the week&#8217;s lab before coming to class.  It will
-aid you in spending your time wisely, and make things go much more smoothly in
-lab.
+This is an extremely vital part of the process. Always simulate your code!
+It results in a much shorter feedback loop, as the build process is so lengthy.
 </td>
 </tr>
 </table>
 </div>
-<div class="sect2">
-<h3 id="_week_1">Week 1</h3>
-<div class="ulist">
-<ul>
-<li>
-<p><a href="classes/lab01/index.html">Lab 01 - Introduction and Software</a></p>
-</li>
-</ul>
-</div>
-</div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_rubric">Rubric</h2>
+<h2 id="_building_your_vivado_project">Building your Vivado Project</h2>
 <div class="sectionbody">
-<div class="ulist">
-<ul>
+<div class="paragraph">
+<p>At this stage of the project, we now have Verilog code describing our
+desired circuit. We will now move on to taking this code and actually
+implementing it on the Basys3 Dev Board. To do this, we will need the
+Vivado software. The lab PCs you use will have this software already
+installed on them. If you have followed the instructions in the previous
+week and installed it on your own laptop, you may also use that.</p>
+</div>
+<div class="paragraph">
+<p>Launch Vivado and hit 'Create Project'. You should have already set up
+the Digilent board files on your PC, and they will almost certainly
+already be set up on the lab PCs, so the next steps should be fairly
+simple.</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="img/create_project.png" alt="Create Project">
+</div>
+<div class="title">Figure 2. Create Project</div>
+</div>
+<div class="paragraph">
+<p>Hit 'Next' on the window that appears. Now, enter your project details
+– something meaningful for the project name (e.g. week_2_first_verilog
+or similar) and select a good location. <strong>Note:</strong> the lab PCs
+automatically wipe themselves fairly frequently, so <em>DO NOT EXPECT TO
+SAVE WORK ON THEM</em>. Make sure to leave <strong>Create project subdirectory</strong>
+selected or you may get some unexpected results.</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="img/project_info.png" alt="Project Information">
+</div>
+<div class="title">Figure 3. Project Information</div>
+</div>
+<div class="paragraph">
+<p>Then, hit Next. You will be presented with a project type dialog. Make
+sure to select 'RTL Project' and uncheck 'Do not specify sources at
+this time':</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="img/project_type.png" alt="Project Type">
+</div>
+<div class="title">Figure 4. Project Type</div>
+</div>
+<div class="paragraph">
+<p>Hit Next. Now, you will add in the Verilog files that you wrote in the
+sections above. Hit the <strong>Add Files</strong> button, and navigate to your
+<code>top.v</code> and <code>test.v</code> files. Then hit OK.</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="img/add_files.png" alt="Add Files">
+</div>
+<div class="title">Figure 5. Add Files</div>
+</div>
+<div class="paragraph">
+<p>Before you hit next, uncheck <strong>Copy sources into project</strong>. In addition,
+set <code>test.v</code> to <strong>Simulation only</strong> and make sure <code>top.v</code> is set to
+<strong>Synthesis &amp; Simulation</strong>.</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="img/file_customization.png" alt="File customization">
+</div>
+<div class="title">Figure 6. File customization</div>
+</div>
+<div class="paragraph">
+<p>Now, hit next. It will now show a second file selection dialog for
+adding Constraints files. They will be explained below, but you need to
+add the one called <code>constraints.xdc</code> in the root of this repository. Do
+that with <strong>Add files</strong> like in the previous step. Again, make sure
+<strong>not</strong> to copy into project.</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="img/add_constraints.png" alt="Add Constraints">
+</div>
+<div class="title">Figure 7. Add Constraints</div>
+</div>
+<div class="paragraph">
+<p>Hit Next. The dialog it shows you now is an important one to get right.
+In order to properly synthesize and implement the circuits you specify
+in Verilog code, Vivado has to know what hardware you are targeting. We
+are using a pre-built dev board, so hit the <strong>Boards</strong> tab and type in
+<strong>Basys</strong>. You should be able to specify the Basys3 board, which tells
+Vivado to use the xc7a35tcpgq236-1 part that Digilent designed onto the
+board. We will get more into the details of what that part number
+specifies later. If the board is not present, hit the <strong>Refresh</strong> button
+in the bottom left of the window. Then, search up Basys3. In the status
+column there will be a download icon. Click that to get the board files.</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="img/board_selection.png" alt="Board Selection">
+</div>
+<div class="title">Figure 8. Board Selection</div>
+</div>
+<div class="paragraph">
+<p>Select the board and hit Next. Verify that your project summary shows
+something similar, then hit Finish:</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="img/project_summary.png" alt="Project Summary">
+</div>
+<div class="title">Figure 9. Project Summary</div>
+</div>
+<div class="sect2">
+<h3 id="_vivado_walkthrough">Vivado Walkthrough</h3>
+<div class="imageblock">
+<div class="content">
+<img src="img/vivado_walkthrough.png" alt="Vivado Walkthrough">
+</div>
+<div class="title">Figure 10. Vivado Walkthrough</div>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
 <li>
-<p>20% for Lab Report</p>
+<p><strong>Sources Pane</strong> - This will be visible on most interface modes, and shows
+the source files in the project. There are a few very important things
+to note about this. There are <strong>bolded</strong> files shown in this. Bolded files
+are known as the Top Level source file for that given section. Note,
+there is one in <strong>Design Sources</strong> as well as <strong>Simulation Sources</strong>.
+You can think of these as <strong>main</strong> or <strong>entry point</strong> files as you would
+see in other programming languages. <strong>If you are having issues
+programming or simulating</strong> make sure that you have the correct files
+selected as top level. You can change this by right clicking on one and
+selecting <strong>Set as top</strong>. Additionally, make sure no simulation files
+show under Design Sources.</p>
 </li>
 <li>
-<p>50% for Verilog code</p>
+<p><strong>Editor/view window</strong> - This changes a lot based on what mode you have
+selected. Under Project Manager, this will show a summary of the
+project. In most other modes it will show text editors, utilization
+maps, or more. This pane is very dynamic.</p>
 </li>
 <li>
-<p>30% for demonstration in lab (also counts attendance)</p>
+<p><strong>Project Manager Mode</strong> - Click on this text to go to the project manager
+mode. Additionally, hit any of the smaller buttons underneath it to do
+various actions, like access project settings, add sources, and manage
+IP.</p>
 </li>
 <li>
-<p>Absolutely NO plagarism or AI allowed</p>
+<p><strong>IP Integrator Mode</strong> - We will potentially use this later in the class.</p>
 </li>
-</ul>
+<li>
+<p><strong>Simulation Mode</strong> - Hit this large button to return to open simulations.
+You click on the Run Simulation button underneath it to launch the
+simulation. We will be doing this shortly.</p>
+</li>
+<li>
+<p><strong>RTL Analysis Mode</strong> - Similar to other programming languages, there are
+style guides, linting, and static analysis tools available for Verilog.
+This is an extremely deep topic, and we will begin to work with this
+later in the class.</p>
+</li>
+<li>
+<p><strong>Synthesis Mode</strong> - Hit this button to open the view of synthesis
+results. Synthesis is a step in the <strong>compilation</strong> process of Verilog,
+and we will dive into it more in later labs.</p>
+</li>
+<li>
+<p><strong>Implementation Mode</strong> - Hit this button to open and view the implemented
+design. Implementation is a later step in teh <strong>compilation</strong> process of
+Verilog, and again we will dive into it more in later labs.</p>
+</li>
+<li>
+<p><strong>Program and Debug Mode</strong> - This button gives you access to the… well,
+program an debug features in Vivado. We will use these shortly to put
+our fresh verilog code onto our boards.</p>
+</li>
+<li>
+<p><strong>Tcl Console</strong> - Tcl (pronounced tickle
+<a href="https://groups.google.com/g/comp.lang.tcl/c/4KfTRIr5ZxE/m/XIw-gnbxIyMJ">no&#44;
+I’m not kidding</a>) is the backend scripting language of Vivado and its
+tooling. All warnings and errors will show here.</p>
+</li>
+<li>
+<p><strong>Messages</strong> - This tab gives you access to logs and outputs of the
+various steps of your process. Check between this and the Tcl Console
+tab for more information on errors.</p>
+</li>
+<li>
+<p><strong>Status area</strong> - This will show if anything is currently running in the
+background. If you think nothing is happening after you start a run,
+check here first.</p>
+</li>
+</ol>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_simulating_our_circuit">Simulating our circuit</h3>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+ALWAYS simulate your circuits first. It is a big time saving measure, and
+the results can help you easily narrow down problems in your designs that would
+be otherwise impossible to find.
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>One of the most important tools on your belt while designing RTL
+circuits is the simulation/update loop. You will make a design, simulate
+it to make sure it does what you expect, and update any failures. It’s
+<em>sorta</em> like debugging an application you’re writing. We will want to
+make sure our circuit simulates properly before we program the device,
+so let’s do that now.</p>
+</div>
+<div class="paragraph">
+<p>Hit the <strong>Run simulation</strong> button under the <strong>Simulation</strong> tab, and
+select <strong>Run behavioral simulation</strong>:</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="img/run_simulation.png" alt="Run Simulation">
+</div>
+<div class="title">Figure 11. Run Simulation</div>
+</div>
+<div class="paragraph">
+<p>This will kick off the simulation process, and halt on the <code>$finish;</code>
+directive in our test file. Nothing will happen to the board (if you
+have it attached). This is purely a software-based simulation of your
+circuit. Towards the top tabs, you should see an <strong>Untitled X</strong> (X will
+change depending on the number of simulations you’ve launched). Hit that
+to see the simulation waveform:</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="img/simulation_waveform.png" alt="Simulation Waveform">
+</div>
+<div class="title">Figure 12. Simulation Waveform</div>
+</div>
+<div class="paragraph">
+<p>Hit the zoom to fit button (1), and expand the <code>sw</code> and <code>led</code> signals to
+see the results of the simulation (2):</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="img/view_simulation_results.png" alt="Simulation output">
+</div>
+<div class="title">Figure 13. Simulation output</div>
+</div>
+<div class="paragraph">
+<p>As you can see, at a time of 200 ns, our switch turns on and so does our
+LED! Perfect, exactly what we wanted.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_ok_get_on_with_it">Ok, get on with it</h3>
+<div class="paragraph">
+<p>I’m going to give a very short overview of the steps that happen as you
+<strong>compile</strong> RTL code, whatever flavor it may be. It is a process quite
+unlike that of traditional compilation you might be used to in
+C/C++/Java/etc. There are a few main steps, split into two main
+sections:</p>
+</div>
+<div class="sect3">
+<h4 id="_part_1_implementation">Part 1 - Implementation</h4>
+<div class="paragraph">
+<p>Circuit generation is most analogous to the compilation steps in non RTL
+languages. It is responsible for taking the letters you type into a text
+file, and translating them into things the underlying hardware will
+understand – in this case, logic gates.</p>
+</div>
+<div class="paragraph">
+<p>The Synthesis step is the first stage of this. It takes your Verilog
+code and generates something called a <strong>netlist</strong>, which is just a
+connection representation of an electrical circuit. It will quite
+literally describe <strong>the output of the and gate goes into the inverter
+goes into…</strong>. You can think of it as a machine-readable electric
+schematic.</p>
+</div>
+<div class="paragraph">
+<p>Next, comes the Implementation step. This takes the synthesized netlist
+from the previous step, and maps it onto the hardware specifics of your
+chip. This is where selecting the right part in the project creation is
+very important. The implementation step requires intimate knowledge of
+the resources available on your particular FPGA to operate.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_part_2_bitstream_generation">Part 2 - Bitstream Generation</h4>
+<div class="paragraph">
+<p>This synthesized and implemented output is still mostly useless. We know
+what and how many of the various bits and bobs in the FPGA to use.
+However, the FPGA needs to know <em>where</em> to put them. This is where Place
+and Route comes in. In my opinion, RTL Place and Route algorithms are
+some of the most incredibly impressive inventions humankind has ever
+produced.</p>
+</div>
+<div class="paragraph">
+<p>They are responsible for the herculean task of actually physically
+locating your circuit into the FPGA. This might sound easy on the
+surface, but for reasons we will dive into in future labs – it is
+anything but. Just take my word for it for now.</p>
+</div>
+<div class="paragraph">
+<p>Finally, once we know what, where, and how many of everything to use, we
+can generate the bitstream for our FPGA. This is basically a file that
+tells it which switches to close to connect our various bits together
+and actually makes the circuit come to life on our FPGA. At this point,
+we are now ready to watch an LED turn on when we flip a switch.</p>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_blast_those_bits">Blast those Bits</h3>
+<div class="paragraph">
+<p>To make all of this incredible process happen, all you need to do is hit
+the <strong>Generate Bitstream</strong> button. Yep, that’s it. This will start the
+entire incredible chain of operations described above rather seamlessly.
+It should not take super long, but be sure to watch the status area to
+make sure things are still happening. When you hit that button, it will
+first ask you if you want to run the implementation phase described
+above. Hit yes:</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="img/run_implementation.png" alt="Run implementation">
+</div>
+<div class="title">Figure 14. Run implementation</div>
+</div>
+<div class="paragraph">
+<p>Then, accept the defaults presented in the dialog, and hit OK. <strong>Note:</strong>
+the <strong>Number of jobs</strong> dropdown will be different depending on the
+core/thread count of the machine you are running Vivado on. Don’t worry
+about this much.</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="img/launch_runs.png" alt="Launch runs">
+</div>
+<div class="title">Figure 15. Launch runs</div>
+</div>
+<div class="paragraph">
+<p>Off it goes. Notice now how the status area is populated with dialogs:</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="img/status_area.png" alt="Status area">
+</div>
+<div class="title">Figure 16. Status area</div>
+</div>
+<div class="paragraph">
+<p>This means everything is going well. Shortly (depending on the age/power
+of your computer) everything should complete. When it does, it presents
+the generation complete dialog, select <strong>Open Hardware Manager</strong> and hit
+OK:</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="img/generation_complete.png" alt="Generation Complete">
+</div>
+<div class="title">Figure 17. Generation Complete</div>
+</div>
+<div class="paragraph">
+<p>Plug in your Basys3 via the Micro-USB cable, make sure the power is on,
+and hit <strong>Open Target</strong> and select <strong>Auto Connect</strong>:</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="img/open_target.png" alt="Open Target">
+</div>
+<div class="title">Figure 18. Open Target</div>
+</div>
+<div class="paragraph">
+<p>This should show up with your board on the left hand side. If so, press
+the Program device button, and hit Program on the resulting dialog:</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="img/program_device.png" alt="Program device">
+</div>
+<div class="title">Figure 19. Program device</div>
+</div>
+<div class="paragraph">
+<p>You should now observe that flipping the switch all the way on the right
+illuminates the LED above it. If so, notify your TA/Lab Professor to get
+checked off, and you’re done!</p>
+</div>
 </div>
 </div>
 </div>
@@ -495,5 +1118,13 @@ lab.
 Last updated 1980-01-01 00:00:00 UTC
 </div>
 </div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.3/highlight.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.3/languages/verilog.min.js"></script>
+<script>
+if (!hljs.initHighlighting.called) {
+  hljs.initHighlighting.called = true
+  ;[].slice.call(document.querySelectorAll('pre.highlight > code[data-lang]')).forEach(function (el) { hljs.highlightBlock(el) })
+}
+</script>
 </body>
 </html>

@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="generator" content="Asciidoctor 2.0.23">
-<title>Boise State University ECE 230 Lab</title>
+<title>Lab 01 - ECE230L Introduction</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700">
 <style>
 /*! Asciidoctor default stylesheet | MIT License | https://asciidoctor.org */
@@ -433,59 +433,72 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 #footer-text{color:rgba(0,0,0,.6);font-size:.9em}}
 @media amzn-kf8{#header,#content,#footnotes,#footer{padding:0}}
 </style>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.3/styles/github.min.css">
 </head>
 <body class="article">
 <div id="header">
-<h1>Boise State University ECE 230 Lab</h1>
+<h1>Lab 01 - ECE230L Introduction</h1>
+<div id="toc" class="toc">
+<div id="toctitle">Table of Contents</div>
+<ul class="sectlevel1">
+<li><a href="#_introduction">Introduction</a>
+<ul class="sectlevel2">
+<li><a href="#_vivado">Vivado</a></li>
+</ul>
+</li>
+</ul>
+</div>
 </div>
 <div id="content">
 <div class="sect1">
-<h2 id="_assignments">Assignments</h2>
+<h2 id="_introduction">Introduction</h2>
 <div class="sectionbody">
-<div class="admonitionblock note">
-<table>
-<tr>
-<td class="icon">
-<div class="title">Note</div>
-</td>
-<td class="content">
-Please remember to read the week&#8217;s lab before coming to class.  It will
-aid you in spending your time wisely, and make things go much more smoothly in
-lab.
-</td>
-</tr>
-</table>
+<div class="paragraph">
+<p>Welcome to ECE230L! In this lab, we will endeavor to give you a glimpse into the
+true inner workings of computers. This is the companion lab to the ECE230
+lecture, both focusing on digital logic. Generally, you can expect to be using
+things in this lab that you learned the prior week during lecture. You will be
+learning the practical application of a wide range of Verilog features as they
+relate to digital logic design, culminating in a final project that will give
+you a glimpse into the world of computer architecture to prepare you for ECE330
+after this.</p>
+</div>
+<div class="paragraph">
+<p>Each lab will have several "deliverables" as such listed at the bottom of the
+document for each assignment. They will typically be one or more Verilog modules
+you will be expected to implement to achieve some goal. The labs are graded
+fairly simply – demonstrate the function of the Verilog code on the Basys board
+to a TA/instructor, ask a few questions, and you get checked off. Partial credit
+can be awarded as the lab instructor sees fit by examining code committed to
+each GitHub project if you are unable to complete the assignments during the
+lab. They are all designed to be completed within the allotted time, however,
+and you should rarely need to use this. In addition to demonstrating in the lab,
+there will be lab reports to write about each lab. Details for these, and how
+they are graded, will be included with each lab.</p>
 </div>
 <div class="sect2">
-<h3 id="_week_1">Week 1</h3>
-<div class="ulist">
-<ul>
-<li>
-<p><a href="classes/lab01/index.html">Lab 01 - Introduction and Software</a></p>
-</li>
-</ul>
+<h3 id="_vivado">Vivado</h3>
+<div class="paragraph">
+<p>This will be the main software package installed on the lab PCs. HIGHLY
+recommended to install it on your personal PCs if you can, however it is only
+available on Windows and Linux. If you are a MacOS user, then you will have to
+use a provided lab PC. It is strongly recommended that each student bring their
+own laptop into each lab if it is a Windows or Linux machine. If you do not, lab
+PCs will be available to use Vivado to load the programs onto the Basys boards
+for demonstration.</p>
 </div>
+<div class="paragraph">
+<p>See the Digilent instructions here:
+<a href="https://digilent.com/reference/programmable-logic/guides/installing-vivado-and-vitis">Vivado
+Download Instructions</a>. This guide is excellent and shows you how to get your PC
+set up for developing and targeting the Basys3 boards used in this class. The
+same workflow should work for Linux users as well. Additionally, MacOS laptops
+with x86_64 CPUs can use bootcamp/parallels or another virtualization solution
+to install Windows and run Vivado within the virtual machine. However, if you
+have an M-series Macbook, then there is nothing you can do, as Vivado is not
+available for ARM MacOS.</p>
 </div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_rubric">Rubric</h2>
-<div class="sectionbody">
-<div class="ulist">
-<ul>
-<li>
-<p>20% for Lab Report</p>
-</li>
-<li>
-<p>50% for Verilog code</p>
-</li>
-<li>
-<p>30% for demonstration in lab (also counts attendance)</p>
-</li>
-<li>
-<p>Absolutely NO plagarism or AI allowed</p>
-</li>
-</ul>
 </div>
 </div>
 </div>
@@ -495,5 +508,13 @@ lab.
 Last updated 1980-01-01 00:00:00 UTC
 </div>
 </div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.3/highlight.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.3/languages/verilog.min.js"></script>
+<script>
+if (!hljs.initHighlighting.called) {
+  hljs.initHighlighting.called = true
+  ;[].slice.call(document.querySelectorAll('pre.highlight > code[data-lang]')).forEach(function (el) { hljs.highlightBlock(el) })
+}
+</script>
 </body>
 </html>

@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="generator" content="Asciidoctor 2.0.23">
-<title>Boise State University ECE 230 Lab</title>
+<title>Lab 03 - NAND Only Logic</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700">
 <style>
 /*! Asciidoctor default stylesheet | MIT License | https://asciidoctor.org */
@@ -433,59 +433,375 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 #footer-text{color:rgba(0,0,0,.6);font-size:.9em}}
 @media amzn-kf8{#header,#content,#footnotes,#footer{padding:0}}
 </style>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.3/styles/github.min.css">
 </head>
 <body class="article">
 <div id="header">
-<h1>Boise State University ECE 230 Lab</h1>
+<h1>Lab 03 - NAND Only Logic</h1>
+<div id="toc" class="toc">
+<div id="toctitle">Table of Contents</div>
+<ul class="sectlevel1">
+<li><a href="#_introduction">Introduction</a>
+<ul class="sectlevel2">
+<li><a href="#_discussing_resource_usage">Discussing Resource Usage</a></li>
+<li><a href="#_the_universal_gates">The Universal Gates</a></li>
+<li><a href="#_assignment">Assignment</a></li>
+</ul>
+</li>
+</ul>
+</div>
 </div>
 <div id="content">
 <div class="sect1">
-<h2 id="_assignments">Assignments</h2>
+<h2 id="_introduction">Introduction</h2>
 <div class="sectionbody">
-<div class="admonitionblock note">
-<table>
-<tr>
-<td class="icon">
-<div class="title">Note</div>
-</td>
-<td class="content">
-Please remember to read the week&#8217;s lab before coming to class.  It will
-aid you in spending your time wisely, and make things go much more smoothly in
-lab.
-</td>
-</tr>
-</table>
+<div class="paragraph">
+<p>In this lab we will dive more into how each of the logic gates function,
+and find out why we can actually replace everything we use with just the
+NAND gate. In addition, we will explore <em>why</em> replacing everything with
+the NAND gate is actually a great idea.</p>
 </div>
 <div class="sect2">
-<h3 id="_week_1">Week 1</h3>
-<div class="ulist">
-<ul>
-<li>
-<p><a href="classes/lab01/index.html">Lab 01 - Introduction and Software</a></p>
-</li>
-</ul>
+<h3 id="_discussing_resource_usage">Discussing Resource Usage</h3>
+<div class="paragraph">
+<p>For any given logic circuit, be they in an FPGA or otherwise, we will
+need to use a certain combination of logic gates. These gates, as you’ve
+seen in your class, are built out of physical transistors, and as such,
+are constrained in their total count within any given system. Therefore,
+there’s a limit to how complicated any solution can grow and still fit
+within the requirements of the system. Therefore, using resources wisely
+is an extremely important skill for digital logic designers.</p>
+</div>
+<div class="paragraph">
+<p>When making an FPGA chip, the designers have to make a guess at the
+circuits their customers will design and place on the chip. They can’t
+know exactly the circuit any engineer will design, and thus have to
+intelligently use up physical die space in the most efficient way
+possible. This begs the question – how do we divvy up how many AND, OR,
+NOT, etc gates are present on the chip? What if someone has an OR heavy
+design? Or a AND heavy design? The FPGA may end up being extremely
+ineffective in some use cases.</p>
+</div>
+<div class="paragraph">
+<p>Thankfully, FPGA designers don’t actually have to make this tradeoff.
+There are logic gates known as Universal Gates that can be recombined to
+produce the effect of any other logic gate. They are the NAND and the
+NOR gates. By using just NAND or NOR gates, you can make the equivalent
+of <em>any</em> logic circuit. Let’s see how below.</p>
 </div>
 </div>
+<div class="sect2">
+<h3 id="_the_universal_gates">The Universal Gates</h3>
+<div class="paragraph">
+<p>For a refresher, here’s the NAND and NOR gate truth tables below:</p>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 33.3333%;">
+<col style="width: 33.3333%;">
+<col style="width: 33.3334%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">A</th>
+<th class="tableblock halign-left valign-top">B</th>
+<th class="tableblock halign-left valign-top">~(A &amp; B)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
+</tr>
+</tbody>
+</table>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 33.3333%;">
+<col style="width: 33.3333%;">
+<col style="width: 33.3334%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">A</th>
+<th class="tableblock halign-left valign-top">B</th>
+<th class="tableblock halign-left valign-top">~(A | B)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p>To understand how these gates are universal, we need to use DeMorgan’s
+rule. It says:</p>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>~(A &amp; B) = ~A | ~B (Eqn 1)
+~(A | B) = ~A &amp; ~B (Eqn 2)</pre>
 </div>
 </div>
-<div class="sect1">
-<h2 id="_rubric">Rubric</h2>
-<div class="sectionbody">
-<div class="ulist">
-<ul>
-<li>
-<p>20% for Lab Report</p>
-</li>
-<li>
-<p>50% for Verilog code</p>
-</li>
-<li>
-<p>30% for demonstration in lab (also counts attendance)</p>
-</li>
-<li>
-<p>Absolutely NO plagarism or AI allowed</p>
-</li>
-</ul>
+<div class="paragraph">
+<p>Let’s introduce two more truth tables below to prove this:</p>
+</div>
+<div class="paragraph">
+<p>Eqn 1:</p>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 25%;">
+<col style="width: 25%;">
+<col style="width: 25%;">
+<col style="width: 25%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">A</th>
+<th class="tableblock halign-left valign-top">B</th>
+<th class="tableblock halign-left valign-top">~(A &amp; B)</th>
+<th class="tableblock halign-left valign-top">~A | ~B</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p>Eqn 2:</p>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 25%;">
+<col style="width: 25%;">
+<col style="width: 25%;">
+<col style="width: 25%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">A</th>
+<th class="tableblock halign-left valign-top">B</th>
+<th class="tableblock halign-left valign-top">~(A | B)</th>
+<th class="tableblock halign-left valign-top">~A &amp; ~B</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p>We can see from the truth tables that these are equivalent. This means
+we have a way to directly convert from some kind of AND gate to an OR
+gate, and vice versa. However, there’s lots of inversions present that
+need to be done to make this happen. Thankfully, the NAND and NOR gates
+can easily act as inverters. If we apply a single signal to both A and B
+inputs of a NAND or NOR gate, the output will <strong>invert</strong> see the rows in
+the NAND and NOR truth tables where <code>A == B</code>:</p>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 33.3333%;">
+<col style="width: 33.3333%;">
+<col style="width: 33.3334%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">A</th>
+<th class="tableblock halign-left valign-top">A</th>
+<th class="tableblock halign-left valign-top">~(A &amp; A)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">IMPOSSIBLE</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">IMPOSSIBLE</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
+</tr>
+</tbody>
+</table>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 33.3333%;">
+<col style="width: 33.3333%;">
+<col style="width: 33.3334%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">A</th>
+<th class="tableblock halign-left valign-top">A</th>
+<th class="tableblock halign-left valign-top">~(A | A)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">IMPOSSIBLE</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">IMPOSSIBLE</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p>That means each of these gates with their inputs tied together act as an
+inverter. Now, with DeMorgan’s rule and the inverting capability of our
+gates, we can transform any logic circuit into just NAND or NOR gates.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_assignment">Assignment</h3>
+<div class="paragraph">
+<p>In this lab, you will be asked to physically implement the following
+equation with a 4-NAND chip:</p>
+</div>
+<div class="paragraph">
+<p><code>f = (A &amp; ~B) | (C &amp; D)</code></p>
+</div>
+<div class="paragraph">
+<p>Use DeMorgan’s law with the information above to turn this equation into
+something that only uses NAND gates, then use the breadboard and chip
+provided by the lab instructor to physically wire this circuit up.</p>
+</div>
+<div class="sect3">
+<h4 id="_breadboard_information">Breadboard Information</h4>
+<div class="paragraph">
+<p>Overview:</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="img/breadboard_overview.png" alt="Breadboard Overview">
+</div>
+<div class="title">Figure 1. Breadboard Overview</div>
+</div>
+<div class="paragraph">
+<p>Wiring guidance:</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="img/wiring_guidance.png" alt="Wiring Guidance">
+</div>
+<div class="title">Figure 2. Wiring Guidance</div>
+</div>
+<div class="paragraph">
+<p>Chip Pinout:</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="img/chip_pinout.png" alt="Chip Pinout">
+</div>
+<div class="title">Figure 3. Chip Pinout</div>
+</div>
+</div>
 </div>
 </div>
 </div>
@@ -495,5 +811,13 @@ lab.
 Last updated 1980-01-01 00:00:00 UTC
 </div>
 </div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.3/highlight.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.3/languages/verilog.min.js"></script>
+<script>
+if (!hljs.initHighlighting.called) {
+  hljs.initHighlighting.called = true
+  ;[].slice.call(document.querySelectorAll('pre.highlight > code[data-lang]')).forEach(function (el) { hljs.highlightBlock(el) })
+}
+</script>
 </body>
 </html>
