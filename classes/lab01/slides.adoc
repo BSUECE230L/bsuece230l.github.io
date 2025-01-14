@@ -96,5 +96,3 @@ image::img/sdr.jpg[height=500]
 === Neural Compute
 
 image::img/neural_fpga.jpg[height=500]
-
-== Now for a quick overview...
