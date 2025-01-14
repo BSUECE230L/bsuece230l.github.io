@@ -9,7 +9,6 @@ lab.
 === Week 1
 
 * xref:classes/lab01/index.adoc[Lab 01 - Introduction and Software]
-* xref:classes/lab01/slides.adoc[Pre-lab slides]
 
 == Rubric
 
