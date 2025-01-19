@@ -10,6 +10,11 @@ lab.
 
 * xref:classes/lab01/index.adoc[Lab 01 - Introduction and Software]
 
+=== Week 2
+
+* xref:classes/lab02/index.adoc[Lab 02 - First Verilog Design]
+* xref:classes/lab02/class.zip[Class Materials]
+
 == Rubric
 
 * 20% for Lab Report
