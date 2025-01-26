@@ -9,7 +9,7 @@ xref:class.zip[Download Class Materials]
 == Introduction
 
 In this lab we will dive more into how each of the logic gates function,
-and find out why we can actually replace everything we use with just the
+and find out how we can actually replace everything we use with just the
 NAND gate. In addition, we will explore _why_ replacing everything with
 the NAND gate is actually a great idea.
 

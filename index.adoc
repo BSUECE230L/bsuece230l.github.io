@@ -15,6 +15,12 @@ lab.
 * xref:classes/lab02/index.adoc[Lab 02 - First Verilog Design]
 * xref:classes/lab02/class.zip[Class Materials]
 
+=== Week 3
+
+* xref:classes/lab03/index.adoc[Lab 03 - NAND Only Design]
+* xref:classes/lab03/slides.adoc[Presentation Slides]
+* xref:classes/lab03/class.zip[Class Materials]
+
 == Rubric
 
 * 20% for Lab Report
