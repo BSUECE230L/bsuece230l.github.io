@@ -19,7 +19,11 @@ lab.
 
 * xref:classes/lab03/index.adoc[Lab 03 - NAND Only Design]
 * xref:classes/lab03/slides.adoc[Presentation Slides]
-* xref:classes/lab03/class.zip[Class Materials]
+
+=== Week 3
+
+* xref:classes/lab04/index.adoc[Lab 04 - SOP/POS and KMaps]
+* xref:classes/lab04/class.zip[Class Materials]
 
 == Rubric
 
