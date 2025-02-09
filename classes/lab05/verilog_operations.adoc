@@ -1,0 +1,11 @@
+[cols=",",options="header",]
+|===
+|Operation |Verilog Syntax
+|Single NOT |Y = ~A
+|Bitwise OR |Y = A \| B
+|Bitwise AND |Y = A & B
+|Bitwise XOR |Y = A ^ B
+|Bitwise NOR |Y = ~(A \| B)
+|Bitwise NAND |Y = ~(A & B)
+|Bitwise XNOR |Y = ~(A ^ B)
+|===

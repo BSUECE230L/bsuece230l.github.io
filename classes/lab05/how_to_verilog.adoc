@@ -16,19 +16,9 @@ were that easy…
 
 == Basic Verilog Operators
 
-As a recap on Week 2, here’s the basic verilog operations:
+Here’s the basic verilog operations:
 
-[cols=",",options="header",]
-|===
-|Operation |Verilog Syntax
-|Single NOT |Y = ~A
-|Bitwise OR |Y = A \| B
-|Bitwise AND |Y = A & B
-|Bitwise XOR |Y = A ^ B
-|Bitwise NOR |Y = ~(A \| B)
-|Bitwise NAND |Y = ~(A & B)
-|Bitwise XNOR |Y = ~(A ^ B)
-|===
+include::verilog_operations.adoc[]
 
 For these first labs, we will be dealing almost exclusively with `wire`
 type structures. To build up a structural assignment, we need to use the
@@ -51,31 +41,7 @@ inputs, outputs, and the operations therein. Let’s look at an example:
 
 [source,verilog]
 ----
-module your_first_module(
-    input A, // Single bit input -- END EACH LINE with a comma...
-    input [5:0] B, // Six bit wide input
-    output C, Another, // two single bit outputs (can be done for input too)
-    output BitFour, // We can do any name for our outputs
-                    // as long as it doesn't have whitespace in it
-    output [5:0] D // Six bit wide ouput... without a comma
-    // DO NOT PUT A COMMA AFTER THE LAST LIST ENTRY
-); // Note this end paren with a semicolon
-
-    assign C = A; // End each assignment with a semicolon
-
-    wire invertC; // Declare local wires.
-                  // These are neither inputs or outputs
-                  // but can be used locally to hold values
-
-    assign invertC = ~C; // And can be assigned to regularly
-    assign Another = invertC; // And used as if they were regular values
-
-    assign D = B; // When vectors match in size,
-                  // they can just be directly assigned
-
-    assign BitFour = B[4]; // Or decomposed for single elements
-
-endmodule // No semicolon here for....... reasons
+include::src/your_first_module.v[]
 ----
 
 Modules are really cool, because when you have their input output
@@ -84,44 +50,7 @@ higher level functionality out of small blocks:
 
 [source,verilog]
 ----
-module invert_input(
-    input A,
-    output NotA
-);
-
-    assign NotA = ~A;
-
-endmodule
-
-module top(
-    input [1:0] sw,
-    input [2:0] led
-);
-
-    // We can even have more than one of the same module!
-    invert_input first( // Instantiate an invert_input named first
-        .A(sw[0]), // Hook up its A to sw[0]
-        .NotA(led[0]) // and its B to led[0]
-    );
-
-    invert_input first( // Instantiate an invert_input named second
-        .A(sw[1]), // Hook up its A to sw[1]
-        .NotA(led[1]) // and its B to led[1]
-    );
-
-    // And to use a signal between them, if required:
-    wire inverted;
-    invert_input contrived(
-        .A(sw[0]),
-        .NotA(inverted) // Hook up its output to our new wire instead
-    );
-
-    invert_input example(
-        .A(inverted), // Use the output from the previous instance
-        .NotA(sw[2]) // and send it wherever you need
-    );
-
-endmodule
+include::src/invert_input_example.v[]
 ----
 
 == Continuous Assignment
@@ -142,15 +71,7 @@ help drive this home.
 
 [source,verilog]
 ----
-module demo1(
-    input B, D,
-    output A, C
-);
-
-    assign C = ~A;
-    assign A = ~B & D;
-
-endmodule
+include::src/demo_top.v[tags=basic_module]
 ----
 
 This, in a traditional programming language, would likely result in a
@@ -246,18 +167,7 @@ then add the following piece of code:
 
 [source,verilog]
 ----
-module top(
-    input [1:0] sw,
-    output [1:0] led
-);
-    demo1 uut(
-        .B(sw[0]),
-        .D(sw[1]),
-        .A(led[0]),
-        .C(led[1])
-    );
-
-endmodule
+include::src/demo_top.v[tags=basic_top]
 ----
 
 Alternatively, add the existing source `demo_top.v` to your project.

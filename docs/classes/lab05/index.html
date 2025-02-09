@@ -451,7 +451,12 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </ul>
 </li>
 <li><a href="#_constraining_our_design">Constraining our design</a></li>
-<li><a href="#_lab_deliverables">Lab Deliverables</a></li>
+<li><a href="#_lab_deliverables">Lab Deliverables</a>
+<ul class="sectlevel2">
+<li><a href="#_summary_of_io_table">Summary of IO Table</a></li>
+<li><a href="#_required_modules_to_implement">Required modules to implement</a></li>
+</ul>
+</li>
 </ul>
 </div>
 </div>
@@ -1076,29 +1081,25 @@ You can use KMaps to find these equations.</p>
 <td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0[cols=",,",options="header",]</p></td>
 </tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
-</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p>|Pin |Purpose |Direction
+|sw[0] |Downstairs light switch |IN
+|sw[1] |Upstairs light switch |IN
+|led[0] |Stairway light |OUT</p>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 20%;">
+<col style="width: 20%;">
+<col style="width: 20%;">
+<col style="width: 20%;">
+<col style="width: 20%;">
+</colgroup>
+<tbody>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
@@ -1247,6 +1248,97 @@ instantiation. You can use these in other files, much like we saw in
 <div class="sect1">
 <h2 id="_lab_deliverables">Lab Deliverables</h2>
 <div class="sectionbody">
+<div class="sect2">
+<h3 id="_summary_of_io_table">Summary of IO Table</h3>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 33.3333%;">
+<col style="width: 33.3333%;">
+<col style="width: 33.3334%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Pin</th>
+<th class="tableblock halign-left valign-top">Purpose</th>
+<th class="tableblock halign-left valign-top">Direction</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">sw[0]</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Downstairs light switch</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">IN</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">sw[1]</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Upstairs light switch</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">IN</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">sw[2]</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">A for one bit adder</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">IN</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">sw[3]</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">B for one bit adder</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">IN</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">sw[4]</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">LSB of A for two bit adder</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">IN</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">sw[5]</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">MSB of A for two bit adder</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">IN</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">sw[6]</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">LSB of B for two bit adder</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">IN</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">sw[7]</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">MSB of B for two bit adder</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">IN</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">led[0]</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Stairway light</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">OUT</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">led[1]</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Y (sum output) of one bit adder</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">OUT</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">led[2]</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Carry out of one bit adder</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">OUT</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">led[3]</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">LSB of two bit sum</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">OUT</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">led[4]</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">MSB of two bit sum</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">OUT</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">led[5]</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Carry out of MSB adder</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">OUT</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sect2">
+<h3 id="_required_modules_to_implement">Required modules to implement</h3>
 <div class="olist arabic">
 <ol class="arabic">
 <li>
@@ -1269,6 +1361,7 @@ instantiation. You can use these in other files, much like we saw in
 <p>Demonstrate the combined design to TA or lab professor</p>
 </li>
 </ol>
+</div>
 </div>
 </div>
 </div>

@@ -332,10 +332,13 @@ You can use KMaps to find these equations.
 |A |B |Cin |Y |Cout
 |0 |0 |0 |0 |0
 |0 |1 |0 |1 |0
-|1 |0 |0 |1 |0
-|1 |1 |0 |0 |1
-|0 |0 |1 |1 |0
-|0 |1 |1 |0 |1
+|1 |0 |0 |1 |0[cols=",,",options="header",]
+|===
+|Pin |Purpose |Direction
+|sw[0] |Downstairs light switch |IN
+|sw[1] |Upstairs light switch |IN
+|led[0] |Stairway light |OUT
+|===
 |1 |0 |1 |0 |1
 |1 |1 |1 |1 |1
 |===
@@ -407,6 +410,27 @@ instantiation. You can use these in other files, much like we saw in
 
 == Lab Deliverables
 
+=== Summary of IO Table
+[cols=",,",options="header",]
+|===
+|Pin |Purpose |Direction
+|sw[0] |Downstairs light switch |IN
+|sw[1] |Upstairs light switch |IN
+|sw[2] |A for one bit adder |IN
+|sw[3] |B for one bit adder |IN
+|sw[4] |LSB of A for two bit adder |IN
+|sw[5] |MSB of A for two bit adder |IN
+|sw[6] |LSB of B for two bit adder |IN
+|sw[7] |MSB of B for two bit adder |IN
+|led[0] |Stairway light |OUT
+|led[1] |Y (sum output) of one bit adder |OUT
+|led[2] |Carry out of one bit adder |OUT
+|led[3] |LSB of two bit sum |OUT
+|led[4] |MSB of two bit sum |OUT
+|led[5] |Carry out of MSB adder |OUT
+|===
+
+=== Required modules to implement
 . Implemented light switch module in `light.v` described in
 link:#stairway-lights[this section]
 . Implemented single bit adder in `adder.v` described in

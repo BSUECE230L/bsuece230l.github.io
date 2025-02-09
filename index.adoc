@@ -25,6 +25,12 @@ lab.
 * xref:classes/lab04/index.adoc[Lab 04 - SOP/POS and KMaps]
 * xref:classes/lab04/class.zip[Class Materials]
 
+=== Week 5
+
+* xref:classes/lab05/index.adoc[Lab 05 - Combinatorial Logic]
+* xref:classes/lab05/slides.adoc[Presentation Slides]
+* xref:classes/lab05/class.zip[Class Materials]
+
 == Rubric
 
 * 20% for Lab Report
