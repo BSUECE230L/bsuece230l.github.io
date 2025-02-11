@@ -331,9 +331,12 @@ You can use KMaps to find these equations.
 |===
 |A |B |Cin |Y |Cout
 |0 |0 |0 |0 |0
+|0 |0 |1 |1 |0
 |0 |1 |0 |1 |0
+|0 |1 |1 |0 |1
 |1 |0 |0 |1 |0
 |1 |0 |1 |0 |1
+|1 |1 |0 |0 |1
 |1 |1 |1 |1 |1
 |===
 
@@ -357,7 +360,7 @@ image::./img/full_adder_block_diagram.png[full_adder_bd]
 |===
 
 == Constraining our design
-lab_final
+
 .Basys3 Schematic
 image::img/basys_schematic.png[Basys3 Schematic]
 
