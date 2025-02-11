@@ -332,13 +332,7 @@ You can use KMaps to find these equations.
 |A |B |Cin |Y |Cout
 |0 |0 |0 |0 |0
 |0 |1 |0 |1 |0
-|1 |0 |0 |1 |0[cols=",,",options="header",]
-|===
-|Pin |Purpose |Direction
-|sw[0] |Downstairs light switch |IN
-|sw[1] |Upstairs light switch |IN
-|led[0] |Stairway light |OUT
-|===
+|1 |0 |0 |1 |0
 |1 |0 |1 |0 |1
 |1 |1 |1 |1 |1
 |===
