@@ -451,10 +451,6 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div class="title">Figure 1. Combinatorial loop</div>
 </div>
 <div class="paragraph">
-<p>… or can’t run <code>test.py</code> to verify that your logic is working correctly.
-Let’s get this figured out.</p>
-</div>
-<div class="paragraph">
 <p>There are two right ways to implement a circuit like this, but one of
 them is a little less right than the others. What on earth do I mean by
 this?</p>
@@ -554,15 +550,13 @@ endmodule</code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p>Well, now we can see that <code>msb</code> depends on the output of <code>lsb</code> via
-<code>carry</code>. But… <code>lsb</code> depends on <code>msb</code> via the <code>nuke</code> wire. How is this
-supposed to resolve? The Verilog compiler in Vivado is seeing this too
-(and so is the poor simulation engine of Icarus Verilog if you’re using
-<code>test.py</code>) and is trying to tell you that you might have some pain
-headed your way if the implementations of your logic won’t ever
-stabilize. Circuits like this might become what are called <em>astable
-multivibrators</em>, aka <strong>clocks</strong>. They will just vibrate until the end of
-time when given power.</p>
+<p>Well, now we can see that <code>msb</code> depends on the output of <code>lsb</code> via <code>carry</code>. But…
+<code>lsb</code> depends on <code>msb</code> via the <code>nuke</code> wire. How is this supposed to resolve? The
+Verilog compiler in Vivado is seeing this too and is trying to tell you that you
+might have some pain headed your way if the implementations of your logic won’t
+ever stabilize. Circuits like this might become what are called <em>astable
+multivibrators</em>, aka <strong>clocks</strong>. They will just change state until the end of time
+when given power.</p>
 </div>
 <div class="paragraph">
 <p>However, luckily for our case, we know that this infinite loop is
@@ -659,11 +653,6 @@ endmodule</code></pre>
 from the first summation all the way out to the final MSB of the second
 addition. This, when coupled with the speed of light and gate
 delays/logic delays/propagation delays, etc. – this circuit is slow.</p>
-</div>
-<div class="paragraph">
-<p>Implement it like the above example, though, and you will at least prove
-to Vivado and your TA/Lab Professor that you understand loops in
-Combinatorial logic.</p>
 </div>
 </div>
 </div>

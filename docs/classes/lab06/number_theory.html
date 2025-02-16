@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="generator" content="Asciidoctor 2.0.23">
-<title>Boise State University ECE 230 Lab</title>
+<title>Number Theory</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700">
 <style>
 /*! Asciidoctor default stylesheet | MIT License | https://asciidoctor.org */
@@ -436,127 +436,522 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </head>
 <body class="article">
 <div id="header">
-<h1>Boise State University ECE 230 Lab</h1>
+<h1>Number Theory</h1>
 </div>
 <div id="content">
-<div class="sect1">
-<h2 id="_assignments">Assignments</h2>
+<div id="preamble">
 <div class="sectionbody">
-<div class="admonitionblock note">
-<table>
+<div class="paragraph">
+<p>This document walks through the derivations of ones and twos compliment. Please
+read through if you are having trouble with the lab.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_subtraction">Subtraction</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>So&#8230;&#8203; how do we subtract two binary numbers? Let’s go ahead and just start from
+the naive solution. We have an adder, let’s build a binary subtractor! We can
+easily equate this to regular subtraction as learned in grade school:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-txt" data-lang="txt"> BA
+ 10
+- 1
+==&gt;
+A: 0 - 1 = 9, borrow 1
+B: 1 - 1 (from the borrow) = 0
+==&gt;
+ 09</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Just the same in binary:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-txt" data-lang="txt"> DCBA
+ 0100 (4)
+-0001 (1)
+==&gt;
+A: 0 - 1 = 1, borrow 1
+B: 0 - 1 (from the borrow) = 1, borrow 1
+C: 1 - 1 (from the borrow) = 0
+D: 0 - 0 = 0
+==&gt;
+ 0011 (3)</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>As we can see, the borrow, just like the carry, ripples as far as it
+needs to until we find a place to pull the one from. Just for sanity’s
+sake, however, let’s see if this actually is the correct subtraction
+result. <code>0100</code> is <code>(0 * 1 + 0 * 2 + 1 * 4 + 0 * 8) = 4</code> and
+<code>0001 = &#8230;&#8203;1</code>. We would expect <code>4 - 1 = 3</code>, well <code>0011</code> is
+<code>(1 * 1 + 1 * 2 + 0 * 4 + 0 * 8) = 3</code>! All good.</p>
+</div>
+<div class="paragraph">
+<p>So, from the above equations we have seen a basic set of rules emerge.
+From these, we can build a truth table that describes a single bit
+subtraction, just as we did for the half adder. The truth table for
+<code>A - B</code> is shown below:</p>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 25%;">
+<col style="width: 25%;">
+<col style="width: 25%;">
+<col style="width: 25%;">
+</colgroup>
+<thead>
 <tr>
-<td class="icon">
-<div class="title">Note</div>
-</td>
-<td class="content">
-Please remember to read the week&#8217;s lab before coming to class.  It will
-aid you in spending your time wisely, and make things go much more smoothly in
-lab.
-</td>
+<th class="tableblock halign-left valign-top">A</th>
+<th class="tableblock halign-left valign-top">B</th>
+<th class="tableblock halign-left valign-top">Y</th>
+<th class="tableblock halign-left valign-top">Borrow</th>
 </tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
+</tr>
+</tbody>
 </table>
+<div class="paragraph">
+<p>Let’s compare this with the truth table for the half adder from the
+previous lab:</p>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 25%;">
+<col style="width: 25%;">
+<col style="width: 25%;">
+<col style="width: 25%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">A</th>
+<th class="tableblock halign-left valign-top">B</th>
+<th class="tableblock halign-left valign-top">Y</th>
+<th class="tableblock halign-left valign-top">Carry</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p>Wow, that… is suspiciously similar. We can clearly see that the only
+difference in the two truth tables is the Carry/Borrow bit.</p>
 </div>
 <div class="sect2">
-<h3 id="_week_1">Week 1</h3>
-<div class="ulist">
-<ul>
-<li>
-<p><a href="classes/lab01/index.html">Lab 01 - Introduction and Software</a></p>
-</li>
-</ul>
+<h3 id="_but_it_isnt_that_simple">But it isn’t that simple</h3>
+<div class="paragraph">
+<p>Cool! Computers can subtract now. Except…. we have a problem. Let’s look
+at the following subtraction as run through our system:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-txt" data-lang="txt"> DCBA
+ 0000
+-0001
+==&gt;
+A: 0 - 1 = 1, borrow 1
+B: 0 - 1 (from the borrow) = 1, borrow 1
+C: 0 - 1 (from the borrow) = 1, borrow 1
+D: 0 - 1 (from the borrow) = 1, borrow 1
+ 1111</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Nice! Obviously <code>0 - 1 = 15</code>! Wait, no. That’s probably not right. We
+have now run face first into the problem of negative numbers. How do we
+represent them in binary? We can’t just write a <code>-</code> in front of our
+numbers if they’re negative. Again, to set the ground work for the right
+answer, let’s go through a naive solution first.</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_week_2">Week 2</h3>
-<div class="ulist">
-<ul>
-<li>
-<p><a href="classes/lab02/index.html">Lab 02 - First Verilog Design</a></p>
-</li>
-<li>
-<p><a href="classes/lab02/class.zip">Class Materials</a></p>
-</li>
-</ul>
+<h3 id="_signed_integers">Signed Integers</h3>
+<div class="paragraph">
+<p>So far throughout this lab, we’ve treated all integers as <code>unsigned</code>,
+that is they can only be positive. We now need to expand our
+understanding of numbers to <code>signed</code> integers. You may have
+seen/experienced this type of thing programming languages such as C or
+Java, where there are separate data types for signed and unsigned
+integers.</p>
+</div>
+<div class="paragraph">
+<p>Obviously, signed integers must keep track of their sign <em>somehow</em> or
+they would be… well… unsigned integers. This puts an extra impetus on
+the binary representation somehow. One of the bits in our number has to
+be what we use to keep track of things. For a naive solution, let’s just
+use the most significant bit as if it were a <code>+/-</code> sign:
+<code>1 = + | 0 = -</code>. Now, we can easily represent a full gamut of signed
+integers:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-txt" data-lang="txt">+0 = 10000
+-0 = 00000
+
++8 = 11000
+-8 = 01000
+
++1 = 10001
+-1 = 00001</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Cool, this is progress! You can tell just by looking at the most
+significant bit of each number if it is negative or positive. However,
+this comes at a cost. If we have 8 bit wide numbers, we can no longer
+represent <code>0 &#8594; 255</code>, but instead <code>+0 &#8594; +127</code> and <code>-0 &#8594; -127</code> since
+one of our eight bits is <em>only</em> for sign information.</p>
+</div>
+<div class="paragraph">
+<p>Let’s run another subtraction experiment to see how this work:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-txt" data-lang="txt">EDCBA
+10010 (+2)
+11000 (+8)
+==&gt;
+A: 0 - 0 = 0
+B: 1 - 0 = 1
+C: 0 - 0 = 0
+D: 0 - 1 = 1, borrow 1
+E: 1 - 1 - 1 (from the borrow) = 1
+==&gt;
+11010 == +10</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Well, shoot. <code>+10 != -6</code>, at least most of the time. Obviously our
+number representation system is incompatible with this subtractor
+solution. For that matter… how can we do additions with this system?
+After all <code>+5 + -2 = 3</code>. If we were to try that with our full adder from
+the previous lab, it would <em>not work</em>. I won’t even run through the
+example to prove it, Just Trust Me.</p>
+</div>
+<div class="paragraph">
+<p>This number representation system we’ve come up with needs a ton of
+supporting circuitry to work. We would need to bring a sign bit check
+int our adder to invoke special subtraction logic, we would need to
+handle the rollover condition properly for going from positive to
+negative in a subtraction, and more myriad issues.</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_week_3">Week 3</h3>
-<div class="ulist">
-<ul>
-<li>
-<p><a href="classes/lab03/index.html">Lab 03 - NAND Only Design</a></p>
-</li>
-<li>
-<p><a href="classes/lab03/slides.html">Presentation Slides</a></p>
-</li>
-</ul>
+<h3 id="_so_that_didnt_work_what_now">So… that didn’t work, what now?</h3>
+<div class="paragraph">
+<p>Let’s take a different approach. Let’s keep the whole <code>most significant
+bit is sign bit</code> idea, but flip it. How about we leave well enough
+alone for the positive numbers. MSB is <code>0 = + | 1 = -</code>. This lets us
+just keep <code>0001 = 1, 0010 = 2, &#8230;&#8203;</code> and so on. So… how do we count
+negative numbers? If we just do the same thing we did above and say
+<code>1001 = -1</code> we will be just as in trouble as we were before. So, again,
+let’s flip the script.</p>
+</div>
+<div class="paragraph">
+<p>Let’s say that negative numbers are represented as the bitwise inversion
+of their positive counterpart – also known as compliment. This means:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-txt" data-lang="txt">0001 = 1
+1110 = -1
+
+0010 = 2
+1101 = -2
+...</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Alright, let’s try our trick with <code>0 - 1</code>:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-txt" data-lang="txt"> DCBA
+ 0000
+-0001
+==&gt;
+A: 0 - 1 = 1, borrow 1
+B: 0 - 1 (from the borrow) = 1, borrow 1
+C: 0 - 1 (from the borrow) = 1, borrow 1
+D: 0 - 1 (from the borrow) = 1, borrow 1 (**)
+==&gt;
+ 1111</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>OK… so this produced the same answer, obviously, but what does this
+mean? Well, since we have decided that negative numbers are the bitwise
+inversion of their positive compliments, we can say that <code>1111 = -0</code>.
+Oh… negative zero. That’s not -1 but it sure is closer than 15.</p>
+</div>
+<div class="paragraph">
+<p>But… what if we have a way out? I’ve marked the final borrow up above
+with two asterisks. If we simply wire this up to the borrow input of the
+LSB subtractor, creating something called an <strong>end-around borrow</strong> this
+might just work:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-txt" data-lang="txt"> DCBA
+ 0000
+-0001
+==&gt;
+A: 0 - 1 - 1 (**) = 0, borrow 1 &lt;----------------┐
+B: 0 - 1 (from the borrow) = 1, borrow 1         |
+C: 0 - 1 (from the borrow) = 1, borrow 1         | End around borrow
+D: 0 - 1 (from the borrow) = 1, borrow 1 (**) ---┘
+==&gt;
+ 1110</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>AHA! That’s it. <code>1110</code> is <code>-1</code>. With this end around borrow, we
+successfully can represent negative numbers and construct a working
+subtraction circuit. It has just one final test to pass – can we do
+addition with our number format with a regular adder?</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-txt" data-lang="txt"> DCBA
+ 1110 (-1)
++0010 (+2)
+==&gt;
+A: 0 + 0 = 0
+B: 1 + 1 = 0, carry 1
+C: 1 + 1 (from the carry) = 0, carry 1
+D: 1 + 1 (from the carry) = 0, carry 1 (**)
+==&gt;
+ 0000 (+0)</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Oh… heck. This is <code>0000 = +0</code> not <code>0001 = +1</code>. However, the astute among
+you may have noticed that there is yet another carry marked with a
+double asterisk. Correct! If we do what is called an <strong>end-around carry</strong>
+we will now get the right answer:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-txt" data-lang="txt"> DCBA
+ 1110 (-1)
++0010 (+2)
+==&gt;
+A: 0 + 0 + 1(**) = 1 &lt;-------------------------┐
+B: 1 + 1 = 0, carry 1                          |
+C: 1 + 1 (from the carry) = 0, carry 1         | End around carry
+D: 1 + 1 (from the carry) = 0, carry 1 (**) ---┘
+==&gt;
+ 0001</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Excellent! We now have a number representation that can use completely
+regular adders and subtractors to keep track of all signed integer
+arithmetic. We could implement a full computer around this! We have used
+this method to split our unsigned integer space into a signed one, from
+<code>+0 &#8594; +7</code> and <code>-0 &#8594; -7</code>. Notice this system just did <code>2 - 1</code>! It can
+subtract with an adder, given we can just find the compliment for any
+input number to do subtraction.</p>
+</div>
+<div class="paragraph">
+<p>This system we have discovered together is called <strong>Ones’ Compliment</strong>. It
+suffers from a number of problems (pun intended) including two we have
+already faced. We have two zeros (+0 and -0) as well as requiring the
+end-around borrows and carries. For reasons we will get into in later
+labs, that end-around problem causes absolute havoc with computer
+systems and makes them significantly more slow than they would otherwise
+be. However, it has some notable advantages as well. We don’t need to
+implement a standalone subtractor circuit, as we can just add the
+negative version of a number to simulate subtraction, and getting the
+compliment of any number is as simple as inverting all of its bits.</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_week_4">Week 4</h3>
-<div class="ulist">
-<ul>
-<li>
-<p><a href="classes/lab04/index.html">Lab 04 - SOP/POS and KMaps</a></p>
-</li>
-<li>
-<p><a href="classes/lab04/class.zip">Class Materials</a></p>
-</li>
-</ul>
+<h3 id="_ones_plus_ones_compliment">Ones plus ones compliment</h3>
+<div class="paragraph">
+<p>In the previous section we established that Ones’ Compliment is a workable
+method for tracking signed integers and using regular adding circuitry to do
+addition and subtraction. However, the end around carry is a real downer. Let&#8217;s
+see if we can get a new representation system that can save us.</p>
+</div>
+<div class="paragraph">
+<p>Referring back to our first problem example:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-txt" data-lang="txt"> DCBA
+ 0000
+-0001
+==&gt;
+A: 0 - 1 = 1, borrow 1
+B: 0 - 1 (from the borrow) = 1, borrow 1
+C: 0 - 1 (from the borrow) = 1, borrow 1
+D: 0 - 1 (from the borrow) = 1, borrow 1
+==&gt;
+ 1111</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>What if we just… say that <code>1111 = -1</code>? This is basically the same
+operation as we saw in One’s Compliment except that we just skip past
+the end-around borrow. How would this system work? It passes at least
+one sniff check – we can run our result back through a completely normal
+adder to reverse things:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-txt" data-lang="txt"> DCBA
+ 1111 (-1)
++0001 (+1)
+==&gt;
+A: 1 + 1 = 0, carry 1
+B: 1 + 1 (from the carry) = 0, carry 1
+C: 1 + 1 (from the carry) = 0, carry 1
+D: 1 + 1 (from the carry) = 0, carry 1
+==&gt;
+ 0000 (0)</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The entire above operation can be done with an utterly standard adder,
+making our <code>-1 + 1 = 0</code> test work. It also looks the same as the Ones’
+Compliment addition, save the absence of the end-around carry. However,
+we now have an issue. Previously, with Ones’ Compliment, in order to
+invert a number, all we would have to do is bitwise invert. That won’t
+work anymore, as <code>0000 (0) &#8658; 1111 (-1)</code>. Remember, the goal here is to
+design a number system that can operate with mostly unmodified adders
+only, as bringing a subtractor into our design is extra circuitry.</p>
+</div>
+<div class="paragraph">
+<p>The solution to this is relatively easy for Twos’ Compliment, however.
+Since we have effectively shifted our negative numbers down, now
+representing <code>0000 (0) &#8594; 7 (0111)</code> and <code>1111 (-1) &#8594; 1000 (-8)</code>, we can
+start with a Ones’ Compliment intermediary and add one to it to convert.
+Let’s see as follows:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-txt" data-lang="txt">1. 0101 (5)
+2. Invert to Ones' Compliment: 1010
+3. Add one: 1011 (-5)</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>That, by the way, is what makes it a Twos’ Compliment. Whereas the Ones
+Compliment is called so because a number and its compliment, when added
+together, are all 1s. The Twos’ Compliment is called so because when two
+N bit numbers are added together, their sum is 2^N. We can see that
+example here below:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-txt" data-lang="txt">0101 (5) + 1011 (-5) = 10000 = 16
+0001 (1) + 1111 (-1) = 10000 = 16
+0110 (6) + 1010 (-6) = 10000 = 16
+... and so on</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Let’s make sure this works by performing a subtraction with an adder. To
+do so, we will need to find the compliment of our second number to make
+it negative. Let’s do <code>5 - 2</code>. The Twos’ compliment of 2 is
+<code>0010 &#8594; 1110</code> based on our previous steps:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-txt" data-lang="txt"> DCBA
+ 0101 (5)
++1110 (-2)
+==&gt;
+A: 1 + 0 = 1
+B: 0 + 1 = 1
+C: 1 + 1 = 1, carry 1
+D: 1 + 1 (from the carry) = 0, carry 1
+Discard final carry, is "overflow" bit for unsigned addition
+==&gt;
+ 0011 (3)</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Nice! Our <code>subtraction</code> gave us the right answer. That means our Twos’
+Compliment is a fully working signed number system that requires <em>only</em>
+the use of regular adders in a computer system to build a full set of
+basic addition and subtraction. Keep in mind the examples I have shown
+are for a four bit system, and the ranges of positive and negative
+integers will change with the radix.</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_week_5">Week 5</h3>
-<div class="ulist">
-<ul>
-<li>
-<p><a href="classes/lab05/index.html">Lab 05 - Combinatorial Logic</a></p>
-</li>
-<li>
-<p><a href="classes/lab05/slides.html">Presentation Slides</a></p>
-</li>
-<li>
-<p><a href="classes/lab05/class.zip">Class Materials</a></p>
-</li>
-</ul>
+<h3 id="_wrapping_it_all_up">Wrapping it all up</h3>
+<div class="paragraph">
+<p>Hopefully, by this point, you can see how effective Twos Compliment is. It
+allows us to use totally regular unsigned integer adders to do both addition
+and subtraction. Also, it does not force us to do the complicated end-around
+carry/borrow that Ones Compliment does. This means minimal additional circuitry
+imposed upon our computers, and things can now run faster than if implemented
+in Ones Compliment. However, as you can also see, there is not really anything
+overtly complicated within these concepts. Most of what we’ve seen in this lab
+is combining our already-written <code>full_adder</code> from the previous lab. Twos
+Compliment, while initially seeming to be a complicated concept, is simple when
+we look at it from a practical point of view.</p>
 </div>
+<div class="paragraph">
+<p>If you are having troubles wiring up your top level module, see
+<a href="verilog_project_layout.html">here</a>.</p>
 </div>
-<div class="sect2">
-<h3 id="_week_6">Week 6</h3>
-<div class="ulist">
-<ul>
-<li>
-<p><a href="classes/lab06/index.html">Lab 06 - Number Theory</a></p>
-</li>
-<li>
-<p><a href="classes/lab06/slides.html">Presentation Slides</a></p>
-</li>
-<li>
-<p><a href="classes/lab06/class.zip">Class Materials</a></p>
-</li>
-</ul>
-</div>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_rubric">Rubric</h2>
-<div class="sectionbody">
-<div class="ulist">
-<ul>
-<li>
-<p>20% for Lab Report</p>
-</li>
-<li>
-<p>50% for Verilog code</p>
-</li>
-<li>
-<p>30% for demonstration in lab (also counts attendance)</p>
-</li>
-<li>
-<p>Absolutely NO plagarism or AI allowed</p>
-</li>
-</ul>
 </div>
 </div>
 </div>

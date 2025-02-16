@@ -9,9 +9,6 @@ I expect you’re here because you’ve seen this image:
 .Combinatorial loop
 image::img/combinatorial_loop.png[Combinatorial loop]
 
-… or can’t run `test.py` to verify that your logic is working correctly.
-Let’s get this figured out.
-
 There are two right ways to implement a circuit like this, but one of
 them is a little less right than the others. What on earth do I mean by
 this?
@@ -103,15 +100,13 @@ module top(
 endmodule
 ----
 
-Well, now we can see that `msb` depends on the output of `lsb` via
-`carry`. But… `lsb` depends on `msb` via the `nuke` wire. How is this
-supposed to resolve? The Verilog compiler in Vivado is seeing this too
-(and so is the poor simulation engine of Icarus Verilog if you’re using
-`test.py`) and is trying to tell you that you might have some pain
-headed your way if the implementations of your logic won’t ever
-stabilize. Circuits like this might become what are called _astable
-multivibrators_, aka *clocks*. They will just vibrate until the end of
-time when given power.
+Well, now we can see that `msb` depends on the output of `lsb` via `carry`. But…
+`lsb` depends on `msb` via the `nuke` wire. How is this supposed to resolve? The
+Verilog compiler in Vivado is seeing this too and is trying to tell you that you
+might have some pain headed your way if the implementations of your logic won’t
+ever stabilize. Circuits like this might become what are called _astable
+multivibrators_, aka *clocks*. They will just change state until the end of time
+when given power.
 
 However, luckily for our case, we know that this infinite loop is
 _never_ possible with our adder circuits. Let’s examine the worst case
@@ -204,7 +199,3 @@ However, now we can see a full _four element long_ chain of dependence
 from the first summation all the way out to the final MSB of the second
 addition. This, when coupled with the speed of light and gate
 delays/logic delays/propagation delays, etc. – this circuit is slow.
-
-Implement it like the above example, though, and you will at least prove
-to Vivado and your TA/Lab Professor that you understand loops in
-Combinatorial logic.

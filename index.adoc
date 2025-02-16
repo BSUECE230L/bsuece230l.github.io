@@ -31,6 +31,12 @@ lab.
 * xref:classes/lab05/slides.adoc[Presentation Slides]
 * xref:classes/lab05/class.zip[Class Materials]
 
+=== Week 6
+
+* xref:classes/lab06/index.adoc[Lab 06 - Number Theory]
+* xref:classes/lab06/slides.adoc[Presentation Slides]
+* xref:classes/lab06/class.zip[Class Materials]
+
 == Rubric
 
 * 20% for Lab Report
