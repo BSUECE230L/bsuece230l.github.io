@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="generator" content="Asciidoctor 2.0.23">
-<title>Boise State University ECE 230 Lab</title>
+<title>Icarus Verilog</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700">
 <style>
 /*! Asciidoctor default stylesheet | MIT License | https://asciidoctor.org */
@@ -433,139 +433,187 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 #footer-text{color:rgba(0,0,0,.6);font-size:.9em}}
 @media amzn-kf8{#header,#content,#footnotes,#footer{padding:0}}
 </style>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.3/styles/github.min.css">
 </head>
 <body class="article">
 <div id="header">
-<h1>Boise State University ECE 230 Lab</h1>
+<h1>Icarus Verilog</h1>
+<div id="toc" class="toc">
+<div id="toctitle">Table of Contents</div>
+<ul class="sectlevel1">
+<li><a href="#_introduction">Introduction</a></li>
+<li><a href="#_installation">Installation</a>
+<ul class="sectlevel2">
+<li><a href="#_windows">Windows</a></li>
+<li><a href="#_linux">Linux</a></li>
+<li><a href="#_macos">MacOS</a></li>
+</ul>
+</li>
+<li><a href="#_usage">Usage</a></li>
+</ul>
+</div>
 </div>
 <div id="content">
 <div class="sect1">
-<h2 id="_assignments">Assignments</h2>
+<h2 id="_introduction">Introduction</h2>
 <div class="sectionbody">
-<div class="admonitionblock note">
-<table>
-<tr>
-<td class="icon">
-<div class="title">Note</div>
-</td>
-<td class="content">
-Please remember to read the week&#8217;s lab before coming to class.  It will
-aid you in spending your time wisely, and make things go much more smoothly in
-lab.
-</td>
-</tr>
-</table>
+<div class="paragraph">
+<p>Icarus Verilog is an absolute masterpiece of software. It is a fully open
+source, standalone Verilog simulation engine written in C++ and available for
+all major platforms, including MacOS, Windows, and Linux.</p>
 </div>
+<div class="paragraph">
+<p>This material will guide you through installation and usage of Icarus Verilog to
+do most of the designs you will find in lab this semester.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_installation">Installation</h2>
+<div class="sectionbody">
 <div class="sect2">
-<h3 id="_week_1">Week 1</h3>
-<div class="ulist">
-<ul>
-<li>
-<p><a href="classes/lab01/index.html">Lab 01 - Introduction and Software</a></p>
-</li>
-</ul>
+<h3 id="_windows">Windows</h3>
+<div class="paragraph">
+<p>Homepage <a href="https://bleyer.org/icarus/">Here</a>.</p>
 </div>
+<div class="paragraph">
+<p>You will want the following download:
+<a href="https://bleyer.org/icarus/iverilog-v12-20220611-x64_setup.exe">Windows Setup</a>.</p>
 </div>
-<div class="sect2">
-<h3 id="_week_2">Week 2</h3>
-<div class="ulist">
-<ul>
+<div class="olist arabic">
+<ol class="arabic">
 <li>
-<p><a href="classes/lab02/index.html">Lab 02 - First Verilog Design</a></p>
+<p>Double click the executable<br>
+<span class="image"><img src="img/2025-02-20T02-24-20-905Z.png" alt="2025 02 20T02 24 20 905Z"></span></p>
 </li>
 <li>
-<p><a href="classes/lab02/class.zip">Class Materials</a></p>
-</li>
-</ul>
-</div>
-</div>
-<div class="sect2">
-<h3 id="_week_3">Week 3</h3>
-<div class="ulist">
-<ul>
-<li>
-<p><a href="classes/lab03/index.html">Lab 03 - NAND Only Design</a></p>
+<p>Accept the license agreement<br>
+<span class="image"><img src="img/2025-02-20T02-25-44-627Z.png" alt="2025 02 20T02 25 44 627Z"></span></p>
 </li>
 <li>
-<p><a href="classes/lab03/slides.html">Presentation Slides</a></p>
-</li>
-</ul>
-</div>
-</div>
-<div class="sect2">
-<h3 id="_week_4">Week 4</h3>
-<div class="ulist">
-<ul>
-<li>
-<p><a href="classes/lab04/index.html">Lab 04 - SOP/POS and KMaps</a></p>
+<p>Press next through the note</p>
 </li>
 <li>
-<p><a href="classes/lab04/class.zip">Class Materials</a></p>
+<p>Keep the default installation path<br>
+<span class="image"><img src="img/2025-02-20T02-27-20-767Z.png" alt="2025 02 20T02 27 20 767Z"></span></p>
 </li>
-</ul>
+<li>
+<p>Make sure to select Full Installation<br>
+<span class="image"><img src="img/2025-02-20T02-28-02-206Z.png" alt="2025 02 20T02 28 02 206Z"></span></p>
+</li>
+<li>
+<p>Press next to create start menu folder</p>
+</li>
+<li>
+<p>Check Add executable folder(s) to the user PATH<br>
+<span class="image"><img src="img/2025-02-20T02-29-01-114Z.png" alt="2025 02 20T02 29 01 114Z"></span></p>
+</li>
+<li>
+<p>Then press Install and Finish</p>
+</li>
+</ol>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_week_5">Week 5</h3>
-<div class="ulist">
-<ul>
-<li>
-<p><a href="classes/lab05/index.html">Lab 05 - Combinatorial Logic</a></p>
-</li>
-<li>
-<p><a href="classes/lab05/slides.html">Presentation Slides</a></p>
-</li>
-<li>
-<p><a href="classes/lab05/class.zip">Class Materials</a></p>
-</li>
-</ul>
+<h3 id="_linux">Linux</h3>
+<div class="paragraph">
+<p>See your distro maintenance manual for more information, but will almost
+certainly just be:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">sudo apt install iverilog gtkwave</code></pre>
+</div>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_week_6">Week 6</h3>
-<div class="ulist">
-<ul>
-<li>
-<p><a href="classes/lab06/index.html">Lab 06 - Number Theory</a></p>
-</li>
-<li>
-<p><a href="classes/lab06/class.zip">Class Materials</a></p>
-</li>
-</ul>
+<h3 id="_macos">MacOS</h3>
+<div class="paragraph">
+<p>First, if you have not, install Homebrew: <a href="https://brew.sh/" class="bare">https://brew.sh/</a></p>
+</div>
+<div class="paragraph">
+<p>Then, follow these instructions:
+<a href="https://formulae.brew.sh/formula/icarus-verilog#default" class="bare">https://formulae.brew.sh/formula/icarus-verilog#default</a></p>
+</div>
+<div class="paragraph">
+<p>GTK Wave is no longer officially supported:
+<a href="https://formulae.brew.sh/cask/gtkwave#default" class="bare">https://formulae.brew.sh/cask/gtkwave#default</a></p>
 </div>
 </div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_tutorials">Tutorials</h2>
+<h2 id="_usage">Usage</h2>
 <div class="sectionbody">
-<div class="ulist">
-<ul>
-<li>
-<p><a href="classes/iverilog/index.html">Icarus Verilog</a></p>
-</li>
-</ul>
+<div class="paragraph">
+<p>Icarus Verilog is extremely simple to use. Within the directory that contains
+all of your Verilog files that you are working on, simply run the following
+commands (open a terminal in the directory with all your .v files):</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">iverilog *.v # This "compiles" the Verilog into the executable `a.out`
+vvp a.out # This runs the simulation</code></pre>
 </div>
 </div>
+<div class="paragraph">
+<p>All of the projects in the lab are structured such that these two commands
+should properly simulate everything you want to see, aside from syntax errors
+(which you would also get in Vivado).</p>
 </div>
-<div class="sect1">
-<h2 id="_rubric">Rubric</h2>
-<div class="sectionbody">
-<div class="ulist">
-<ul>
+<div class="paragraph">
+<p>The test benches are also normally set up to dump waveforms into <code>dump.vcd</code>
+which should be present in the same directory as <code>a.out</code>. View these by opening
+them in GTKWave:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">gtkwave dump.vcd</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>This will pop up a waveform view that is nearly the same as Vivado:</p>
+</div>
+<div class="paragraph">
+<p><span class="image"><img src="img/2025-02-20T02-43-55-076Z.png" alt="2025 02 20T02 43 55 076Z"></span></p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
 <li>
-<p>20% for Lab Report</p>
+<p>The "scope" view that contains the modules you might be interested in. This is
+heirarchical like Vivado.</p>
 </li>
 <li>
-<p>50% for Verilog code</p>
+<p>The signals view. Double click on these to have them show in the Wave view.</p>
 </li>
 <li>
-<p>30% for demonstration in lab (also counts attendance)</p>
+<p>The Waveform view. Double click a signal to expand the individual bits.</p>
 </li>
 <li>
-<p>Absolutely NO plagarism or AI allowed</p>
+<p>Zoom to fit button. Your friend.</p>
 </li>
-</ul>
+</ol>
+</div>
+<div class="paragraph">
+<p>The simulation, if it has any pass/fail critera, will show in the terminal after
+you run the vvp command (example from Week 6):</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>half_sub Test Passed: A=0, B=1 =&gt; Y=1, B_out=1
+ones_compliment Test Passed: A=0111, B=0101 =&gt; Y=1100
+ones_compliment Test Passed: A=1010, B=0111 =&gt; Y=0010
+twos_compliment Test Passed: A=01010111 =&gt; Y=10101001
+twos_compliment Test Passed: A=00000001 =&gt; Y=11111111
+twos_compliment Test Passed: A=00000010 =&gt; Y=11111110
+twos_compliment Test Passed: A=00001000 =&gt; Y=11111000
+test.v:99: $finish called at 170000 (1ps)</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>You can use these simulation outputs to work on and finish your labs even if you
+cannot or do not wish to install Vivado on your PCs.</p>
 </div>
 </div>
 </div>
@@ -575,5 +623,14 @@ lab.
 Last updated 1980-01-01 00:00:00 UTC
 </div>
 </div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.3/highlight.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.3/languages/verilog.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.3/languages/bash.min.js"></script>
+<script>
+if (!hljs.initHighlighting.called) {
+  hljs.initHighlighting.called = true
+  ;[].slice.call(document.querySelectorAll('pre.highlight > code[data-lang]')).forEach(function (el) { hljs.highlightBlock(el) })
+}
+</script>
 </body>
 </html>

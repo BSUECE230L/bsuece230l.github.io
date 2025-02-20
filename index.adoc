@@ -36,6 +36,10 @@ lab.
 * xref:classes/lab06/index.adoc[Lab 06 - Number Theory]
 * xref:classes/lab06/class.zip[Class Materials]
 
+== Tutorials
+
+* xref:classes/iverilog/index.adoc[Icarus Verilog]
+
 == Rubric
 
 * 20% for Lab Report
