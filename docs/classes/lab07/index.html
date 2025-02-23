@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="generator" content="Asciidoctor 2.0.23">
-<title>Lab 07 - Shannon&#8217;s decomp lab</title>
+<title>Lab 07 - Delays and Glitches</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700">
 <style>
 /*! Asciidoctor default stylesheet | MIT License | https://asciidoctor.org */
@@ -433,14 +433,808 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 #footer-text{color:rgba(0,0,0,.6);font-size:.9em}}
 @media amzn-kf8{#header,#content,#footnotes,#footer{padding:0}}
 </style>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.3/styles/github.min.css">
 </head>
 <body class="article">
 <div id="header">
-<h1>Lab 07 - Shannon&#8217;s decomp lab</h1>
+<h1>Lab 07 - Delays and Glitches</h1>
+<div id="toc" class="toc">
+<div id="toctitle">Table of Contents</div>
+<ul class="sectlevel1">
+<li><a href="#_introduction">Introduction</a></li>
+<li><a href="#_distance_delay">Distance Delay</a></li>
+<li><a href="#_gate_charge_delay">Gate Charge Delay</a></li>
+<li><a href="#_the_two_combined">The Two Combined</a></li>
+<li><a href="#_the_lab">The Lab</a>
+<ul class="sectlevel2">
+<li><a href="#_circuit_under_study">Circuit under Study</a></li>
+<li><a href="#_simulating_the_circuit">Simulating the Circuit</a></li>
+<li><a href="#_simulating_the_circuit_with_timing">Simulating the Circuit with Timing</a></li>
+</ul>
+</li>
+<li><a href="#_so_what_have_we_learned">So what have we learned?</a></li>
+<li><a href="#_lab_deliverables">Lab Deliverables</a></li>
+</ul>
+</div>
 </div>
 <div id="content">
+<div id="preamble">
+<div class="sectionbody">
 <div class="paragraph">
-<p>Content here will be pulled out as a standalone lab from Lab <code>archive/wk08</code></p>
+<p><a href="class.zip">Download Class Materials</a></p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_introduction">Introduction</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Have you ever peered into the details of your PC&#8217;s performance data and noticed
+a frequency number like "1.8 GHz" (probably higher on modern PCs, but not by
+much)? This is what is known as the clock rate of your CPU, and directly relates
+to performance, and drives things like how many instructions per second your
+computer can process.</p>
+</div>
+<div class="paragraph">
+<p>Given that this number drives the performance of your computer, it behooves the
+CPU manufacturers to make the fastest chips possible. It would be a big
+competitive advantage for Intel if their CPUs could run even 20% faster than
+AMD&#8217;s or Apple&#8217;s&#8201;&#8212;&#8201;so why don&#8217;t they just crank the clock speeds even higher?</p>
+</div>
+<div class="paragraph">
+<p>In addition, you may have heard of a practice in enthusiast computing called
+"overclocking", where the user of the PC will drive its clock speeds past that
+which the manufacturer recommends. Why is there a recommendation, and why does
+overclocking often lead to crashes or fires?</p>
+</div>
+<div class="paragraph">
+<p>All of the above has to do with a fundamental hardware limit that all engineers
+must run into at some time or another: physics. There are several ways in which
+physics is here to ruin your day, and in this lab we will cover two of them,
+with more information to come in later labs:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Distance Delay (AKA Speed of Light)</p>
+</li>
+<li>
+<p>Gate Charge Delay (AKA Ohm&#8217;s Law)</p>
+</li>
+</ol>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_distance_delay">Distance Delay</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Let&#8217;s imagine the following circuit:</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="img/simple_circuit.png" alt="simple circuit">
+</div>
+<div class="title">Figure 1. Simple Circuit</div>
+</div>
+<div class="paragraph">
+<p>How long does it take for the output to go low when we flip the switch on the
+left? The intuitive answer (and correct for human-based time), is
+"instantaneous". However, and this is probably no surprise given the name of
+this lab, that is not reality. Let&#8217;s start with the simple bit, the speed of
+light, which is, approximately, 300,000,000 meters per second.</p>
+</div>
+<div class="paragraph">
+<p>While <em>blisteringly</em> fast, that isn&#8217;t infinitely fast. In addition, the waves
+that carry "charge" or "information" through electronic circuits, namely
+electrical and magnetic fields, do not travel through certain materials at fully
+the speed of light. This is related to drift velocity and electron mobility in
+the given medium the circuit is built of. That, however, is a topic for a much
+more advanced material science class.</p>
+</div>
+<div class="paragraph">
+<p>Where does this leave us, though? Thankfully, copper and silicon (generally) are
+dang near 100% the speed of light. However, this still leaves us in a sticky
+situation. Consider with me the following:</p>
+</div>
+<div class="paragraph">
+<p>We have a signal, say, 1 GHz. That signal toggles between 0 and 5 volts <em>1
+billion times</em> every second. How far does the signal travel in that time? Well,
+thankfully that&#8217;s some extremely simple maths:</p>
+</div>
+<div class="stemblock">
+<div class="content">
+\[\frac{300,000,000 m/s}{1,000,000,000 Hz} = 0.3 m\]
+</div>
+</div>
+<div class="paragraph">
+<p>Woah&#8201;&#8212;&#8201;300 centimeters. That&#8217;s about 10 feet. That means if we were toggling
+our switch in the above circuit 1 billion times every second, the maximum length
+our wire could be without having multiple state change on it is only 10 feet.
+While that sounds like an extremely long piece of wire, imagine instead the
+insides of a CPU. There are so many twists and turns as the signal has to
+propagate, that it is not hard to imagine them having to travel easily that
+distance even over the extremely small CPU die.</p>
+</div>
+<div class="paragraph">
+<p>This delay we have been discussing is what is known as distance delay, and is
+related to the physical proximity of the various components of circuitry to one
+another. You would not want two deeply coupled circuits to be physically
+disparate on your design.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_gate_charge_delay">Gate Charge Delay</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>As if the above wasn&#8217;t enough of a challenge, our circuit above has an
+additional problem: the inverter. The inverter can be built out of two FETs in
+an extremely simple circuit:</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="img/inverter_circuit.png" alt="inverter circuit">
+</div>
+<div class="title">Figure 2. Basic Inverter</div>
+</div>
+<div class="paragraph">
+<p>In any even vaguely modern silicon manufacturing process, each of those
+transistors will be no more than about 20 <em>nano</em>meters apart. That is 20 one
+billionths of a meter. So that inverter can&#8217;t be much more than this distance
+in terms of distance delay. However, it has other problems. The terminal in
+the middle of a FET is called the <strong>Gate</strong> and it is the switch to turn the
+transistor on/off. It is shown blown up here:</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="img/expanded_fet.png" alt="expanded fet">
+</div>
+<div class="title">Figure 3. Expanded View of N-FET</div>
+</div>
+<div class="paragraph">
+<p>The wire labeled "G" is the Gate. Notice how it isn&#8217;t connected to the rest of
+the FET, there&#8217;s a little gap. This is why the FE in FET (FET stands for Field
+Effect Transistor), the Field Effect of the gate causes a channel to form
+between the source and drain to allow conduction. However, unlike in a Bipolar
+Junction Transistor (BJT) there is no current flowing through the gate. Thus, it
+acts as a capacitor. There will need to be an amount of charge that has to build
+up on the gate for enough of a field to form to influence the channel and allow
+conduction.</p>
+</div>
+<div class="paragraph">
+<p>In an ideal world, the gate would transition from 0 &#8594; X volts instantaneously
+(where X is the "on" voltage), however, once again, that is not the case. There
+is a concept in electrical engineering that some of you may encounter later
+called the "Lumped Element Model" that can help us model and understand this
+situation.</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="img/lumped_gate.png" alt="lumped gate">
+</div>
+<div class="title">Figure 4. Lumped Element Gate</div>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+Values just for demonstration
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>The strength of the charge on our gate is visible on the stub at the top of the
+capacitor. Don&#8217;t worry too much about the EE portions of this, it is actually
+a fairly simple circuit. The moment the switch closes, the voltage at the top of
+the capacitor is 0 V, and that means we will get \(I = \frac{V}{R}\) amps as
+dictated by Ohm&#8217;s law, and in this case that means \(\frac{5 V}{100 Ohm}
+= 0.05 Amps\). This will begin to charge the capacitor, whose voltage will rise,
+and thus the voltage across the resistor will go down, the current will go down,
+and so on, creating a waveform like this:</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="img/charge_waveform.png" alt="charge waveform">
+</div>
+<div class="title">Figure 5. Capacitor Charge Waveform</div>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+Time on X axis, volts on Y
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>We can see that it takes a non-zero amount of time for the charge to build on
+the gate of this transistor. If it, say, turns on at 3 V it will take about two
+whole time divisions for things to start going. This means that even though the
+circuit is tiny in terms of dimensions, it introduces a ton of delay
+<em>electrically</em> to the circuit due to its gate charging, as the effects of it
+being turned on or off cannot begin to propagate until it actually <em>does</em> turn
+on or off.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_the_two_combined">The Two Combined</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Between regular distance delay and gate delay combine to form an overall
+"Propagation Delay" within our digital circuits. This is the delay between the
+input of a circuit changing and its output state stabilizing. It is this
+principle that limits the frequency of digital circuits.</p>
+</div>
+<div class="paragraph">
+<p>Think about the following. Imagine our NOT gate in the first diagram takes two
+seconds to invert its input. Now, obviously, real silicon is literally billions
+of times faster than this, but it helps to put things in second-time. If we
+toggled our switch any faster than once every four seconds, we would risk the
+output being incomplete or incorrect. This would be something known as a glitch,
+and is what happens when we can&#8217;t meet timing requirements in our designs.</p>
+</div>
+<div class="paragraph">
+<p>In a more practical example, let&#8217;s look at the following toy circuit:</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="img/cascading_circuit.png" alt="cascading circuit">
+</div>
+<div class="title">Figure 6. Toy Circuit</div>
+</div>
+<div class="paragraph">
+<p>The inputs to each subsequent XOR depends on the input of the previous one. That
+means, in the case of the third LED (the bottom most one), its circuit state
+depends on both the output of the NOT and first XOR gate. That means the
+propagation delay of our full circuit from the first switch to the output of the
+third LED is the sum of all the gate and distance delays of <em>all elements in the
+path</em>. These numbers can start adding up quickly if you have complex logic that
+depends on other complex logic. If we assume that the NOT gates take
+1 nanosecond to propagate, and the XOR gates take 4 nanoseconds, our full delay
+would look something like this:</p>
+</div>
+<div class="stemblock">
+<div class="title">Delay Excluding Distance</div>
+<div class="content">
+\[D_{full} \approx 1 ns + 4 ns + 4 ns \approx 7 ns\]
+</div>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+Distance delay is not included in this approximation.
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>Since our signal from the first switch to the third LED has to pass through the
+NOT gate and both XOR gates, it will take approximately 7 nanoseconds to fully
+stabilize. So, for 7 nanoseconds after flipping the switch, the output of the
+circuit is <em>wrong</em>. That means things that might be downstream of this LED have
+to be sure to wait or else act incorrectly and glitch the system.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_the_lab">The Lab</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_circuit_under_study">Circuit under Study</h3>
+<div class="paragraph">
+<p>In order to view this properly, we are going to implement a circuit very similar
+to the one shown above, but for all sixteen switches and LEDs:</p>
+</div>
+<table id="logic_table" class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 1. Circuit Logic Table</caption>
+<colgroup>
+<col style="width: 20%;">
+<col style="width: 80%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Signal</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Equation</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">led[0]</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">~sw[0]</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">led[1]</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">led[0]  ^ sw[1]</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">led[2]</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">led[1]  ^ sw[2]</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">led[3]</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">led[2]  ^ sw[3]</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">led[4]</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">led[3]  ^ sw[4]</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">led[5]</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">led[4]  ^ sw[5]</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">led[6]</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">led[5]  ^ sw[6]</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">led[7]</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">led[6]  ^ sw[7]</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">led[8]</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">led[7]  ^ sw[8]</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">led[9]</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">led[8]  ^ sw[9]</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">led[10]</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">led[9]  ^ sw[10]</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">led[11]</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">led[10] ^ sw[11]</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">led[12]</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">led[11] ^ sw[12]</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">led[13]</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">led[12] ^ sw[13]</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">led[14]</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">led[13] ^ sw[14]</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">led[15]</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">led[14] ^ sw[15]</p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p>This is effectively the same circuit as the toy example, but has sixteen
+switches and LEDs instead of three. This will utilize the entire set of switches
+and LEDs on the Basys 3 board, so be sure to edit the Constraints file as
+required.</p>
+</div>
+<div class="admonitionblock important">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-important" title="Important"></i>
+</td>
+<td class="content">
+Implement this circuit onto your Basys 3 board in the file <code>top.v</code>.
+Run the behavioral simulation as you have done in previous labs to be sure you
+have everything wired up correctly.
+</td>
+</tr>
+</table>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_simulating_the_circuit">Simulating the Circuit</h3>
+<div class="imageblock">
+<div class="content">
+<img src="img/simulation_output.png" alt="simulation output">
+</div>
+<div class="title">Figure 7. Simulation Output</div>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+The LEDs should go from 0xFFFF to 0xAAAA if the circuit is correct.
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>In this simulation, which is the regular behavioral simulation, there is no
+delay calculation done by Vivado in this simulation, so you can see at exactly
+3 nanoseconds, our switches and LEDs both change state. We just spent the entire
+lab up to this point saying that this isn&#8217;t the real state of things, so what
+gives?</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_simulating_the_circuit_with_timing">Simulating the Circuit with Timing</h3>
+<div class="paragraph">
+<p>In order to simulate the circuit with timing, Vivado needs to know every detail
+about it. As we discussed above, each gate in use as well as the distance
+between them gives us our total propagation delay. So, how does Vivado get this
+information? From the implemented circuit.</p>
+</div>
+<div class="paragraph">
+<p>Implementation involves fully realizing your circuit in FPGA resources as well
+as placing and routing the design on the FPGA. This gives us both of the
+variables in our equation for delay: what gates and how far apart. So, do that
+now&#8201;&#8212;&#8201;run the implementation on your design.</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+Make sure you have done the constraints&#8201;&#8212;&#8201;as which physical pins the
+switches and LEDs are connected to contributes to these delays.
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>Once the implementation is done, run your simulation again, but this time with
+post-implementation timing information:</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="img/post_impl_timing_sim.png" alt="post impl timing sim">
+</div>
+<div class="title">Figure 8. Run Post-Implementation Timing Simulation</div>
+</div>
+<div class="paragraph">
+<p>Once the test finishes, you see&#8230;&#8203;. what?</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="img/test_failed.png" alt="test failed">
+</div>
+</div>
+<div class="paragraph">
+<p>Test failed? But our circuit passed the behavioral simulation! Open up the
+waveform view and zoom to fit to see more of what happened:</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="img/timing_sim_failed.png" alt="timing sim failed">
+</div>
+<div class="title">Figure 9. Failing Timing Simulation</div>
+</div>
+<div class="paragraph">
+<p>That looks a lot different, and is because Vivado has annotated the real-life
+delays from the implemented circuit into the simulation. As we can see, it takes
+almost two nanoseconds for the LEDs to start changing after the switches change.
+And throughout this changing time, the signal changes values many times (that&#8217;s
+what all the crossed lines mean). Let&#8217;s zoom into that portion:</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="img/zoomed_timing_fail.png" alt="zoomed timing fail">
+</div>
+</div>
+<div class="paragraph">
+<p>We can see a few things from this:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>The LEDs sooner in the chain (closer to <code>led[0]</code>) resolve fastest</p>
+</li>
+<li>
+<p>This is stabilizing on 0xFFFF not 0xAAAA! This is actually responding to the
+switches being at 0 at the <strong>beginning of the simulation</strong>.</p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p>It is clear that the simulation is not giving the circuit enough time to
+stabilize, as defined by its total propagation delay. So&#8230;&#8203; how do we know how
+long to wait? Thankfully, there&#8217;s timing information that Vivado will give to us
+if we ask nicely:</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="img/report_timing_summary.png" alt="report timing summary">
+</div>
+<div class="title">Figure 10. Report Timing Summary</div>
+</div>
+<div class="paragraph">
+<p>A window will pop up with a ton of options. The default settings are going to
+work perfectly for our purposes, and all other settings therein are all outside
+the scope of this lab.</p>
+</div>
+<div class="paragraph">
+<p>This will result in a table like as follows:</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="img/timing_table.png" alt="timing table">
+</div>
+<div class="title">Figure 11. Timing Report Table</div>
+</div>
+<div class="paragraph">
+<p>Select first the Unconstrained Paths then the NONE to NONE groups. The Setup
+timings section will have the numbers you are interested in.</p>
+</div>
+<div class="paragraph">
+<p>I have omitted the actual values from the screenshot, but they will be in
+columns named "Total Delay", "Logic Delay", and "Net Delay". Net delay is
+approximately equal to the distance delay, and logic delay is approximately
+equal to our gate delay as discussed above. The truth of the matter is a lot
+more complicated. However, we can take a look at the Total Delay field to get an
+absolute worst-case look at how long a change on a certain pin would take to
+propagate to its output. The delays we see in the simulation waveform may not
+match these, as the timing report only shows worst-case. The delays are
+displayed in nanoseconds.</p>
+</div>
+<div class="paragraph">
+<p>So, take a look at your timing table and edit the delays in the <code>test.v</code> file to
+match your worst case timings. Rounding up to the nearest nanosecond will be
+more than enough. Re-run and you should see your simulation pass!</p>
+</div>
+<div class="paragraph">
+<p>If you&#8217;re confused as to how to edit the delays, see the following code example:</p>
+</div>
+<div class="listingblock">
+<div class="title">Delays in Simulation</div>
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-verilog hljs" data-lang="verilog">// Timescale in delay/resolution format
+// This means all delays will be in nanoseconds
+// and the resolution of the simulation is in picoseconds
+`timescale 1ns/1ps
+module test();
+    reg sig;
+    wire out;
+
+    // Pretend UUT, no module exists
+    pretend uut(.sig(sig), .out(out));
+
+    // Simulation starts
+    initial begin
+        sig = 1;
+        #10; // This delays 10 ns
+    end
+endmodule</code></pre>
+</div>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+Edit the number after the <code>#</code> to change the delay. This delay is shown in
+major timescale.
+</td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_so_what_have_we_learned">So what have we learned?</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>All of the stuff happening inside of our FPGA is significantly more complicated
+than the simple behavioral simulation would have us believe. There are also
+delays in how gates propagate their signal and how those signals travel from
+gate to gate. This is actually going to be a feature we can leverage in future
+labs, so keep all this in mind.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_lab_deliverables">Lab Deliverables</h2>
+<div class="sectionbody">
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 2. IO Table</caption>
+<colgroup>
+<col style="width: 16.6666%;">
+<col style="width: 16.6666%;">
+<col style="width: 66.6668%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Signal</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Direction</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Use</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">sw[0]</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">IN</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Switch input</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">sw[1]</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">IN</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Switch input</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">sw[2]</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">IN</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Switch input</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">sw[3]</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">IN</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Switch input</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">sw[4]</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">IN</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Switch input</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">sw[5]</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">IN</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Switch input</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">sw[6]</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">IN</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Switch input</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">sw[7]</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">IN</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Switch input</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">sw[8]</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">IN</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Switch input</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">sw[9]</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">IN</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Switch input</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">sw[10]</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">IN</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Switch input</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">sw[11]</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">IN</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Switch input</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">sw[12]</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">IN</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Switch input</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">sw[13]</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">IN</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Switch input</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">sw[14]</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">IN</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Switch input</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">sw[15]</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">IN</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Switch input</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">led[0]</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">OUT</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">LED output</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">led[1]</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">OUT</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">LED output</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">led[2]</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">OUT</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">LED output</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">led[3]</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">OUT</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">LED output</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">led[4]</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">OUT</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">LED output</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">led[5]</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">OUT</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">LED output</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">led[6]</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">OUT</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">LED output</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">led[7]</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">OUT</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">LED output</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">led[8]</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">OUT</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">LED output</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">led[9]</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">OUT</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">LED output</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">led[10]</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">OUT</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">LED output</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">led[11]</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">OUT</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">LED output</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">led[12]</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">OUT</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">LED output</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">led[13]</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">OUT</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">LED output</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">led[14]</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">OUT</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">LED output</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">led[15]</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">OUT</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">LED output</p></td>
+</tr>
+</tbody>
+</table>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p><code>top.v</code> with circuit implemented as per the <a href="#logic_table">logic table</a></p>
+</li>
+<li>
+<p><code>test.v</code> with delay values modified to match worst case timings</p>
+</li>
+</ol>
+</div>
+</div>
 </div>
 </div>
 <div id="footer">
@@ -448,5 +1242,37 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 Last updated 1980-01-01 00:00:00 UTC
 </div>
 </div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.3/highlight.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.3/languages/verilog.min.js"></script>
+<script>
+if (!hljs.initHighlighting.called) {
+  hljs.initHighlighting.called = true
+  ;[].slice.call(document.querySelectorAll('pre.highlight > code[data-lang]')).forEach(function (el) { hljs.highlightBlock(el) })
+}
+</script>
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  messageStyle: "none",
+  tex2jax: {
+    inlineMath: [["\\(", "\\)"]],
+    displayMath: [["\\[", "\\]"]],
+    ignoreClass: "nostem|nolatexmath"
+  },
+  asciimath2jax: {
+    delimiters: [["\\$", "\\$"]],
+    ignoreClass: "nostem|noasciimath"
+  },
+  TeX: { equationNumbers: { autoNumber: "none" } }
+})
+MathJax.Hub.Register.StartupHook("AsciiMath Jax Ready", function () {
+  MathJax.InputJax.AsciiMath.postfilterHooks.Add(function (data, node) {
+    if ((node = data.script.parentNode) && (node = node.parentNode) && node.classList.contains("stemblock")) {
+      data.math.root.display = "block"
+    }
+    return data
+  })
+})
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/MathJax.js?config=TeX-MML-AM_HTMLorMML"></script>
 </body>
 </html>
