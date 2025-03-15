@@ -1,4 +1,5 @@
 = Number Theory
+:last-update-label!:
 
 This document walks through the derivations of ones and twos compliment. Please
 read through if you are having trouble with the lab.

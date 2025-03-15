@@ -3,6 +3,7 @@
 :highlightjs-languages: verilog
 :icons: font
 :toc:
+:last-update-label!:
 
 xref:class.zip[Download Class Materials]
 
@@ -64,7 +65,7 @@ Here, we have two NOR gates looped together. We will call them A (who outputs Q)
 * `B = ~Q = Set NOR Q`
 ====
 
-include::sr_latch_truth.adoc[]
+include::src/sr_latch_truth.adoc[]
 
 Why and how on earth does this work, though? It seems really simple, and luckily it is. Let's assume, at `t=0` we have `Q=0` and `~Q=1`. This is known as the "reset" case. Let's look through the timeline of events as we assert the "Set" line:
 
@@ -119,7 +120,7 @@ This will now _behave_ the same, but synthesize correctly in Vivado. However, we
 
 Obviously, the SR-Latch isn't the end-game of memory and synchronous logic. It has that "invalid" state mentioned above. How do we stop this? The solution to any digital logic problem is always more digital logic. We need to design an interface to the SR-Latch that _cannot_ be in the invalid state. This could take many forms, but in today's lab, we are going to focus on the D-Latch. It has the following truth table:
 
-include::d_latch_truth.adoc[]
+include::src/d_latch_truth.adoc[]
 
 Or, presented as a waveform:
 

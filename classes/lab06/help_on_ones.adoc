@@ -1,4 +1,5 @@
 == Loops are fun until they aren’t
+:last-update-label!:
 :source-highlighter: highlight.js
 :highlightjs-languages: verilog
 :icons: font

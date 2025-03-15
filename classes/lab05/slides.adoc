@@ -1,4 +1,5 @@
 = Deeper Dive on Verilog Syntax
+:last-update-label!:
 :source-highlighter: highlight.js
 :highlightjs-languages: verilog
 :revealjs_theme: simple
@@ -11,7 +12,7 @@
 == Basics of Verilog Operations
 
 [.compact-table]
-include::verilog_operations.adoc[]
+include::src/verilog_operations.adoc[]
 
 == Basics of Verilog Modules
 

@@ -1,4 +1,5 @@
 = NAND Only Design
+:last-update-label!:
 :source-highlighter: highlight.js
 :highlightjs-languages: verilog
 :revealjs_theme: simple

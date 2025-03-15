@@ -5,6 +5,7 @@
 :revealjs_width: 1600
 :revealjs_height: 900
 :revealjs_margin: 0.05
+:last-update-label!:
 :customcss: img/extra.css
 :icons: font
 
@@ -50,7 +51,7 @@ image::img/sr_latch.drawio.png[width=600]
 
 === Truth Table and Considerations
 
-include::sr_latch_truth.adoc[]
+include::src/sr_latch_truth.adoc[]
 
 === Structural Implementation
 
@@ -75,7 +76,7 @@ include::src/behavioral_sr_latch.v[tag=module_source]
 == The D-Latch
 
 [.column]
-include::d_latch_truth.adoc[]
+include::src/d_latch_truth.adoc[]
 
 [.column]
 [plantuml,width=600px]

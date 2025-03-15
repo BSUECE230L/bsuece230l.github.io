@@ -3,6 +3,7 @@
 :highlightjs-languages: verilog
 :icons: font
 :toc:
+:last-update-label!:
 
 This document is going to go over some best practices for laying out
 your Verilog projects, taking special account to the structure of this

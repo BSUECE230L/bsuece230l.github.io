@@ -2,6 +2,7 @@
 :source-highlighter: highlight.js
 :highlightjs-languages: verilog
 :icons: font
+:last-update-label!:
 :toc:
 
 xref:class.zip[Download Class Materials]

@@ -1,5 +1,6 @@
 = Lab 02 - Introduction to Verilog
 :source-highlighter: highlight.js
+:last-update-label!:
 :highlightjs-languages: verilog
 :icons: font
 :toc:

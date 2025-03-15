@@ -2,6 +2,7 @@
 :source-highlighter: highlight.js
 :highlightjs-languages: verilog
 :revealjs_theme: simple
+:last-update-label!:
 :revealjs_width: 1600
 :revealjs_height: 900
 :revealjs_margin: 0.05
@@ -79,7 +80,7 @@ image::img/fpga_datasheet.png[width=800]
 
 [.column]
 [.compact-table]
-include::starting_truth_table.adoc[]
+include::src/starting_truth_table.adoc[]
 
 [.column]
 * Notice that there is actually a very distinct breakover point in this truth table
@@ -90,10 +91,10 @@ include::starting_truth_table.adoc[]
 === Shannon's Decomp: Part 2
 
 [.column]
-include::a_is_zero.adoc[]
+include::src/a_is_zero.adoc[]
 
 [.column]
-include::a_is_one.adoc[]
+include::src/a_is_one.adoc[]
 
 [.column]
 * Neither equation varies with A

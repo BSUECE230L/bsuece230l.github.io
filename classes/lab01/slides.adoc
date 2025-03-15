@@ -2,6 +2,7 @@
 :source-highlighter: highlight.js
 :highlightjs-languages: verilog
 :revealjs_theme: simple
+:last-update-label!:
 :revealjs_width: 1600
 :revealjs_height: 900
 :revealjs_margin: 0.05

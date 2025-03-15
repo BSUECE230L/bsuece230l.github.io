@@ -3,6 +3,7 @@
 :highlightjs-languages: verilog
 :icons: font
 :toc:
+:last-update-label!:
 
 xref:class.zip[Download Class Materials]
 

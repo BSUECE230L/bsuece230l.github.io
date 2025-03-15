@@ -19,6 +19,8 @@ def process_slides(input: pathlib.Path):
     print(ret)
 
 def process_lab(input: pathlib.Path):
+    if (input.parts.count("src") > 0):
+        return
     output = OUTPUT_PATH / input.with_suffix(".html")
     ret = subprocess.getoutput(HTML5 + f" {input} -o {output}", encoding="utf8")
     print(ret)

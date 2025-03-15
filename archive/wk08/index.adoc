@@ -1,5 +1,6 @@
 = A Note On Your Behavior(al Verilog)
 :source-highlighter: highlight.js
+:last-update-label!:
 :highlightjs-languages: verilog
 :icons: font
 :toc:
@@ -114,7 +115,7 @@ However, there's a very solid theoretical use case devised by Claude Shannon bas
 
 Given a truth table as shown below:
 
-include::starting_truth_table.adoc[]
+include::src/starting_truth_table.adoc[]
 
 We can note that there are two discrete states, easily visible in the most significant bit, A. First, the four beginning rows where A is zero, and second the four rows where A is one. If we simply *decompose* this function into two, we can state the following:
 
@@ -126,9 +127,9 @@ We can note that there are two discrete states, easily visible in the most signi
 
 Here are the truth tables:
 
-include::a_is_zero.adoc[]
+include::src/a_is_zero.adoc[]
 
-include::a_is_one.adoc[]
+include::src/a_is_one.adoc[]
 
 Where `F1` is the first four rows, dependent on now only B and C, and `F2` being the last four rows, dependent now only on B and C. We can say that they are only dependent on B and C because throughout their entire truth tables, only B and C change. From here, we can solve two 2-variable KMaps to derive `F1` and `F2`:
 

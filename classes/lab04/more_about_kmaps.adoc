@@ -1,4 +1,5 @@
 == Sums, Prodcts, and Circuits of the Same
+:last-update-label!:
 :source-highlighter: highlight.js
 :highlightjs-languages: verilog
 :icons: font
