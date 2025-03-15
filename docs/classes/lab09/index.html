@@ -449,6 +449,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <ul class="sectlevel2">
 <li><a href="#_part_1_single_bit_memory">Part 1: Single Bit Memory</a></li>
 <li><a href="#_part_2_four_bytes">Part 2: Four Bytes!</a></li>
+<li><a href="#_summary">Summary</a></li>
 </ul>
 </li>
 <li><a href="#array_appendix">Appendix 1: Array Syntax</a></li>
@@ -698,13 +699,25 @@ endmodule</code></pre>
 <p>However, if you try to implement this circuit using Vivado and synthesize it for the Basys3, you will run into the same problem as Lab 6&#8201;&#8212;&#8201;where it errors out about the combinatorial loop and will not let you proceed.</p>
 </div>
 <div class="paragraph">
-<p>Thankfully, we have our answer in Behavioral Verilog! Now comes the explanation of <code>reg</code> from last lab. We saw that in order to assign values in Behavioral Verilog, we had to add the <code>reg</code> keyword to the declaration as well as omit <code>assign</code> from the assignment. We do all that because when in behavioral mode, circuits <em>can generate memory</em>, which is exactly what our SR-Latch here is.</p>
+<p>Thankfully, we have our answer in Behavioral Verilog! Behavioral Verilog introduces two new features critical to the function of latches and memory, Sensitivity Blocks and the <code>reg</code> keyword. <code>reg</code> in this case stands for "register", and as the name implies, allows us to synthesize circuits with memory. Sensitivity blocks allow us to specify to the synthesis engine what signals our memory is synchronous to.</p>
 </div>
 <div class="paragraph">
-<p>In the case of Verilog, <code>reg</code> means Register. Usually, these types synthesize to use flip-flop or register hardware on the device, but in the case of <code>always @(*)</code> blocks, they can even contain regular continuous assignment wherein no memory is needed. It is just for silly syntax reasons we <strong>must</strong> use <code>reg</code> inside of an <code>always</code> block&#8230;&#8203; always.</p>
+<p>Usually, <code>reg</code> synthesizes to use flip-flop or register hardware on the device, but in the case of <code>always @(*)</code> blocks, they can even contain regular continuous assignment wherein no memory is needed. It is just for silly syntax reasons we <strong>must</strong> use <code>reg</code> inside of an <code>always</code> block&#8230;&#8203; always.</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+Simple rules: If you are inside an <code>always</code> block, the signals must be <code>reg</code> and you don&#8217;t use <code>assign</code>. If you are <strong>not</strong> in an <code>always</code> block, signals must be <code>wire</code> and you must use <code>assign</code>.
+</td>
+</tr>
+</table>
 </div>
 <div class="paragraph">
-<p>So, let&#8217;s rewrite our SR-Latch like the Verilog Gods intended:</p>
+<p>So, let&#8217;s rewrite our SR-Latch with the new behavioral syntax:</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -739,7 +752,7 @@ endmodule</code></pre>
 </tr>
 <tr>
 <td><i class="conum" data-value="3"></i><b>3</b></td>
-<td>Notice the <strong>non blocking</strong> assignment, for more see <a href="#block_nonblock">Appendix 5: Blocking vs. Non Blocking Assignment</a>. Use non blocking for the remainder of the lab.</td>
+<td>Notice the <strong>non blocking</strong> assignment, for more see <a href="#block_nonblock">Appendix 5: Blocking vs. Non Blocking Assignment</a>. Use non blocking for the remainder of the lab. There are very few cases wherein you should use blocking assignment in general.</td>
 </tr>
 </table>
 </div>
@@ -987,6 +1000,73 @@ If you are having trouble, see <a href="#scaffold_appendix">Appendix 2: Module S
 </div>
 </div>
 </div>
+<div class="sect2">
+<h3 id="_summary">Summary</h3>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 33.3333%;">
+<col style="width: 33.3333%;">
+<col style="width: 33.3334%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Signal</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Purpose</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Direction</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">sw[0]</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">SR-Latch D</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">IN</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">btnC</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">SR-Latch E</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">IN</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">led[0]</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">SR-Latch Q</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">OUT</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">led[1]</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">SR-Latch ~Q</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">OUT</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">sw[15:8]</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">8 data bits</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">IN</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">sw[7:6]</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Address Select</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">IN</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">btnC</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Store</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">IN</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">led[15:8]</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">8 output bits</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">OUT</p></td>
+</tr>
+</tbody>
+</table>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Implement an SR Latch as described in Part 1</p>
+</li>
+<li>
+<p>Implement the four byte memory system as described in Part 2</p>
+</li>
+</ol>
+</div>
+</div>
 </div>
 </div>
 <div class="sect1">
@@ -1199,7 +1279,7 @@ endmodule</code></pre>
 <table>
 <tr>
 <td><i class="conum" data-value="1"></i><b>1</b></td>
-<td>Output is sensitive both to <code>sel</code> and <code>data</code>.</td>
+<td>Multiplexers are combinatorial logic. <code>*</code> is preferred as they require no memory.</td>
 </tr>
 <tr>
 <td><i class="conum" data-value="2"></i><b>2</b></td>

@@ -99,11 +99,13 @@ Notice how `NotQ` and `Q` remain latched even after the inputs go back to zero? 
 
 However, if you try to implement this circuit using Vivado and synthesize it for the Basys3, you will run into the same problem as Lab 6 -- where it errors out about the combinatorial loop and will not let you proceed.
 
-Thankfully, we have our answer in Behavioral Verilog! Now comes the explanation of `reg` from last lab. We saw that in order to assign values in Behavioral Verilog, we had to add the `reg` keyword to the declaration as well as omit `assign` from the assignment. We do all that because when in behavioral mode, circuits _can generate memory_, which is exactly what our SR-Latch here is.
+Thankfully, we have our answer in Behavioral Verilog! Behavioral Verilog introduces two new features critical to the function of latches and memory, Sensitivity Blocks and the `reg` keyword. `reg` in this case stands for "register", and as the name implies, allows us to synthesize circuits with memory. Sensitivity blocks allow us to specify to the synthesis engine what signals our memory is synchronous to.
 
-In the case of Verilog, `reg` means Register. Usually, these types synthesize to use flip-flop or register hardware on the device, but in the case of `pass:[always @(*)]` blocks, they can even contain regular continuous assignment wherein no memory is needed. It is just for silly syntax reasons we *must* use `reg` inside of an `always` block... always.
+Usually, `reg` synthesizes to use flip-flop or register hardware on the device, but in the case of `pass:[always @(*)]` blocks, they can even contain regular continuous assignment wherein no memory is needed. It is just for silly syntax reasons we *must* use `reg` inside of an `always` block... always.
 
-So, let's rewrite our SR-Latch like the Verilog Gods intended:
+NOTE: Simple rules: If you are inside an `always` block, the signals must be `reg` and you don't use `assign`. If you are *not* in an `always` block, signals must be `wire` and you must use `assign`.
+
+So, let's rewrite our SR-Latch with the new behavioral syntax:
 
 [source,verilog]
 ----
@@ -112,7 +114,7 @@ include::src/behavioral_sr_latch.v[tag=module_source]
 
 <1> Notice, we can do something really cool here. I can use some structural continuous assignments to mimick the behavior of the inverted output. It is totally valid, and even common, to mix structural and behavioral Verilog in designs.
 <2> The Sensitivity List isn't just a * here, note that since we are synchronous to Set and Reset, we have both in this list.
-<3> Notice the *non blocking* assignment, for more see <<block_nonblock>>. Use non blocking for the remainder of the lab.
+<3> Notice the *non blocking* assignment, for more see <<block_nonblock>>. Use non blocking for the remainder of the lab. There are very few cases wherein you should use blocking assignment in general.
 
 This will now _behave_ the same, but synthesize correctly in Vivado. However, we have a problem with this design. What if we assert both Set and Reset? Obviously, functionally speaking this has no meaning. How are we supposed to derive the output state given this? The state where Set and Reset are high is known as the "invalid" state of the SR-Latch.
 
@@ -189,6 +191,24 @@ For additional context, see a zoomed in/cropped design diagram:
 
 image::img/zoomed_block_diagram.drawio.svg[]
 
+=== Summary
+
+|===
+| Signal    | Purpose        | Direction
+| sw[0]     | SR-Latch D     | IN
+| btnC      | SR-Latch E     | IN
+| led[0]    | SR-Latch Q     | OUT
+| led[1]    | SR-Latch ~Q    | OUT
+| sw[15:8]  | 8 data bits    | IN
+| sw[7:6]   | Address Select | IN
+| btnC      | Store          | IN
+| led[15:8] | 8 output bits  | OUT
+|===
+
+. Implement an SR Latch as described in Part 1
+. Implement the four byte memory system as described in Part 2
+
+
 [[array_appendix]]
 == Appendix 1: Array Syntax
 
@@ -264,7 +284,7 @@ include::src/scaffolding.v[tag=top]
 include::src/demultiplex.v[tag=module_source]
 ----
 
-<1> Output is sensitive both to `sel` and `data`.
+<1> Multiplexers are combinatorial logic. `*` is preferred as they require no memory.
 <2> We need to assign all other outputs to zero that are not the currently selected output. One way to do this is by concatenating zeros with the input data into the output. Make sure the width of the zeros matches the width of the outputs. In this case, each output is four bits, so we have to pack `4'b0` into them.
 
 .Demux Example Output
