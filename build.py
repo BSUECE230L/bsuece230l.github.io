@@ -7,14 +7,8 @@ import sys
 import hashlib
 import time
 
-if shutil.which("asciidoctor-revealjs"):
-    REVEAL_JS = "asciidoctor-revealjs"
-else:
-    REVEAL_JS = "bundle exec asciidoctor-revealjs"
-
-REVEAL_JS += " -r asciidoctor-diagram -a revealjsdir=https://cdn.jsdelivr.net/npm/reveal.js@4.1.2"
-
-HTML5 = "asciidoctor -r asciidoctor-diagram"
+REVEAL_JS = "bundle exec asciidoctor-revealjs -r asciidoctor-diagram -a revealjsdir=https://cdn.jsdelivr.net/npm/reveal.js@4.1.2"
+HTML5 = "bundle exec asciidoctor -r asciidoctor-diagram"
 
 OUTPUT_PATH = pathlib.Path("docs/")
 CLONE_PATH = pathlib.Path("repos/")
