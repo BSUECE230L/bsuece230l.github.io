@@ -143,6 +143,25 @@ image:img/edge_count_out.png[]
 
 NOTE: Full implementation of these counters is available in <<edge_level_counters>>
 
+=== Setting Initial State
+
+In all of these cases, initial state is a problem. When the FPGA is programmed, it has no way of knowing the state of any of the various pieces of memory within. To fix this, we can put a simple `initial begin` block in our logic to set default cases. See an example below:
+
+[source,verilog]
+----
+module example(
+    input A, B, C,
+    output reg Q
+);
+
+    initial begin
+        Q <= 0;
+    end
+
+    // ... Other logic here
+endmodule
+----
+
 == Lab Procedure
 
 In today's lab, you will be creating three different edge sensitive circuits and clocking them to `bntC` on the board. The three you will be creating are:
@@ -153,7 +172,7 @@ In today's lab, you will be creating three different edge sensitive circuits and
 
 === D Flip Flop
 
-Using the `posedge` syntax shown above, build a D Flip Flop module. Wire it up as shown below:
+Using the `posedge` syntax shown above, build a D Flip Flop module. Make sure to include the initial state! Wire it up as shown below:
 
 .IO Table for D Flip Flop
 |===
