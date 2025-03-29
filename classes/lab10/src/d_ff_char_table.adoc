@@ -1,0 +1,6 @@
+.D Flip Flop Characteristic Table
+|===
+| Input | Q~current~ | Q~next~
+| 0     | X          | 0
+| 1     | X          | 1
+|===

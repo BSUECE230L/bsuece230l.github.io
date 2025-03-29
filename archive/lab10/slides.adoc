@@ -37,18 +37,32 @@ image::img/dff_diagram.drawio.svg[width=1400px]
 include::src/byte_storage.v[tag=with_ff]
 ----
 
-== State Tables
+== Counters
 
-Excitation, Characteristic, and Truth Tables
+[.columns]
+=== Clock dividers
 
-=== Truth Table
+[.column]
+image:img/dff_div_diagram.drawio.svg[width=500px]
 
-include::src/d_ff_truth_table.adoc[]
+[.column.is-two-thirds]
+image:img/dff_div_out.png[width=800px]
 
-=== Characteristic Table
+=== Scanning
 
-include::src/d_ff_char_table.adoc[]
+image:img/basys3_7seg_anodes.png[width=900px]
 
-=== Excitation Table
+== Lab Overview
 
-include::src/d_ff_ex_table.adoc[]
+=== Block Diagram
+
+image:img/lab_block_diagram.drawio.svg[width=800px]
+
+=== Driving Segments
+
+image:img/basys3_7seg_segment.png[width=900px]
+
+=== Video Demo
+
+[.stretch]
+video::4SU6DP_Tv3Y[youtube]

@@ -1,4 +1,5 @@
 = Boise State University ECE 230 Lab
+:last-update-label!:
 
 == Assignments
 
@@ -56,6 +57,13 @@ Review, no lab.
 * xref:classes/lab09/index.adoc[Lab 09 - Synchronous Circuits]
 * xref:classes/lab09/slides.adoc[Presentation Slides]
 * xref:classes/lab09/class.zip[Class Materials]
+
+=== Week 11
+
+* xref:classes/lab10/index.adoc[Lab 10 - Edge Sensitive Circuits]
+* xref:classes/lab10/slides.adoc[Presentation Slides]
+* xref:classes/lab10/class.zip[Class Materials]
+
 
 == Tutorials
 

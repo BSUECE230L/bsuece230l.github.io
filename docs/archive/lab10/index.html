@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="generator" content="Asciidoctor 2.0.23">
-<title>Lab 10 - Edge Sensitive Circuits</title>
+<title>Lab 10 - 7-Segment Displays</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700">
 <style>
 /*! Asciidoctor default stylesheet | MIT License | https://asciidoctor.org */
@@ -438,7 +438,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </head>
 <body class="article">
 <div id="header">
-<h1>Lab 10 - Edge Sensitive Circuits</h1>
+<h1>Lab 10 - 7-Segment Displays</h1>
 <div id="toc" class="toc">
 <div id="toctitle">Table of Contents</div>
 <ul class="sectlevel1">
@@ -446,14 +446,18 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li><a href="#_clocks_edges_and_flip_flops_oh_my">Clocks, Edges, and Flip-Flops Oh My!</a>
 <ul class="sectlevel2">
 <li><a href="#_ok_so_what_is_the_point">OK, So What is the Point?</a></li>
+<li><a href="#flipflop_div">Using FlipFlops as Clock Dividers</a></li>
+<li><a href="#_using_counters_as_clock_dividers">Using Counters as Clock Dividers</a></li>
 </ul>
 </li>
-<li><a href="#_lab_procedure">Lab Procedure</a>
+<li><a href="#displaying">Displaying Our Count</a></li>
+<li><a href="#_lab_deliverables">Lab Deliverables</a>
 <ul class="sectlevel2">
-<li><a href="#_d_flip_flop">D Flip Flop</a></li>
-<li><a href="#_jk_flip_flop">JK Flip Flop</a></li>
-<li><a href="#_t_flip_flop">T Flip Flop</a></li>
-<li><a href="#_summary">Summary</a></li>
+<li><a href="#_part_1_generating_clock_signal">Part 1: Generating clock signal</a></li>
+<li><a href="#_part_2_writing_the_segment_scanner">Part 2: Writing the segment scanner</a></li>
+<li><a href="#_part_3_writing_the_segment_decoder">Part 3: Writing the segment decoder</a></li>
+<li><a href="#_part_4_writing_the_math_block">Part 4: Writing the math block</a></li>
+<li><a href="#_part_5_tying_it_all_together">Part 5: Tying it all together</a></li>
 </ul>
 </li>
 <li><a href="#pd_sim_src">Appendix 1: Pulse Detect into D-Latch Verilog Code</a></li>
@@ -621,119 +625,6 @@ endmodule</code></pre>
 <div class="paragraph">
 <p>Notice now how the blocks have a <code>C</code> pin marked with a <code>&gt;</code>&#8201;&#8212;&#8201;that means these are clocked <em>edge triggered</em> flip flops rather than level triggered latches as we saw in the previous implementation screenshot. These should now actually behave as flip flops. Also notice the <code>R</code> pin&#8201;&#8212;&#8201;that&#8217;s a reset. Allows the circuit to be reset to a <code>0</code> state by asserting that value. We will be including this on all circuits from here on out as well.</p>
 </div>
-<div class="paragraph">
-<p>The output behavior of the D Flip Flop can be described in several ways, and I&#8217;ll show them all below (showing just Q).</p>
-</div>
-<table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 1. D Flip Flop Truth Table</caption>
-<colgroup>
-<col style="width: 33.3333%;">
-<col style="width: 33.3333%;">
-<col style="width: 33.3334%;">
-</colgroup>
-<tbody>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Input</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Q<sub>current</sub></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Q<sub>next</sub></p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
-</tr>
-</tbody>
-</table>
-<div class="paragraph">
-<p>This table describes the behavior as states, where Q<sub>current</sub> is the current output of Q, and Q<sub>next</sub> is the state of the output <em>after</em> the next clock edge.</p>
-</div>
-<div class="paragraph">
-<p>We can also describe this behavior in a more simple way, with something called a characteristic table:</p>
-</div>
-<table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 2. D Flip Flop Characteristic Table</caption>
-<colgroup>
-<col style="width: 33.3333%;">
-<col style="width: 33.3333%;">
-<col style="width: 33.3334%;">
-</colgroup>
-<tbody>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Input</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Q<sub>current</sub></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Q<sub>next</sub></p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">X</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">X</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
-</tr>
-</tbody>
-</table>
-<div class="paragraph">
-<p>Since the output of our D Flip Flop doesn&#8217;t depend on the current state, we can leave those columns as X. Since no matter what, if the input is 1, the next state of Q after a clock edge will be 1, and 0 for 0.</p>
-</div>
-<div class="paragraph">
-<p>The final way to annotate the behavior of sequential circuits is via the excitation table, as shown below:</p>
-</div>
-<table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 3. D Flip Flop Excitation Table</caption>
-<colgroup>
-<col style="width: 33.3333%;">
-<col style="width: 33.3333%;">
-<col style="width: 33.3334%;">
-</colgroup>
-<tbody>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Q<sub>current</sub></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Q<sub>next</sub></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Input</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
-</tr>
-</tbody>
-</table>
-<div class="paragraph">
-<p>This one may look confusing for a second (and redundant) but occasionally will represent the circuit in a more simple way. Instead of describing the next state in terms of current and input, we describe the input required to achieve a next state based on current. It&#8217;s a transposition of the traditional truth table.</p>
-</div>
 <div class="sect2">
 <h3 id="_ok_so_what_is_the_point">OK, So What is the Point?</h3>
 <div class="paragraph">
@@ -830,34 +721,221 @@ Full implementation of these counters is available in <a href="#edge_level_count
 </table>
 </div>
 </div>
+<div class="sect2">
+<h3 id="flipflop_div">Using FlipFlops as Clock Dividers</h3>
+<div class="paragraph">
+<p>Say we have a D-FlipFlop implementation:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-verilog hljs" data-lang="verilog">module dff(
+    input reset,
+    input clock,
+    input D,
+    output reg Q,
+    output NotQ
+);
+    assign NotQ = ~Q;
+
+    always @(posedge reset, posedge clock) begin
+        if (reset) begin
+            Q &lt;= 0;
+        end else if (clock) begin
+            Q &lt;= D;
+        end
+    end
+endmodule</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>And we hook its <code>NotQ</code> output into its <code>D</code> output, like so:</p>
+</div>
+<div class="paragraph">
+<p><span class="image"><img src="img/dff_div_diagram.drawio.svg" alt="dff div diagram.drawio"></span></p>
+</div>
+<div class="paragraph">
+<p>Then we can do the following:</p>
+</div>
+<div class="paragraph">
+<p><span class="image"><img src="img/dff_div_out.png" alt="dff div out"></span></p>
+</div>
+<div class="paragraph">
+<p>Notice how the <code>Q</code> output (or <code>clk_out</code> in the diagram) toggles at half the rate of the input clock. We can keep chaining these dividers until we divide the input clock by 2<sup>N</sup> where N is the number of chained FlipFlops. In the case of the Basys3, we have a 100 MHz clock input baked onto the board. We want this to become an approximately 1 KHz signal (or ~1000 times per second) in order to drive each segment on the display for about one millisecond.</p>
+</div>
+<div class="paragraph">
+<p>Let&#8217;s examine our options:</p>
+</div>
+<div class="paragraph">
+<p>\$100e^6 -: 2^N ~= 1000\$</p>
+</div>
+<div class="paragraph">
+<p>With N = 16, we get ~1526 Hz and with N = 17 we get ~763 Hz. Given that we want each segment to be lit for between 1 and 4 milliseconds, the better choice is N = 17. This will give us an output clock frequency that is adequate to drive a scanner for the seven segment displays.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_using_counters_as_clock_dividers">Using Counters as Clock Dividers</h3>
+<div class="paragraph">
+<p>If you require a much more precise clock frequency that you can&#8217;t do by doing the FlipFlop divider, then you can go the more costly route&#8201;&#8212;&#8201;using counters as dividers. We saw in a previous section how to create a simple circuit that just counts up. We can use this with some supporting circuitry to generate a much wider array of more precise frequencies out of our input. Let&#8217;s look at an example.</p>
+</div>
+<div class="paragraph">
+<p>Let&#8217;s say we wanted to do <em>exactly</em> 1000 Hz out of our 100 MHz input:</p>
+</div>
+<div class="paragraph">
+<p>\$frac{100 MHz}{X} = 1000 Hz =&gt; X = frac{100 MHz}{1000 Hz} =&gt; X = 100e^3\$</p>
+</div>
+<div class="paragraph">
+<p>However, 100,000 is not a power of 2. So we can&#8217;t do it with any whole number of FlipFlop dividers. What we can do, however, is generate a new clock with the output of a counter. First, we need to determine how many bits our counter needs to represent out target divisor:</p>
+</div>
+<div class="paragraph">
+<p>\$ceil(log_2(100e^3)) = 17 bits\$</p>
+</div>
+<div class="paragraph">
+<p>We could then set up a circuit at the output of our counter that detects the 100,000 case, triggers an output, then resets the counter. This is very simple with behavioral verilog:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-verilog hljs" data-lang="verilog">module div(
+    input clock,
+    input reset,
+    output reg div_clock
+);
+    reg intreset;
+    wire [16:0] intcount;
+
+    counter #(.WIDTH(17)) count(
+        .clock(clock),
+        .reset(intreset),
+        .count(intcount)
+    );
+
+    // Want to create logic that
+    // is synchronous to the rest
+    // and count signals
+    always @(reset, intcount) begin
+        if (reset) begin
+            // If we get reset, pass it through
+            // to the counter
+            // and reset out clock output
+            intreset = 1;
+            div_clock = 0;
+        end else if (intcount == 100000) begin
+            // Otherwise, if the count is equal
+            // to our tickover point, then we
+            // need to reset the counter and
+            // toggle our output
+            intreset = 1;
+            div_clock = ~div_clock;
+        end else begin
+            // Otherwise, just let it count
+            intreset = 0;
+        end
+        
+    end
+
+endmodule</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>As you can see, we simply watch for the output of our divider to be 100,000 and toggle our output clock based on that, resetting the underlying counter. This, while it might initially seem like a better option than the 2<sup>N</sup> divider, uses far more gates:</p>
+</div>
+<div class="paragraph">
+<div class="title">Counter Divider Schematic</div>
+<p><span class="image"><img src="img/counter_divider_schematic.png" alt="counter divider schematic"></span></p>
+</div>
+<div class="paragraph">
+<p>The highlighted block is a ton of gates and a large usage&#8201;&#8212;&#8201;it is the section of logic that compares the current count to 100,000 and is the main reason to avoid this system if you can. If your output clock requirements are relatively loose, always go with the 2<sup>N</sup> divider.</p>
+</div>
+</div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_lab_procedure">Lab Procedure</h2>
+<h2 id="displaying">Displaying Our Count</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>In today&#8217;s lab, you will be creating three different edge sensitive circuits and clocking them to <code>bntC</code> on the board. The three you will be creating are:</p>
+<p>To add some fun to this lab, we are going to visualize things with the Seven Segment display for the first time! It is wired up as a common anode, switched cathode style. See below:</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+For much more detail on this and other things about the Basys3, see <a href="https://digilent.com/reference/programmable-logic/basys-3/reference-manual#seven_segment_display">the reference manual</a>. The following two images are from this web page.
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<div class="title">Common Anode (source: Digilent Reference Manual)</div>
+<p><span class="image"><img src="img/basys3_7seg_segment.png" alt="basys3 7seg segment"></span></p>
+</div>
+<div class="paragraph">
+<div class="title">Segment Selection (source: Digilent Reference Manual)</div>
+<p><span class="image"><img src="img/basys3_7seg_anodes.png" alt="basys3 7seg anodes"></span></p>
+</div>
+<div class="paragraph">
+<p>In order to use the displays, we need to select the digit we want to display, then drive the segments we wish to display for that digit. Each digit needs to be on for somewhere near 1 millisecond in order for persistence of vision to make it appear as if they are all on at the same time. Much faster than that and the LEDs within the displays don&#8217;t have enough time to light, and much slower than that and you can start to see it turning on individual segments. It is worth noting that all logic for the Basys3 Seven Segment is inverted&#8201;&#8212;&#8201;0 is ON and 1 is OFF.</p>
+</div>
+<div class="paragraph">
+<p>For instance, to display an A on the right-most segment, we would want to do the following:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Set AN3, AN2, AN1 to 1 (HIGH is off for anodes)</p>
+</li>
+<li>
+<p>Set AN0 to 0 (LOW is on for anodes)</p>
+</li>
+<li>
+<p>Set segment D to 1 (HIGH is off for segments)</p>
+</li>
+<li>
+<p>Set segments A, B, C, E, F, G to 0 (LOW is on for segments)</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>This would turn off the other three segments and illuminate an A character on the right-most segment. You could imagine creating a decoder that takes in a four bit number and decodes it into the hex digit set: 0 - F and using it to display any number you wanted. I wonder where that leads us&#8230;&#8203;</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_lab_deliverables">Lab Deliverables</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>In this lab, we will be building a system that displays the output of a simple set of math operations onto the seven segment displays on the Basys3 board. See the block diagram below:</p>
+</div>
+<div class="paragraph">
+<p><span class="image"><img src="img/lab_block_diagram.drawio.svg" alt="lab block diagram.drawio"></span></p>
+</div>
+<div class="paragraph">
+<p>You will need the following components:</p>
 </div>
 <div class="olist arabic">
 <ol class="arabic">
 <li>
-<p>D Flip Flop</p>
+<p>Clock divider to generate an approximately 1KHz signal for the 7seg Scan</p>
 </li>
 <li>
-<p>JK Flip Flop</p>
+<p>A demultiplexer that selects the Anode of a single 7seg display</p>
 </li>
 <li>
-<p>T Flip Flop</p>
+<p>Four decode block that turn a four bit number into 7seg digits (one per digit)</p>
+</li>
+<li>
+<p>A math block to add A + B</p>
+</li>
+<li>
+<p>A math block to do A - B</p>
 </li>
 </ol>
 </div>
-<div class="sect2">
-<h3 id="_d_flip_flop">D Flip Flop</h3>
 <div class="paragraph">
-<p>Using the <code>posedge</code> syntax shown above, build a D Flip Flop module. Wire it up as shown below:</p>
+<p>The following table describes the meaning of each segment:</p>
 </div>
 <table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 4. IO Table for D Flip Flop</caption>
 <colgroup>
 <col style="width: 33.3333%;">
 <col style="width: 33.3333%;">
@@ -865,392 +943,282 @@ Full implementation of these counters is available in <a href="#edge_level_count
 </colgroup>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Signal</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Segment</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Purpose</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Direction</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">sw[0]</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">D Flip Flop D</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">IN</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">btnC</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">D Flip Flop Clock</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">IN</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">led[0]</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">D Flip Flop Q</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">OUT</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">led[1]</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">D Flip Flop ~Q</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">OUT</p></td>
-</tr>
-</tbody>
-</table>
-</div>
-<div class="sect2">
-<h3 id="_jk_flip_flop">JK Flip Flop</h3>
-<div class="paragraph">
-<p>Using the D Flip Flop module you just built, implement a JK Flip Flop. A JK Flip Flop is built using a single D Flip Flop and some combinatorial logic to modify its inputs. Instead of exposing a single Data input, it exposes two: J and K. The combinatorial logic combines J, K, Q, and ~Q (the Q and ~Q inputs are from the internal D Flip Flop) to drive the Data line of the internal D Flip Flop. See the diagram below:</p>
-</div>
-<div class="paragraph">
-<p><span class="image"><img src="img/jk_ff.drawio.svg" alt="jk ff.drawio"></span></p>
-</div>
-<div class="paragraph">
-<p>The excitation table is shown below:</p>
-</div>
-<table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 5. JK Flip Flop Excitation Table</caption>
-<colgroup>
-<col style="width: 25%;">
-<col style="width: 25%;">
-<col style="width: 25%;">
-<col style="width: 25%;">
-</colgroup>
-<tbody>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Q<sub>current</sub></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Q<sub>next</sub></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">J</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">K</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">X</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">X</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">X</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">X</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
-</tr>
-</tbody>
-</table>
-<div class="paragraph">
-<p>The behavioral description of the JK Flip Flop is as follows:
-* To hold state at Q = 0, J must be 0
-* To hold state at Q = 1, K must be 0
-* To reset from Q = 1 to Q = 0, K must be 1
-* To set from Q = 0 to Q = 1, J must be 1
-* To invert Q, set both J and K</p>
-</div>
-<div class="paragraph">
-<p>The truth table for your logic is below:</p>
-</div>
-<table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 6. JK Flip Flop Combinatorial Logic Truth Table</caption>
-<colgroup>
-<col style="width: 25%;">
-<col style="width: 25%;">
-<col style="width: 25%;">
-<col style="width: 25%;">
-</colgroup>
-<tbody>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">J</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">K</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Q</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">D</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
-</tr>
-</tbody>
-</table>
-<div class="paragraph">
-<p>Using your D Flip Flop module and some combinatorial logic, implement this JK Flip Flop. Wire it up as shown below:</p>
-</div>
-<table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 7. IO Table for JK Flip Flop</caption>
-<colgroup>
-<col style="width: 33.3333%;">
-<col style="width: 33.3333%;">
-<col style="width: 33.3334%;">
-</colgroup>
-<tbody>
-<tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Signal</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Purpose</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Direction</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">sw[1]</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">JK Flip Flop J</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">IN</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Left</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">A - B</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">an[3]</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">sw[2]</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">JK Flip Flop K</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">IN</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Left Center</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">A + B</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">an[2]</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">btnC</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">JK Flip Flop Clock</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">IN</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Right Center</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">B</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">an[1]</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">led[2]</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">JK Flip Flop Q</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">OUT</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">led[3]</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">JK Flip Flop ~Q</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">OUT</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Right</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">A</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">an[0]</p></td>
 </tr>
 </tbody>
+</table>
+<div class="admonitionblock warning">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-warning" title="Warning"></i>
+</td>
+<td class="content">
+Please use the exact module names and parameters below, or modify <code>test.v</code> appropriately for your solution.
+</td>
+</tr>
 </table>
 </div>
 <div class="sect2">
-<h3 id="_t_flip_flop">T Flip Flop</h3>
-<div class="paragraph">
-<p>The T Flip Flop is named because it is a Flip Flop that toggles state on each clock edge with its input T asserted. It can be implemented several ways, including some very clever ones (hint: read the behavioral description of the JK Flip Flop).</p>
-</div>
-<table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 8. T Flip Flop Characteristic Table</caption>
-<colgroup>
-<col style="width: 50%;">
-<col style="width: 50%;">
-</colgroup>
-<tbody>
+<h3 id="_part_1_generating_clock_signal">Part 1: Generating clock signal</h3>
+<div class="admonitionblock note">
+<table>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">T</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Q<sub>next</sub></p></td>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+For this, refer to the sections above (primarily <a href="#flipflop_div">Using FlipFlops as Clock Dividers</a>) about creating clock dividers.
+</td>
 </tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Q</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">~Q</p></td>
-</tr>
-</tbody>
 </table>
-<table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 9. T Flip Flop Excitation Table</caption>
-<colgroup>
-<col style="width: 33.3333%;">
-<col style="width: 33.3333%;">
-<col style="width: 33.3334%;">
-</colgroup>
-<tbody>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Q<sub>current</sub></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Q~next</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">T</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
-</tr>
-</tbody>
-</table>
-<div class="paragraph">
-<p>The behavioral description of the T Flip Flop is as follows:
-* The output will invert on each clock cycle if T is asserted
-* The output will stay the same on each clock cycle if T is deasserted</p>
 </div>
 <div class="paragraph">
-<p>Build the T Flip Flop and wire it up as follows:</p>
+<p>Create a simple module that takes in the 100 MHz clock integrated into the Basys3 board and generates an approximately 1 KHz signal out. If you feel like going the extra mile, you can go ahead and make it precisely 1 KHz output. See the following code segment for scaffolding:</p>
 </div>
-<table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 10. IO Table for T Flip Flop</caption>
-<colgroup>
-<col style="width: 33.3333%;">
-<col style="width: 33.3333%;">
-<col style="width: 33.3334%;">
-</colgroup>
-<tbody>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Signal</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Purpose</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Direction</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">sw[3]</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">T Flip Flop T</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">IN</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">btnC</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">T Flip Flop Clock</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">IN</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">led[4]</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">T Flip Flop Q</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">OUT</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">led[5]</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">T Flip Flop ~Q</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">OUT</p></td>
-</tr>
-</tbody>
-</table>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-verilog hljs" data-lang="verilog">// clock_div.v
+module clock_div
+#(
+    parameter DIVIDE_BY = 17 // Or 100,000 if you are using counter divider
+)
+(
+    input clock,
+    input reset,
+    output reg div_clock
+);
+
+    // 100 MHz input clock Divide by either 2^17 or use a counter based divider
+    // to output to div_clock
+
+    // Use the reset signal to set the initial state of your div_clock as well
+    // as reset whatever div method you are using
+
+    // If you use the 2^N divider, try instantiating the flip flops with a
+    // genvar and generate block
+
+    // If you use the counter block, try using parameters in the counter module
+    // to specify the number of bits
+    
+    // IMPORTANT NOTE!! If you do a counter based divider, make sure to only
+    // divide clock by 2 during test bench runs or your tests will fail. This
+    // will automatically happen for you if you use 2^N divider and the
+    // BIT_COUNT parameter
+
+endmodule</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>It is important to parameterize this module. In the test bench, which is critical to understanding and debugging your code when you face issues, we don&#8217;t want to actually simulate a 100 MHz clock. That would make the simulation take an extremely long time. There is a divide by parameter shown at the top of this scaffolded module. You are responsible for setting its default value for whatever implementation you use (1/2<sup>N</sup> or counter) and interpreting what that means, just know that the test bench will pass <code>2</code> in for this value, and it expects that your clock divider, under test, will only divide the input clock by 2.</p>
+</div>
+<div class="paragraph">
+<p>It is recommended that you use it to drive either the number of chained D-FlipFlops or the count value you are comparing to in your counter. See <a href="https://www.chipverify.com/verilog/verilog-math-functions">this link</a> for additional information on what calculations you can do on and with parameters. To be clear&#8201;&#8212;&#8201;you have two options with how to implement the clock divider for your circuit, and it does not matter which you use as long as it produces an ~1KHz clock. Take this design freedom and have some fun!</p>
+</div>
 </div>
 <div class="sect2">
-<h3 id="_summary">Summary</h3>
-<table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 11. IO Table Summary</caption>
-<colgroup>
-<col style="width: 33.3333%;">
-<col style="width: 33.3333%;">
-<col style="width: 33.3334%;">
-</colgroup>
-<tbody>
+<h3 id="_part_2_writing_the_segment_scanner">Part 2: Writing the segment scanner</h3>
+<div class="admonitionblock note">
+<table>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Signal</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Purpose</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Direction</p></td>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+For this, refer to <a href="#displaying">Displaying Our Count</a> for more information.
+NOTE: For a counter implementation see: <a href="#edge_level_counters">Appendix 2: Edge and Level Sensitive Counters</a>, specifically the <code>edge_counter</code> module.
+</td>
 </tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">sw[0]</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">D Flip Flop D</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">IN</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">sw[1]</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">JK Flip Flop J</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">IN</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">sw[2]</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">JK Flip Flop K</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">IN</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">sw[3]</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">T Flip Flop T</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">IN</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">btnC</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">D Flip Flop Clock</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">IN</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">btnC</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">JK Flip Flop Clock</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">IN</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">btnC</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">T Flip Flop Clock</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">IN</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">led[0]</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">D Flip Flop Q</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">OUT</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">led[1]</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">D Flip Flop ~Q</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">OUT</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">led[2]</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">JK Flip Flop Q</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">OUT</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">led[3]</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">JK Flip Flop ~Q</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">OUT</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">led[4]</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">T Flip Flop Q</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">OUT</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">led[5]</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">T Flip Flop ~Q</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">OUT</p></td>
-</tr>
-</tbody>
 </table>
+</div>
+<div class="paragraph">
+<p>This component will need to take in the divided clock and scan through the four segments' anodes. See the following code segment for scaffolding:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-verilog hljs" data-lang="verilog">// seven_seg_scanner.v
+module seven_seg_scanner(
+    input div_clock,
+    input reset,
+    output reg [3:0] anode
+);
+
+    // This block should count through from zero to three, and only activate one
+    // anode at a time in the seven segment displays. Keep in mind THEY ARE
+    // INVERSE DRIVE, that is that 0 is on 1 is off
+
+    // The reset line should set things back to segment 0
+
+    // Anodes are:
+    // 0: Right
+    // 1: Right Center
+    // 2: Left Center
+    // 3: Left
+
+endmodule</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_part_3_writing_the_segment_decoder">Part 3: Writing the segment decoder</h3>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+For this, refer to <a href="#displaying">Displaying Our Count</a> for more information.
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>This component will need to look at what segment is active and display the correct digit for that segment. See the following code segment for scaffolding:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-verilog hljs" data-lang="verilog">// seven_seg_decoder.v
+module seven_seg_decoder(
+    input [3:0] A,
+    input [3:0] B,
+    input [3:0] AplusB,
+    input [3:0] AminusB,
+    input [3:0] anode,
+    output reg [6:0] segs
+);
+
+    // This module should be purely combinatorial -- no reset required. What we
+    // are going to do here is simply display the correct four bit number
+    // according to the table provided in the lab deliverables section
+
+    // Recommended you do a simple behavioral implementation:
+    // alwyas @(*) begin
+    //   case (anode)
+    //      'b1110: selected_sig &lt;= A
+    //      'b1101: selected_sig &lt;= B
+    //      ...
+    //   endcase
+
+    // You will also need a very simple decoder that assigns the segs components
+    // based on the 4 bit input number to hexidecimal digit
+
+    // For reference:
+    always @(*) begin
+        case(selected_sig)
+            //            GFEDCBA
+            0: segs  = 7'b1000000;        
+            1: segs  = 7'b1111001;        
+            2: segs  = 7'b0100100;        
+            3: segs  = 7'b0110000;        
+            4: segs  = 7'b0011001;        
+            5: segs  = 7'b0010010;        
+            6: segs  = 7'b0000010;        
+            7: segs  = 7'b1111000;        
+            8: segs  = 7'b0000000;
+            9: segs  = 7'b0010000;        
+            10: segs = 7'b0001000;        
+            11: segs = 7'b0000011;        
+            12: segs = 7'b1000110;        
+            13: segs = 7'b0100001;        
+            14: segs = 7'b0000110;        
+            15: segs = 7'b0001110;       
+        endcase
+    end
+
+endmodule</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_part_4_writing_the_math_block">Part 4: Writing the math block</h3>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+For this, refer to previous labs for information on the adder/two&#8217;s compliment
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>This component will do simple math on two four bit numbers, outputting both A + B and A - B. It is up to you how to implement the addition and subtraction, but we have created four bit adders and subtractors both in previous labs. See the following code segment for scaffolding:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-verilog hljs" data-lang="verilog">// math_block.v
+module math_block(
+    input [3:0] A,
+    input [3:0] B,
+    output reg [3:0] AplusB,
+    output reg [3:0] AminusB
+);
+
+    // This one should be relatively easy.  You can either use your previous
+    // four bit adders and two's compliment converters that you implemented in
+    // previous labs, or set up some behavioral verilog to do the job for you
+
+endmodule</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_part_5_tying_it_all_together">Part 5: Tying it all together</h3>
+<div class="paragraph">
+<p>Finally, the top module. See the following code segment for scaffolding:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-verilog hljs" data-lang="verilog">// top.v
+module top
+#(
+    parameter DIVIDE_BY = 17 // Use this when passing in to your clock div!
+    // The test bench will set it to 2 when testing
+)
+(
+    input [7:0] sw, // A and B
+    input clk, // 100 MHz board clock
+    input btnC, // Reset
+    output [3:0] an, // 7seg anodes
+    output [6:0] seg // 7seg segments
+);
+
+    // Instantiate the clock divider...
+    // ... wire it up to the scanner
+    // ... wire the scanner to the decoder
+
+    // Wire up the math block into the decoder
+
+    // Do not forget to wire up resets!!
+
+endmodule</code></pre>
+</div>
+</div>
 </div>
 </div>
 </div>

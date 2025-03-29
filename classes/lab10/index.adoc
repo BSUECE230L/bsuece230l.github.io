@@ -1,4 +1,4 @@
-= Lab 10 - 7-Segment Displays
+= Lab 10 - Edge Sensitive Circuits
 :source-highlighter: highlight.js
 :highlightjs-languages: verilog
 :icons: font
@@ -83,6 +83,24 @@ image::img/right_implementation.png[]
 
 Notice now how the blocks have a `C` pin marked with a `>` -- that means these are clocked _edge triggered_ flip flops rather than level triggered latches as we saw in the previous implementation screenshot. These should now actually behave as flip flops. Also notice the `R` pin -- that's a reset. Allows the circuit to be reset to a `0` state by asserting that value. We will be including this on all circuits from here on out as well.
 
+The output behavior of the D Flip Flop can be described in several ways, and I'll show them all below (showing just Q).
+
+include::src/d_ff_truth_table.adoc[]
+
+This table describes the behavior as states, where Q~current~ is the current output of Q, and Q~next~ is the state of the output _after_ the next clock edge.
+
+We can also describe this behavior in a more simple way, with something called a characteristic table:
+
+include::src/d_ff_char_table.adoc[]
+
+Since the output of our D Flip Flop doesn't depend on the current state, we can leave those columns as X. Since no matter what, if the input is 1, the next state of Q after a clock edge will be 1, and 0 for 0.
+
+The final way to annotate the behavior of sequential circuits is via the excitation table, as shown below:
+
+include::src/d_ff_ex_table.adoc[]
+
+This one may look confusing for a second (and redundant) but occasionally will represent the circuit in a more simple way. Instead of describing the next state in terms of current and input, we describe the input required to achieve a next state based on current. It's a transposition of the traditional truth table.
+
 === OK, So What is the Point?
 
 What can we do with these new edge triggered circuits? Well, really, implement the rest of all of computer science for a start. All real computer memory systems are based off of what are called *clocked circuits*. Let's start with discussing clocks, as from here on out in our labs we will primarily be utilizing them.
@@ -125,165 +143,131 @@ image:img/edge_count_out.png[]
 
 NOTE: Full implementation of these counters is available in <<edge_level_counters>>
 
-[[flipflop_div]]
-=== Using FlipFlops as Clock Dividers
+== Lab Procedure
 
-Say we have a D-FlipFlop implementation:
+In today's lab, you will be creating three different edge sensitive circuits and clocking them to `bntC` on the board. The three you will be creating are:
 
-[source,verilog]
-----
-include::src/dff_divider.v[tag=dff_impl]
-----
+. D Flip Flop
+. JK Flip Flop
+. T Flip Flop
 
-And we hook its `NotQ` output into its `D` output, like so:
+=== D Flip Flop
 
-image:img/dff_div_diagram.drawio.svg[]
+Using the `posedge` syntax shown above, build a D Flip Flop module. Wire it up as shown below:
 
-Then we can do the following:
-
-image:img/dff_div_out.png[]
-
-Notice how the `Q` output (or `clk_out` in the diagram) toggles at half the rate of the input clock. We can keep chaining these dividers until we divide the input clock by 2^N^ where N is the number of chained FlipFlops. In the case of the Basys3, we have a 100 MHz clock input baked onto the board. We want this to become an approximately 1 KHz signal (or ~1000 times per second) in order to drive each segment on the display for about one millisecond.
-
-Let's examine our options:
-
-stem:[100e^6 -: 2^N ~= 1000]
-
-With N = 16, we get ~1526 Hz and with N = 17 we get ~763 Hz. Given that we want each segment to be lit for between 1 and 4 milliseconds, the better choice is N = 17. This will give us an output clock frequency that is adequate to drive a scanner for the seven segment displays.
-
-=== Using Counters as Clock Dividers
-
-If you require a much more precise clock frequency that you can't do by doing the FlipFlop divider, then you can go the more costly route -- using counters as dividers. We saw in a previous section how to create a simple circuit that just counts up. We can use this with some supporting circuitry to generate a much wider array of more precise frequencies out of our input. Let's look at an example.
-
-Let's say we wanted to do _exactly_ 1000 Hz out of our 100 MHz input:
-
-stem:[frac{100 MHz}{X} = 1000 Hz => X = frac{100 MHz}{1000 Hz} => X = 100e^3]
-
-However, 100,000 is not a power of 2. So we can't do it with any whole number of FlipFlop dividers. What we can do, however, is generate a new clock with the output of a counter. First, we need to determine how many bits our counter needs to represent out target divisor:
-
-stem:[ceil(log_2(100e^3)) = 17 bits]
-
-We could then set up a circuit at the output of our counter that detects the 100,000 case, triggers an output, then resets the counter. This is very simple with behavioral verilog:
-
-[source,verilog]
-----
-include::src/count_divider.v[tag=divclock_impl]
-----
-
-As you can see, we simply watch for the output of our divider to be 100,000 and toggle our output clock based on that, resetting the underlying counter. This, while it might initially seem like a better option than the 2^N^ divider, uses far more gates:
-
-.Counter Divider Schematic
-image:img/counter_divider_schematic.png[]
-
-The highlighted block is a ton of gates and a large usage -- it is the section of logic that compares the current count to 100,000 and is the main reason to avoid this system if you can. If your output clock requirements are relatively loose, always go with the 2^N^ divider.
-
-[[displaying]]
-== Displaying Our Count
-
-To add some fun to this lab, we are going to visualize things with the Seven Segment display for the first time! It is wired up as a common anode, switched cathode style. See below:
-
-NOTE: For much more detail on this and other things about the Basys3, see https://digilent.com/reference/programmable-logic/basys-3/reference-manual#seven_segment_display[the reference manual]. The following two images are from this web page.
-
-.Common Anode (source: Digilent Reference Manual)
-image:img/basys3_7seg_segment.png[]
-
-.Segment Selection (source: Digilent Reference Manual)
-image:img/basys3_7seg_anodes.png[]
-
-In order to use the displays, we need to select the digit we want to display, then drive the segments we wish to display for that digit. Each digit needs to be on for somewhere near 1 millisecond in order for persistence of vision to make it appear as if they are all on at the same time. Much faster than that and the LEDs within the displays don't have enough time to light, and much slower than that and you can start to see it turning on individual segments. It is worth noting that all logic for the Basys3 Seven Segment is inverted -- 0 is ON and 1 is OFF.
-
-For instance, to display an A on the right-most segment, we would want to do the following:
-
-- Set AN3, AN2, AN1 to 1 (HIGH is off for anodes)
-- Set AN0 to 0 (LOW is on for anodes)
-- Set segment D to 1 (HIGH is off for segments)
-- Set segments A, B, C, E, F, G to 0 (LOW is on for segments)
-
-This would turn off the other three segments and illuminate an A character on the right-most segment. You could imagine creating a decoder that takes in a four bit number and decodes it into the hex digit set: 0 - F and using it to display any number you wanted. I wonder where that leads us...
-
-== Lab Deliverables
-
-In this lab, we will be building a system that displays the output of a simple set of math operations onto the seven segment displays on the Basys3 board. See the block diagram below:
-
-image:img/lab_block_diagram.drawio.svg[]
-
-You will need the following components:
-
-. Clock divider to generate an approximately 1KHz signal for the 7seg Scan
-. A demultiplexer that selects the Anode of a single 7seg display
-. Four decode block that turn a four bit number into 7seg digits (one per digit)
-. A math block to add A + B
-. A math block to do A - B
-
-The following table describes the meaning of each segment:
-
+.IO Table for D Flip Flop
 |===
-| Segment      | Purpose | Signal
-| Left         | A - B   | an[3]
-| Left Center  | A + B   | an[2]
-| Right Center | B       | an[1]
-| Right        | A       | an[0]
+| Signal    | Purpose        | Direction
+| sw[0]     | D Flip Flop D     | IN
+| btnC      | D Flip Flop Clock     | IN
+| led[0]    | D Flip Flop Q     | OUT
+| led[1]    | D Flip Flop ~Q    | OUT
 |===
 
-WARNING: Please use the exact module names and parameters below, or modify `test.v` appropriately for your solution.
+=== JK Flip Flop
 
-=== Part 1: Generating clock signal
+Using the D Flip Flop module you just built, implement a JK Flip Flop. A JK Flip Flop is built using a single D Flip Flop and some combinatorial logic to modify its inputs. Instead of exposing a single Data input, it exposes two: J and K. The combinatorial logic combines J, K, Q, and ~Q (the Q and ~Q inputs are from the internal D Flip Flop) to drive the Data line of the internal D Flip Flop. See the diagram below:
 
-NOTE: For this, refer to the sections above (primarily <<flipflop_div>>) about creating clock dividers.
+image:img/jk_ff.drawio.svg[]
 
-Create a simple module that takes in the 100 MHz clock integrated into the Basys3 board and generates an approximately 1 KHz signal out. If you feel like going the extra mile, you can go ahead and make it precisely 1 KHz output. See the following code segment for scaffolding:
+The excitation table is shown below:
 
-[source,verilog]
-----
-include::src/scaffolding.v[tag=clock_div]
-----
+.JK Flip Flop Excitation Table
+|===
+| Q~current~ | Q~next~ | J | K
+| 0          | 0       | 0 | X
+| 1          | 0       | X | 1
+| 0          | 1       | 1 | X
+| 1          | 1       | X | 0
+|===
 
-It is important to parameterize this module. In the test bench, which is critical to understanding and debugging your code when you face issues, we don't want to actually simulate a 100 MHz clock. That would make the simulation take an extremely long time. There is a divide by parameter shown at the top of this scaffolded module. You are responsible for setting its default value for whatever implementation you use (1/2^N^ or counter) and interpreting what that means, just know that the test bench will pass `2` in for this value, and it expects that your clock divider, under test, will only divide the input clock by 2.
+The behavioral description of the JK Flip Flop is as follows:
+* To hold state at Q = 0, J must be 0
+* To hold state at Q = 1, K must be 0
+* To reset from Q = 1 to Q = 0, K must be 1
+* To set from Q = 0 to Q = 1, J must be 1
+* To invert Q, set both J and K
 
-It is recommended that you use it to drive either the number of chained D-FlipFlops or the count value you are comparing to in your counter. See https://www.chipverify.com/verilog/verilog-math-functions[this link] for additional information on what calculations you can do on and with parameters. To be clear -- you have two options with how to implement the clock divider for your circuit, and it does not matter which you use as long as it produces an ~1KHz clock. Take this design freedom and have some fun!
+The truth table for your logic is below:
 
-=== Part 2: Writing the segment scanner
+.JK Flip Flop Combinatorial Logic Truth Table
+|===
+| J | K | Q | D
+| 0 | 0 | 0 | 0
+| 0 | 0 | 1 | 1
+| 0 | 1 | 0 | 0
+| 0 | 1 | 1 | 0
+| 1 | 0 | 0 | 1
+| 1 | 0 | 1 | 1
+| 1 | 1 | 0 | 1
+| 1 | 1 | 1 | 0
+|===
 
-NOTE: For this, refer to <<displaying>> for more information.
-NOTE: For a counter implementation see: <<edge_level_counters>>, specifically the `edge_counter` module.
+Using your D Flip Flop module and some combinatorial logic, implement this JK Flip Flop. Wire it up as shown below:
 
-This component will need to take in the divided clock and scan through the four segments' anodes. See the following code segment for scaffolding:
+.IO Table for JK Flip Flop
+|===
+| Signal    | Purpose        | Direction
+| sw[1]     | JK Flip Flop J     | IN
+| sw[2]     | JK Flip Flop K     | IN
+| btnC      | JK Flip Flop Clock     | IN
+| led[2]    | JK Flip Flop Q     | OUT
+| led[3]    | JK Flip Flop ~Q    | OUT
+|===
 
-[source,verilog]
-----
-include::src/scaffolding.v[tag=seven_seg_scanner]
-----
+=== T Flip Flop
 
-=== Part 3: Writing the segment decoder
+The T Flip Flop is named because it is a Flip Flop that toggles state on each clock edge with its input T asserted. It can be implemented several ways, including some very clever ones (hint: read the behavioral description of the JK Flip Flop).
 
-NOTE: For this, refer to <<displaying>> for more information.
+.T Flip Flop Characteristic Table
+|===
+| T | Q~next~
+| 0 | Q
+| 1 | ~Q
+|===
 
-This component will need to look at what segment is active and display the correct digit for that segment. See the following code segment for scaffolding:
+.T Flip Flop Excitation Table
+|===
+| Q~current~ | Q~next | T
+| 0          | 0      | 0
+| 0          | 1      | 1
+| 1          | 0      | 1
+| 1          | 1      | 0
+|===
 
-[source,verilog]
-----
-include::src/scaffolding.v[tag=seven_seg_decoder]
-----
+The behavioral description of the T Flip Flop is as follows:
+* The output will invert on each clock cycle if T is asserted
+* The output will stay the same on each clock cycle if T is deasserted
 
-=== Part 4: Writing the math block
+Build the T Flip Flop and wire it up as follows:
 
-NOTE: For this, refer to previous labs for information on the adder/two's compliment
+.IO Table for T Flip Flop
+|===
+| Signal    | Purpose        | Direction
+| sw[3]     | T Flip Flop T     | IN
+| btnC      | T Flip Flop Clock     | IN
+| led[4]    | T Flip Flop Q     | OUT
+| led[5]    | T Flip Flop ~Q    | OUT
+|===
 
-This component will do simple math on two four bit numbers, outputting both A + B and A - B. It is up to you how to implement the addition and subtraction, but we have created four bit adders and subtractors both in previous labs. See the following code segment for scaffolding:
-
-[source,verilog]
-----
-include::src/scaffolding.v[tag=math_block]
-----
-
-=== Part 5: Tying it all together
-
-Finally, the top module. See the following code segment for scaffolding:
-
-[source,verilog]
-----
-include::src/scaffolding.v[tag=top]
-----
+=== Summary
+.IO Table Summary
+|===
+| Signal    | Purpose        | Direction
+| sw[0]     | D Flip Flop D     | IN
+| sw[1]     | JK Flip Flop J     | IN
+| sw[2]     | JK Flip Flop K     | IN
+| sw[3]     | T Flip Flop T     | IN
+| btnC      | D Flip Flop Clock     | IN
+| btnC      | JK Flip Flop Clock     | IN
+| btnC      | T Flip Flop Clock     | IN
+| led[0]    | D Flip Flop Q     | OUT
+| led[1]    | D Flip Flop ~Q    | OUT
+| led[2]    | JK Flip Flop Q     | OUT
+| led[3]    | JK Flip Flop ~Q    | OUT
+| led[4]    | T Flip Flop Q     | OUT
+| led[5]    | T Flip Flop ~Q    | OUT
+|===
 
 [[pd_sim_src]]
 == Appendix 1: Pulse Detect into D-Latch Verilog Code

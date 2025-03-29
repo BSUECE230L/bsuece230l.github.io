@@ -3,6 +3,7 @@
 :highlightjs-languages: verilog,bash
 :icons: font
 :toc:
+:last-update-label!:
 
 == Introduction
 

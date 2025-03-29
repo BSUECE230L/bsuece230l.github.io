@@ -1,0 +1,62 @@
+@startuml level_vs_edge
+
+scale 10 as 100 pixels
+
+binary "Level" as Q
+binary "Edge" as Qnot
+binary "D" as D
+binary "E" as E
+
+@0
+Q is {low,high}
+Qnot is {low,high}
+D is low
+E is low
+
+@5
+E is high
+Q is low
+Qnot is low
+
+@7
+E is low
+
+@10
+D is high
+
+@11
+D is low
+
+@13
+D is high
+
+@14
+E is high
+Q is high
+Qnot is high
+
+@16
+D is low
+Q is low
+
+@18
+D is high
+Q is high
+
+@20
+E is low
+
+@22
+D is low
+
+@25
+E is high
+Q is low
+Qnot is low
+
+@27
+E is low
+
+highlight 0 to 5 : Unknown state
+
+@enduml

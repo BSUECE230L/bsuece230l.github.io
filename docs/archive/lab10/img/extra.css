@@ -1,0 +1,16 @@
+.big-code pre{
+    height: 800px;
+}
+
+.mid-code pre{
+    height: 600px;
+}
+
+.compact-table tr td{
+    padding: 0.1em;
+    line-height: 1;
+}
+
+.compact-table tr td p{
+    margin: 0;
+}

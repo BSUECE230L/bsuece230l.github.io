@@ -1,0 +1,8 @@
+.D Flip Flop Excitation Table
+|===
+| Q~current~ | Q~next~ | Input
+| 0          | 0       | 0
+| 1          | 0       | 0
+| 0          | 1       | 1
+| 1          | 1       | 1
+|===
