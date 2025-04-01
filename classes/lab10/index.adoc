@@ -201,6 +201,7 @@ The excitation table is shown below:
 |===
 
 The behavioral description of the JK Flip Flop is as follows:
+
 * To hold state at Q = 0, J must be 0
 * To hold state at Q = 1, K must be 0
 * To reset from Q = 1 to Q = 0, K must be 1
@@ -255,6 +256,7 @@ The T Flip Flop is named because it is a Flip Flop that toggles state on each cl
 |===
 
 The behavioral description of the T Flip Flop is as follows:
+
 * The output will invert on each clock cycle if T is asserted
 * The output will stay the same on each clock cycle if T is deasserted
 
