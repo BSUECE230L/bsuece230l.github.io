@@ -1,0 +1,12 @@
+@startuml simple_state_machine
+A --> A : w = 0
+A --> B : w = 1
+B --> A : w = 0
+B --> C : w = 1
+C --> C : w = 1
+C --> A : w = 0
+
+A: z = 0
+B: z = 0
+C: z = 1
+@enduml

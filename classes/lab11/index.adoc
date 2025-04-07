@@ -1,2 +1,193 @@
 = Lab 11 - Finite State Machine Lab
+:source-highlighter: highlight.js
+:highlightjs-languages: verilog
+:icons: font
+:toc:
 :last-update-label!:
+:stem:
+
+xref:class.zip[Download Class Materials]
+
+== Introduction
+
+We now have all the ingredients to make anything from a simple wall clock to a modern nVidia GPU. The latter being a little bit unlikely for a 200 level college course, let's start with the basics.
+
+Most complex digital logic circuits are built out of many components. There will be combinatorial logic that does most of the heavy lifting, there will be sequential circuits holding on to temporary values, and synchronous flip flops for data storage.
+
+Generally, all of these combine together to form *state machines* in these systems, as complex circuits generally need to perform a series of operations in a specific order. Consider, for instance, a CPU. It has to load the next instruction, load the data for the instruction, execute the instruction, then store the result somewhere. If it does any of those things out of order or requires human intervention in the middle, it would make for an extremely poor CPU.
+
+To do these things, then, we need the state machines. These are digital logic circuits that have "next state" logic, typically purely combinatorial, as well as "state storage" which is typically in the form of D-FlipFlops. The next state logic uses a combination of inputs as well as current state to drive the next state, allowing the whole machine to tick along with the clock assigned to the D-FlipFlops.
+
+In this lab, we will explore two different ways to create state machines, and implement a simple one on the board and watch as it does its actions.
+
+== Example State Machine
+
+Let's take for example the following state machine. It has a single input `w` and a single output `z`. It is a Moore type state machine, that is its output `z` is only dependent on the current state. If the output is dependent on current state as well as inputs, that would be a Mealy type state machine.
+
+[plantuml,format=svg]
+----
+include::img/example_state_machine.puml[]
+----
+
+Its state table is shown below:
+
+.State Table
+|===
+.2+| Current State 2+| Next State .2+| Output
+| w = 0 | w = 1 
+| A | A | B | 0
+| B | A | C | 0
+| C | A | C | 1
+|===
+
+There are two ways to implement the above state table. Think about how the current state is stored in D-FlipFlops. First, we could have one D-FF for each state, that is, three total D-FF, where when they are asserted, the machine is in that state. This is called one-hot encoding, as there is always one and only one D-FF asserted at any time:
+
+.One Hot Encoding
+|===
+| State | A D-FF | B D-FF | C D-FF
+| A     | 1      | 0      | 0
+| B     | 0      | 1      | 0
+| C     | 0      | 0      | 1
+|===
+
+This means we need `N` D-FFs, one per state. The other way to encode the current state is by using a binary number. This requires stem:[ceil(log_2(Nstates))] D-FFs to implement. In the case of our three state system above, we need two D-FFs. Let's see how that would look:
+
+.Binary Encoding
+|===
+| State | Binary Value
+| A     | 00
+| B     | 01
+| C     | 10
+|===
+
+There are advantages and disadvantages to each approach. For one, the One Hot encoding makes current state logic decisions much easier, as we don't need to look at the value of multiple D-FFs. However, it requires many more D-FFs as the complexity of state machines grows. The downsides of binary encoding are that there are often _invalid_ representations. There's no state D in our example, but the two D-FFs can represent the state `11` which does not actually exist. In addition, we need to consider the value of all D-FFs each time we want to make next state decisions.
+
+Let's look at this state machine implemented in both ways now.
+
+=== One Hot Implementation
+
+Let's rewrite our state table with `XXX` representing the `CBA` flip flops each:
+
+.One-hot state assignment
+|===
+.2+| Current State 2+| Next State .2+| Output
+| w = 0 | w = 1 
+| 001 | 001 | 010 | 0
+| 010 | 001 | 100 | 0
+| 100 | 001 | 100 | 1
+|===
+
+Where `A = 001`, `B = 010`, `C = 100`. If we initialize the D-FFs into one of the three valid states (using either a reset line or `initial begin`), we can carefully design our next-state logic to drive the inputs of our D-FFs so that they cannot enter one of the invalid states, that is a state where more than one or zero D-FFs are asserted (remember, this is one hot). We can also design the logic required to drive our output `z`.
+
+Let's start with the output as it is most simple. We can see that `z` is only asserted when we are in state C, so that leads us to an extremely easy equation: `z = C`, where `C` is the `Q` output of the D-FF associated with the C state.
+
+Next, let's design the logic for our next state. In this case, it will take the form of logic gates driving the `D` input of each D-FF for each state.
+
+We can use the simple state first: A. We can see from the state assignment table, that we go into state A _no matter what_ when `w = 0`. So, the equation for the input of the A D-FF is as follows: `A = ~w`
+
+The equations for B and C are slightly more complicated. We can see that there is only one case where B is the next state, when `w = 1` and we are in state A: `B = w & A`. For C, we can see if state is B or C, we go to C if `w = 1`, so that equation is `C = (B & w) | (C & w)`
+
+The full implementation for the One Hot encoding of this state machine can be found in <<ex-onehot>>.
+
+=== Binary Implementation
+
+Let's rewrite our state machine table with 'XX' representing the two bits of D-FF in the binary solution:
+
+.Binary state assignment
+|===
+.2+| Current State 2+| Next State .2+| Output
+| w = 0 | w = 1 
+| 00 | 00 | 01 | 0
+| 01 | 00 | 10 | 0
+| 10 | 00 | 10 | 1
+|===
+
+Where `A = 00`, `B = 01`, `C = 10`. We will refer to these two D-FFs as `[y, x]` from now on (`y` is MSB, `x` is LSB)
+
+If we do the same, and initialize the two D-FFs to a single valid state, and design next state logic driving each of the `D` inputs to our two D-FFs so that they cannot enter the single invalid state and transition properly, we can build a functioning state machine as we did above.
+
+Let's start with the easy part now, the output. Just as above, we only assert `z` if we are in state C, so the equation is very simple: `z = y & ~x`.
+
+The next state logic is slightly more complicated, and can be solved using KMaps for each bit of the D-FFs binary representation, each as functions of the current state (`x` and `y`) as well as `w`. As a rule of thumb, as these tables/diagrams/maps are written, the lowercase symbol is "current" and uppercase is "next", that is we would write "Current state of the MSB D-FF" as `x` and the "Next state of the MSB D-FF" as `X`.
+
+.X KMap
+|===
+| xy / w | 0 | 1
+| 00  | 0 | (1)
+| 01  | 0 | 0
+| 11  | X | X
+| 10  | 0 | 0
+|===
+
+.Y KMap
+|===
+| xy / w | 0 | 1
+| 00  | 0 | 0
+| 01  | 0 | (1)
+| 11  | X | ([X])
+| 10  | 0 | [1]
+|===
+
+Using the parentheses and square brackets to represent our groups, our equations are as follows:
+
+NOTE: Capitol letters mean _next_ value, lowercase mean current
+
+----
+X = w & ~y & ~x
+Y = w & (x | y)
+----
+
+Again, see the full Verilog implementation in <<ex-binary>>.
+
+== Lab Procedure
+
+Using the techniques shown above, implement the following state machine. It has the same single input and output `w` and `z` respectively, but has five states:
+
+.Lab Assignment State Table
+|===
+.2+| Current State 2+| Next State .2+| Output
+| w = 0 | w = 1 
+| A | B | D | 0
+| B | C | D | 0
+| C | C | D | 1
+| D | B | E | 0
+| E | B | E | 1
+|===
+
+Generate a One Hot and Binary encoded state machines using KMaps and other combinatorial logic. See the IO table below for the pin assignments.
+
+.IO Table
+|===
+| Pin | Purpose | Direction
+| sw[0] | `w` | INPUT
+| btnC | Clock | INPUT
+| btnU | Reset | INPUT
+| led[0] | One-hot Z | OUTPUT
+| led[1] | Binary Z | OUTPUT
+| led[2] | One-hot state A | OUTPUT
+| led[3] | One-hot state B | OUTPUT
+| led[4] | One-hot state C | OUTPUT
+| led[5] | One-hot state D | OUTPUT
+| led[6] | One-hot state E | OUTPUT
+| led[9:7] | Binary State | OUTPUT
+|===
+
+NOTE: Draw out the state diagram and make sure to use your KMaps. Keep calm and focus on the digital logic.
+
+[appendix]
+[[ex-onehot]]
+== Example One Hot State Machine
+
+[source,verilog]
+----
+include::src/example_sm.v[tags=one_hot]
+----
+
+[appendix]
+[[ex-binary]]
+== Example Binary State Machine
+
+[source,verilog]
+----
+include::src/example_sm.v[tags=binary]
+----

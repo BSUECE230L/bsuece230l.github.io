@@ -64,6 +64,11 @@ Review, no lab.
 * xref:classes/lab10/slides.adoc[Presentation Slides]
 * xref:classes/lab10/class.zip[Class Materials]
 
+=== Week 12
+
+* xref:classes/lab11/index.adoc[Lab 11 - State Machines]
+* xref:classes/lab11/class.zip[Class Materials]
+
 
 == Tutorials
 
