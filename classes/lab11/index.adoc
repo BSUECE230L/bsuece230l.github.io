@@ -108,14 +108,14 @@ If we do the same, and initialize the two D-FFs to a single valid state, and des
 
 Let's start with the easy part now, the output. Just as above, we only assert `z` if we are in state C, so the equation is very simple: `z = y & ~x`.
 
-The next state logic is slightly more complicated, and can be solved using KMaps for each bit of the D-FFs binary representation, each as functions of the current state (`x` and `y`) as well as `w`. As a rule of thumb, as these tables/diagrams/maps are written, the lowercase symbol is "current" and uppercase is "next", that is we would write "Current state of the MSB D-FF" as `x` and the "Next state of the MSB D-FF" as `X`.
+The next state logic is slightly more complicated, and can be solved using KMaps for each bit of the D-FFs binary representation, each as functions of the current state (`x` and `y`) as well as `w`. As a rule of thumb, as these tables/diagrams/maps are written, the lowercase symbol is "current" and uppercase is "next", that is we would write "Current state of the MSB D-FF" as `x` and the "Next state of the MSB D-FF" as `Y`. For the KMaps below the letter "I" means invalid or do not care. Notice that they are in the row `11` which corresponds to state `D` that does not exist.
 
 .X KMap
 |===
 | xy / w | 0 | 1
 | 00  | 0 | (1)
 | 01  | 0 | 0
-| 11  | X | X
+| 11  | I | I
 | 10  | 0 | 0
 |===
 
@@ -124,7 +124,7 @@ The next state logic is slightly more complicated, and can be solved using KMaps
 | xy / w | 0 | 1
 | 00  | 0 | 0
 | 01  | 0 | (1)
-| 11  | X | ([X])
+| 11  | I | ([I])
 | 10  | 0 | [1]
 |===
 

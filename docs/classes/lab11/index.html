@@ -722,7 +722,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <p>Let&#8217;s start with the easy part now, the output. Just as above, we only assert <code>z</code> if we are in state C, so the equation is very simple: <code>z = y &amp; ~x</code>.</p>
 </div>
 <div class="paragraph">
-<p>The next state logic is slightly more complicated, and can be solved using KMaps for each bit of the D-FFs binary representation, each as functions of the current state (<code>x</code> and <code>y</code>) as well as <code>w</code>. As a rule of thumb, as these tables/diagrams/maps are written, the lowercase symbol is "current" and uppercase is "next", that is we would write "Current state of the MSB D-FF" as <code>x</code> and the "Next state of the MSB D-FF" as <code>X</code>.</p>
+<p>The next state logic is slightly more complicated, and can be solved using KMaps for each bit of the D-FFs binary representation, each as functions of the current state (<code>x</code> and <code>y</code>) as well as <code>w</code>. As a rule of thumb, as these tables/diagrams/maps are written, the lowercase symbol is "current" and uppercase is "next", that is we would write "Current state of the MSB D-FF" as <code>x</code> and the "Next state of the MSB D-FF" as <code>Y</code>. For the KMaps below the letter "I" means invalid or do not care. Notice that they are in the row <code>11</code> which corresponds to state <code>D</code> that does not exist.</p>
 </div>
 <table class="tableblock frame-all grid-all stretch">
 <caption class="title">Table 6. X KMap</caption>
@@ -749,8 +749,8 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">11</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">X</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">X</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">I</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">I</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">10</p></td>
@@ -784,8 +784,8 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">11</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">X</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">([X])</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">I</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">([I])</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">10</p></td>
