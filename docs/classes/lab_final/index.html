@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="generator" content="Asciidoctor 2.0.23">
-<title>Lab Final - CPU Design</title>
+<title>Lab Final - FlipFlops, Displays, and Math!</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700">
 <style>
 /*! Asciidoctor default stylesheet | MIT License | https://asciidoctor.org */
@@ -433,17 +433,521 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 #footer-text{color:rgba(0,0,0,.6);font-size:.9em}}
 @media amzn-kf8{#header,#content,#footnotes,#footer{padding:0}}
 </style>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.3/styles/github.min.css">
 </head>
 <body class="article">
 <div id="header">
-<h1>Lab Final - CPU Design</h1>
+<h1>Lab Final - FlipFlops, Displays, and Math!</h1>
+<div id="toc" class="toc">
+<div id="toctitle">Table of Contents</div>
+<ul class="sectlevel1">
+<li><a href="#flipflop_div">Clock Dividers</a></li>
+<li><a href="#displaying">7 Segment Displays</a></li>
+<li><a href="#_lab_deliverables">Lab Deliverables</a>
+<ul class="sectlevel2">
+<li><a href="#_part_1_generating_clock_signal">Part 1: Generating clock signal</a></li>
+<li><a href="#scanner">Part 2: Writing the segment scanner</a></li>
+<li><a href="#_part_3_writing_the_segment_decoder">Part 3: Writing the segment decoder</a></li>
+<li><a href="#_part_4_writing_the_math_block">Part 4: Writing the math block</a></li>
+<li><a href="#_part_5_tying_it_all_together">Part 5: Tying it all together</a></li>
+</ul>
+</li>
+</ul>
+</div>
 </div>
 <div id="content">
+<div class="sect1">
+<h2 id="flipflop_div">Clock Dividers</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Onboard the Basys 3, there is a 100 MHz crystal oscillator. That is, it toggles between high and low, then back to high 100 million times each second. This is an extremely high frequency, too high for many applications (and funnily enough, too low for others&#8201;&#8212;&#8201;but that is outside the scope of this class.) Thus, we generally will need to slow down the clock for our application. Thankfully, flipflops are here to save the day again!</p>
+</div>
+<div class="paragraph">
+<p>Say we have a D-FlipFlop implementation:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-verilog hljs" data-lang="verilog">module dff(
+    input reset,
+    input clock,
+    input D,
+    output reg Q,
+    output NotQ
+);
+    assign NotQ = ~Q;
 
+    always @(posedge reset, posedge clock) begin
+        if (reset) begin
+            Q &lt;= 0;
+        end else if (clock) begin
+            Q &lt;= D;
+        end
+    end
+endmodule</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>And we hook its <code>NotQ</code> output into its <code>D</code> output, like so:</p>
+</div>
+<div class="paragraph">
+<p><span class="image"><img src="img/dff_div_diagram.drawio.svg" alt="dff div diagram.drawio"></span></p>
+</div>
+<div class="paragraph">
+<p>Then we can do the following:</p>
+</div>
+<div class="paragraph">
+<p><span class="image"><img src="img/dff_div_out.png" alt="dff div out"></span></p>
+</div>
+<div class="paragraph">
+<p>Notice how the <code>Q</code> output (or <code>clk_out</code> in the diagram) toggles at half the rate of the input clock. We can keep chaining these dividers until we divide the input clock by 2<sup>N</sup> where N is the number of chained FlipFlops. Then, just take the Q output of the final divider as the output clock. In the case of the Basys3, we have a 100 MHz clock input baked onto the board. If we want this to become a 1 KHz signal (or 1000 times per second), we need to divide it down by some power of two:</p>
+</div>
+<div class="paragraph">
+<p>\$100e^6 -: 2^N ~= 1000\$</p>
+</div>
+<div class="paragraph">
+<p>With N = 16, we get ~1526 Hz and with N = 17 we get ~763 Hz. 763 Hz is closer to 1 KHz than 1526, so the better choice is N = 17. This will give us an output clock frequency that is as close to 1 KHz as a power of two can give us.</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+If you would like, you can also simply chain T FlipFlops, since they automatically have the inversion logic.
+</td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="displaying">7 Segment Displays</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>To add some fun to this lab, we are going to visualize things with the Seven Segment display for the first time! It is wired up as a common anode, switched cathode style. See below:</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+For much more detail on this and other things about the Basys3, see <a href="https://digilent.com/reference/programmable-logic/basys-3/reference-manual#seven_segment_display">the reference manual</a>. The following two images are from this web page.
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<div class="title">Common Anode (source: Digilent Reference Manual)</div>
+<p><span class="image"><img src="img/basys3_7seg_segment.png" alt="basys3 7seg segment"></span></p>
+</div>
+<div class="paragraph">
+<div class="title">Segment Selection (source: Digilent Reference Manual)</div>
+<p><span class="image"><img src="img/basys3_7seg_anodes.png" alt="basys3 7seg anodes"></span></p>
+</div>
+<div class="paragraph">
+<p>Quite conveniently, you can see that the scan rate (Refresh period) is between 1 KHz and 60 Hz, so the division counter we found above works perfectly! What a coincidence&#8230;&#8203; If each digit is lit for \$ 1 / 753 s = 1.3ms\$, then the refresh period is 5.3 ms, right in the middle of our window.</p>
+</div>
+<div class="paragraph">
+<p>In order to use the displays, we need to select the digit we want to display, then drive the segments we wish to display for that digit. Each digit needs to be on for somewhere near 1 millisecond in order for persistence of vision to make it appear as if they are all on at the same time. Much faster than that and the LEDs within the displays don&#8217;t have enough time to light, and much slower than that and you can start to see it turning on individual segments. It is worth noting that all logic for the Basys3 Seven Segment is inverted&#8201;&#8212;&#8201;0 is ON and 1 is OFF.</p>
+</div>
+<div class="paragraph">
+<p>For instance, to display an A on the right-most segment, we would want to do the following:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Set AN3, AN2, AN1 to 1 (HIGH is off for anodes)</p>
+</li>
+<li>
+<p>Set AN0 to 0 (LOW is on for anodes)</p>
+</li>
+<li>
+<p>Set segment D to 1 (HIGH is off for segments)</p>
+</li>
+<li>
+<p>Set segments A, B, C, E, F, G to 0 (LOW is on for segments)</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>This would turn off the other three segments and illuminate an A character on the right-most segment. You could imagine creating a decoder that takes in a four bit number and decodes it into the hex digit set: 0 - F and using it to display any number you wanted. I wonder where that leads us&#8230;&#8203;</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_lab_deliverables">Lab Deliverables</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>In this lab, we will be building a system that displays the output of a simple set of math operations onto the seven segment displays on the Basys3 board. See the block diagram below:</p>
+</div>
+<div class="paragraph">
+<p><span class="image"><img src="img/lab_block_diagram.drawio.svg" alt="lab block diagram.drawio"></span></p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+Notice how the 7 segment displays are referred as L (Left), LC (Left Center), RC (Right Center), and R (Right)
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>You will need the following components:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Clock divider to generate an approximately 1KHz signal for the 7seg Scan</p>
+</li>
+<li>
+<p>A demultiplexer that selects the Anode of a single 7seg display</p>
+</li>
+<li>
+<p>Four decode block that turn a four bit number into 7seg digits (one per digit)</p>
+</li>
+<li>
+<p>A math block to add A + B</p>
+</li>
+<li>
+<p>A math block to do A - B</p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p>The following table describes the meaning of each segment:</p>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 33.3333%;">
+<col style="width: 33.3333%;">
+<col style="width: 33.3334%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Segment</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Purpose</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Signal</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Left</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">A - B</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">an[3]</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Left Center</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">A + B</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">an[2]</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Right Center</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">B</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">an[1]</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Right</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">A</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">an[0]</p></td>
+</tr>
+</tbody>
+</table>
+<div class="admonitionblock warning">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-warning" title="Warning"></i>
+</td>
+<td class="content">
+Please use the exact module names and parameters below, or modify <code>test.v</code> appropriately for your solution.
+</td>
+</tr>
+</table>
+</div>
+<div class="sect2">
+<h3 id="_part_1_generating_clock_signal">Part 1: Generating clock signal</h3>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+For this, refer to <a href="#flipflop_div">Clock Dividers</a>.
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>Create a module that takes in the 100 MHz clock integrated into the Basys3 board and generates an approximately 1 KHz signal out. If you feel like going the extra mile, you can go ahead and make it precisely 1 KHz output. See the following code segment for scaffolding:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-verilog hljs" data-lang="verilog">// clock_div.v
+module clock_div
+#(
+    parameter DIVIDE_BY = 17
+)
+(
+    input clock,
+    input reset,
+    output reg div_clock
+);
+
+    // 100 MHz input clock, divide down by chaining N FlipFlops together
+    // to slow down the clock by 1/2^N
+
+endmodule</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>It is important to parameterize this module. In the test bench, which is critical to understanding and debugging your code when you face issues, we don&#8217;t want to actually simulate a 100 MHz clock. That would make the simulation take an extremely long time. There is a divide by parameter shown at the top of this scaffolded module. You are responsible for setting its default value for whatever implementation you use (1/2<sup>N</sup> or counter) and interpreting what that means, just know that the test bench will pass <code>2</code> in for this value, and it expects that your clock divider, under test, will only divide the input clock by 2.</p>
+</div>
+<div class="paragraph">
+<p>It is recommended that you use it to drive either the number of chained D-FlipFlops or the count value you are comparing to in your counter. See <a href="https://www.chipverify.com/verilog/verilog-math-functions">this link</a> for additional information on what calculations you can do on and with parameters. To be clear&#8201;&#8212;&#8201;you have two options with how to implement the clock divider for your circuit, and it does not matter which you use as long as it produces an ~1KHz clock. Take this design freedom and have some fun!</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="scanner">Part 2: Writing the segment scanner</h3>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+For this, refer to <a href="#displaying">7 Segment Displays</a> for more information.
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>This component will need to take in the divided clock and scan through the four segments' anodes. See the following code segment for scaffolding:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-verilog hljs" data-lang="verilog">// seven_seg_scanner.v
+module seven_seg_scanner(
+    input div_clock,
+    input reset,
+    output [3:0] anode
+);
+
+    // This block should activate one anode at a time in the seven segment
+    // displays. Keep in mind THEY ARE INVERSE DRIVE, that is that 0 is on 1 is
+    // off. Think of it as a state machine.
+
+    // The reset line should set things back to segment 0
+
+    // Use the D FlipFlops from previous labs, and implement all other logic
+    // purely combinatorial.
+
+    // Anodes are:
+    // 0: R Right
+    // 1: RC Right Center
+    // 2: LC Left Center
+    // 3: L Left
+
+endmodule</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>You can think of this module as a simple state machine:</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="diag-plantuml-md5-497ff72b233f29d0a08ac7769462369e.svg" alt="Diagram" width="339" height="175">
+</div>
+</div>
+<div class="paragraph">
+<p>Where we automatically advance to the next digit on each clock cycle (fed by the divided clock). Also note that (active low), we only enable a single common anode in each state.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_part_3_writing_the_segment_decoder">Part 3: Writing the segment decoder</h3>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+For this, refer to <a href="#displaying">7 Segment Displays</a> for more information.
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>This component will need to look at what segment is active and display the correct digit for that segment. See the following code segment for scaffolding:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-verilog hljs" data-lang="verilog">// seven_seg_decoder.v
+module seven_seg_decoder(
+    input [3:0] A,
+    input [3:0] B,
+    input [3:0] AplusB,
+    input [3:0] AminusB,
+    input [3:0] anode,
+    output reg [6:0] segs
+);
+
+    // This module should be purely combinatorial -- no reset required. What we
+    // are going to do here is simply display the correct four bit number
+    // according to the table provided in the lab deliverables section
+
+    // Recommended you do a simple behavioral implementation:
+    // alwyas @(*) begin
+    //   case (anode)
+    //      'b1110: selected_sig &lt;= A
+    //      'b1101: selected_sig &lt;= B
+    //      ...
+    //   endcase
+
+    // You will also need a very simple decoder that assigns the segs components
+    // based on the 4 bit input number to hexidecimal digit
+
+    // For reference:
+    always @(*) begin
+        case(selected_sig)
+            //            GFEDCBA
+            0: segs  = 7'b1000000;        
+            1: segs  = 7'b1111001;        
+            2: segs  = 7'b0100100;        
+            3: segs  = 7'b0110000;        
+            4: segs  = 7'b0011001;        
+            5: segs  = 7'b0010010;        
+            6: segs  = 7'b0000010;        
+            7: segs  = 7'b1111000;        
+            8: segs  = 7'b0000000;
+            9: segs  = 7'b0010000;        
+            10: segs = 7'b0001000;        
+            11: segs = 7'b0000011;        
+            12: segs = 7'b1000110;        
+            13: segs = 7'b0100001;        
+            14: segs = 7'b0000110;        
+            15: segs = 7'b0001110;       
+        endcase
+    end
+
+endmodule</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_part_4_writing_the_math_block">Part 4: Writing the math block</h3>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+For this, refer to previous labs for information on the adder/two&#8217;s compliment
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>This component will do simple math on two four bit numbers, outputting both A + B and A - B. It is up to you how to implement the addition and subtraction, but we have created four bit adders and subtractors both in previous labs. See the following code segment for scaffolding:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-verilog hljs" data-lang="verilog">// math_block.v
+module math_block(
+    input [3:0] A,
+    input [3:0] B,
+    output [3:0] AplusB,
+    output [3:0] AminusB
+);
+
+    // Implement twos compliment addition and subtraction
+    // You can either implement ripple borrow subtraction
+    // or use the full subtract module code from previous labs
+
+    // Do not use behavioral Verilog
+
+endmodule</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_part_5_tying_it_all_together">Part 5: Tying it all together</h3>
+<div class="paragraph">
+<p>Finally, the top module. See the following code segment for scaffolding:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-verilog hljs" data-lang="verilog">// top.v
+module top
+#(
+    parameter DIVIDE_BY = 17 // Use this when passing in to your clock div!
+    // The test bench will set it to 2 when testing
+)
+(
+    input [7:0] sw, // A and B
+    input clk, // 100 MHz board clock
+    input btnC, // Reset
+    output [3:0] an, // 7seg anodes
+    output [6:0] seg // 7seg segments
+);
+
+    // Instantiate the clock divider...
+    // ... wire it up to the scanner
+    // ... wire the scanner to the decoder
+
+    // Wire up the math block into the decoder
+
+    // Do not forget to wire up resets!!
+
+endmodule</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
 </div>
 <div id="footer">
 <div id="footer-text">
 </div>
 </div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.3/highlight.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.3/languages/verilog.min.js"></script>
+<script>
+if (!hljs.initHighlighting.called) {
+  hljs.initHighlighting.called = true
+  ;[].slice.call(document.querySelectorAll('pre.highlight > code[data-lang]')).forEach(function (el) { hljs.highlightBlock(el) })
+}
+</script>
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  messageStyle: "none",
+  tex2jax: {
+    inlineMath: [["\\(", "\\)"]],
+    displayMath: [["\\[", "\\]"]],
+    ignoreClass: "nostem|nolatexmath"
+  },
+  asciimath2jax: {
+    delimiters: [["\\$", "\\$"]],
+    ignoreClass: "nostem|noasciimath"
+  },
+  TeX: { equationNumbers: { autoNumber: "none" } }
+})
+MathJax.Hub.Register.StartupHook("AsciiMath Jax Ready", function () {
+  MathJax.InputJax.AsciiMath.postfilterHooks.Add(function (data, node) {
+    if ((node = data.script.parentNode) && (node = node.parentNode) && node.classList.contains("stemblock")) {
+      data.math.root.display = "block"
+    }
+    return data
+  })
+})
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/MathJax.js?config=TeX-MML-AM_HTMLorMML"></script>
 </body>
 </html>

@@ -69,6 +69,11 @@ Review, no lab.
 * xref:classes/lab11/index.adoc[Lab 11 - State Machines]
 * xref:classes/lab11/class.zip[Class Materials]
 
+=== Lab Final: Weeks 13 - 15
+
+* xref:classes/lab_final/index.adoc[Lab Final]
+* xref:classes/lab_final/slides.adoc[Presentation Slides]
+* xref:classes/lab_final/class.zip[Class Materials]
 
 == Tutorials
 

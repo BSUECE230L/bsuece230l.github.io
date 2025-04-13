@@ -1,0 +1,12 @@
+@startuml simple_state_machine
+
+A -> B
+B -> C
+C -> D
+D -> A
+
+A: R = 0\nRC = 1\nLC = 1\nL = 1
+B: R = 1\nRC = 0\nLC = 1\nL = 1
+C: R = 1\nRC = 1\nLC = 0\nL = 1
+D: R = 1\nRC = 1\nLC = 1\nL = 0
+@enduml
