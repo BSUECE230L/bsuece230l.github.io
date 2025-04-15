@@ -451,6 +451,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li><a href="#_part_3_writing_the_segment_decoder">Part 3: Writing the segment decoder</a></li>
 <li><a href="#_part_4_writing_the_math_block">Part 4: Writing the math block</a></li>
 <li><a href="#_part_5_tying_it_all_together">Part 5: Tying it all together</a></li>
+<li><a href="#_summary">Summary</a></li>
 </ul>
 </li>
 </ul>
@@ -916,6 +917,56 @@ module top
 endmodule</code></pre>
 </div>
 </div>
+</div>
+<div class="sect2">
+<h3 id="_summary">Summary</h3>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 1. IO Table</caption>
+<colgroup>
+<col style="width: 33.3333%;">
+<col style="width: 33.3333%;">
+<col style="width: 33.3334%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Signal</th>
+<th class="tableblock halign-left valign-top">Purpose</th>
+<th class="tableblock halign-left valign-top">Direction</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">sw[3:0]</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Value A</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">IN</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">sw[7:4]</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Value B</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">IN</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">clk</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">100 MHz board clock</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">IN</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">btnC</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Reset</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">IN</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">an[3:0]</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">7 Seg Anodes</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">OUT</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">seg[6:0]</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">7 Seg Segments</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">OUT</p></td>
+</tr>
+</tbody>
+</table>
 </div>
 </div>
 </div>

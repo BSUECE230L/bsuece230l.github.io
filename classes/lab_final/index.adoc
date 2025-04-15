@@ -156,3 +156,17 @@ Finally, the top module. See the following code segment for scaffolding:
 ----
 include::src/scaffolding.v[tag=top]
 ----
+
+=== Summary
+
+.IO Table
+[cols=",,",options="header",]
+|===
+|Signal |Purpose |Direction
+|sw[3:0] |Value A |IN
+|sw[7:4] |Value B |IN
+|clk |100 MHz board clock|IN
+|btnC |Reset |IN
+|an[3:0] | 7 Seg Anodes |OUT
+|seg[6:0] | 7 Seg Segments |OUT
+|===
