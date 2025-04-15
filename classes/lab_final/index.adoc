@@ -6,6 +6,8 @@
 :last-update-label!:
 :stem:
 
+xref:class.zip[Download Class Materials]
+
 [[flipflop_div]]
 == Clock Dividers
 
