@@ -5,6 +5,9 @@ GEM
     asciidoctor-diagram (3.0.1)
       asciidoctor (>= 1.5.7, < 3.x)
       rexml
+    asciidoctor-diagram-batik (1.17)
+    asciidoctor-diagram-plantuml (1.2025.3)
+      asciidoctor-diagram-batik (~> 1.17)
     asciidoctor-revealjs (5.2.0)
       asciidoctor (>= 2.0.0, < 3.0.0)
     logger (1.7.0)
@@ -17,6 +20,7 @@ PLATFORMS
 DEPENDENCIES
   asciidoctor
   asciidoctor-diagram
+  asciidoctor-diagram-plantuml
   asciidoctor-revealjs
   logger
 

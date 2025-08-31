@@ -11,6 +11,10 @@ lab.
 
 * xref:classes/lab01/index.adoc[Lab 01 - Introduction and Software]
 
+=== Week 2
+
+* xref:classes/lab02/index.adoc[Lab 02 - Introduction to Verilog]
+
 == Tutorials
 
 * xref:classes/iverilog/index.adoc[Icarus Verilog]
