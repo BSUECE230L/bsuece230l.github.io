@@ -15,6 +15,11 @@ lab.
 
 * xref:classes/lab02/index.adoc[Lab 02 - Introduction to Verilog]
 
+=== Week 3
+
+* xref:classes/lab03/index.adoc[Lab 03 - NAND Only Design]
+* xref:classes/lab03/slides.adoc[Lab 03 - Presentation Slides]
+
 == Tutorials
 
 * xref:classes/iverilog/index.adoc[Icarus Verilog]
