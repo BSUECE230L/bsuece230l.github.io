@@ -23,7 +23,6 @@ lab.
 === Week 4
 
 * xref:classes/lab04/index.adoc[Lab 04 - SOP POS and KMaps]
-* xref:classes/lab04/slides.adoc[Lab 04 - Presentation Slides]
 
 == Tutorials
 
