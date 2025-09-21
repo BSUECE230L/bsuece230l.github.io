@@ -100,13 +100,13 @@ thinking about it all happening at once.
 
 We know our final design needs three main chunks:
 
-* The light switch
-* The partial adder
-* Two bit adder
+* Circuit A
+* Circuit B
+* Top level file connecting the circuits to each other and to the switches
 
-These are each in `light.v`, `adder.v`, and `full_adder.v`. Each of
-those files will have a single module declaration in it called `light`,
-`adder`, and `full_adder` respectively. We can reference these by those
+These are each in `circuit_a.v`, `circuit_b.v`, and `top.v`. Each of
+those files will have a single module declaration in it called `circuit_a`,
+`circuit_b`, and `top` respectively. We can reference these by those
 names in the `top.v` file to *create* or instantiate those modules
 over and over by different names, and wire them up to each other, or top
 level inputs and outputs.
@@ -116,46 +116,50 @@ our `top.v` file. We will need these inputs and outputs to match the
 names in our constraints file so that the place and route steps of
 synthesis will know how to wire things up. In addition, our constraints
 treat everything as a vector, or a bus of signals. In our I/O table, we
-can see we uses switches 0 through 7 (inclusive) and LEDs 0 through 4
-(inclusive). So, remembering last week’s lab, we will put those signals
-in MSB:LSB vectors:
+can see we uses switches 0 through 6 (inclusive) and LEDs 0 through 1
+(inclusive). So, we will put those signals in MSB:LSB vectors:
 
 [source,verilog]
 ----
 module top(
-    input [7:0]sw,
-    output [4:0]led
+    input [6:0]sw,
+    output [1:0]led
 );
 
 endmodule
 ----
 
-That covers our ports and their names. These will now map to the
-uncomment lines in our constraints file to allow the synthesizer to
-place and route our design to actual hardware. In addition, this gives
-us `wire` type elements to use in our module. Let’s stick in the `light`
-module as an example:
+That covers our ports and their names. These will now map to the uncomment lines
+in our constraints file to allow the synthesizer to place and route our design
+to actual hardware. In addition, this gives us `wire` type elements to use in
+our module. Let’s stick in the `circuit_a` module as an example:
 
 [source,verilog]
 ----
 module top(
-    input [7:0]sw,
-    output [4:0]led
+    input [6:0]sw,
+    output [1:0]led
 );
-    light stair_light(
-        .downstairs(sw[0]),
-        .upstairs(sw[1]),
-        .stair_light(led[0])
+    circuit_a a_inst(
+        .A(sw[0]),
+        .B(sw[1]),
+        .C(sw[2])
+        .D(sw[3])
+        .Y(led[0])
     );
 endmodule
 ----
 
-In the above Verilog block, we’ve created an instance of `light` from
-`light.v` called `stair_light`. Then, in the parentheses that follow, we
-wire up the appropriate signals. For our design, as specified in the I/O
-table, we hook up the `downstairs` signal to `sw[0]`, the `upstairs`
-signal to `sw[1]`, and the `stair_light` signal to `led[0]`.
+In the above Verilog block, we’ve created an instance of `circuit_a` from
+`circuit_a.v` called `a_inst`. Then, in the parentheses that follow, we wire up
+the appropriate signals. For our design, as specified in the I/O table, we hook
+up the signals A-D  to `sw[0]` through `sw[3], and the `Y` signal to `led[0]`.
 Essentially, we directly translate our I/O table into Verilog.
+
+Keep in mind how you might use a wire as we learned in the sections above to
+connect between Circuit A and Circuit B. You would instantiate a Circuit B in
+much the same way as shown above, but make sure that its `A` signal gets the
+value from `Y` in Circuit A.
 
 == Something to Excite You
 

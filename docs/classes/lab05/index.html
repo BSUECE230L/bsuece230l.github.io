@@ -442,15 +442,14 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div id="toc" class="toc">
 <div id="toctitle">Table of Contents</div>
 <ul class="sectlevel1">
-<li><a href="#_introduction">Introduction</a>
+<li><a href="#_introduction">Introduction</a></li>
+<li><a href="#circuit-a">Part 1: Circuit A</a></li>
+<li><a href="#circuit-b">Part 2: Circuit B</a></li>
+<li><a href="#toplevel">Part 3: Connecting the Circuits</a>
 <ul class="sectlevel2">
-<li><a href="#_stairway_lights">Stairway Lights</a></li>
-<li><a href="#_lets_go_bigger">Let’s go bigger</a></li>
-<li><a href="#_basic_adder">Basic Adder</a></li>
-<li><a href="#_full_adder">Full Adder</a></li>
+<li><a href="#_io_table">IO Table</a></li>
 </ul>
 </li>
-<li><a href="#_constraining_our_design">Constraining our design</a></li>
 <li><a href="#_lab_deliverables">Lab Deliverables</a>
 <ul class="sectlevel2">
 <li><a href="#_summary_of_io_table">Summary of IO Table</a></li>
@@ -478,11 +477,6 @@ understanding when it comes to Verilog, we can help you learn more in
 depth on the usage of verilog and digital logic.</p>
 </div>
 <div class="paragraph">
-<p>We will be building a few more complicated circuits and discuss more
-about the physical structures of modern logic circuits, as well as
-real-life applications.</p>
-</div>
-<div class="paragraph">
 <p>One of the defining characteristics of combinatorial logic is to be able
 to develop subsystems and click them together like Lego. If each module
 declares its inputs and outputs, you can mix and match them together to
@@ -503,142 +497,314 @@ functional blocks in a design and map them to the hardware.</p>
 verilog</a> to learn about syntax, top level modules, and general Verilog
 guidance.</p>
 </div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="circuit-a">Part 1: Circuit A</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Given the following truth table:</p>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 20%;">
+<col style="width: 20%;">
+<col style="width: 20%;">
+<col style="width: 20%;">
+<col style="width: 20%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">A</th>
+<th class="tableblock halign-left valign-top">B</th>
+<th class="tableblock halign-left valign-top">C</th>
+<th class="tableblock halign-left valign-top">D</th>
+<th class="tableblock halign-left valign-top">Y</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p>Implement the circuit using Maxterms. Place the equation in the file called
+<code>circuit_a.v</code>.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="circuit-b">Part 2: Circuit B</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Given the following truth table:</p>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 20%;">
+<col style="width: 20%;">
+<col style="width: 20%;">
+<col style="width: 20%;">
+<col style="width: 20%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">A</th>
+<th class="tableblock halign-left valign-top">B</th>
+<th class="tableblock halign-left valign-top">C</th>
+<th class="tableblock halign-left valign-top">D</th>
+<th class="tableblock halign-left valign-top">Y</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p>Implement the circuit using Minterms. Place the equation in the file called
+<code>circuit_b.v</code>.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="toplevel">Part 3: Connecting the Circuits</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>The next step in this lab is to connect circuit A to circuit B. In our case, we
+are saying that input A of circuit B is actually the output of circuit A. In
+short, it looks like this:</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="img/circuit_diagram.drawio.png" alt="circuit diagram.drawio">
+</div>
+</div>
+<div class="paragraph">
+<p>This gives us an IO table that looks something like this:</p>
+</div>
 <div class="sect2">
-<h3 id="_stairway_lights">Stairway Lights<a id="stairway-lights"></a></h3>
-<div class="paragraph">
-<p>To start, let’s look at a contrived example. Imagine we want a to
-control a light switch from two different places – like on a stairway,
-where one switch is at the top of the stairs and the other at the
-bottom. Initially, we may want to hook things up like this:</p>
-</div>
-<div class="imageblock">
-<div class="content">
-<img src="img/stair_switch_off.png" alt="stair switches off">
-</div>
-<div class="title">Figure 1. stair switches off</div>
-</div>
-<div class="paragraph">
-<p>Say you wanted to go upstairs to bed. You would turn on the downstairs
-switch, and begin walking up the stairs. This will connect the power
-source through the switch and turns the bulb on:</p>
-</div>
-<div class="imageblock">
-<div class="content">
-<img src="img/stair_switch_down_on.png" alt="stair switch on">
-</div>
-<div class="title">Figure 2. stair switch on</div>
-</div>
-<div class="paragraph">
-<p>You walk upstairs and flip the upstairs switch. This connects the power
-source through the switch and… well. Shoot. You can’t turn the light
-off! No matter what you do, no matter what state the upstairs switch is
-in, the light remains on. The state table for our light looks rather a
-lot like that of the OR gate:</p>
-</div>
-<table class="tableblock frame-all grid-all stretch">
-<colgroup>
-<col style="width: 33.3333%;">
-<col style="width: 33.3333%;">
-<col style="width: 33.3334%;">
-</colgroup>
-<thead>
-<tr>
-<th class="tableblock halign-left valign-top">Down</th>
-<th class="tableblock halign-left valign-top">Up</th>
-<th class="tableblock halign-left valign-top">Stair Light</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
-</tr>
-</tbody>
-</table>
-<div class="paragraph">
-<p>Where if either switch is on, regardless of the other, the light is on.
-Obviously, this is <em>not</em> the behavior we want. Rather, we want this
-style of behavior:</p>
-</div>
-<table class="tableblock frame-all grid-all stretch">
-<colgroup>
-<col style="width: 33.3333%;">
-<col style="width: 33.3333%;">
-<col style="width: 33.3334%;">
-</colgroup>
-<thead>
-<tr>
-<th class="tableblock halign-left valign-top">Down</th>
-<th class="tableblock halign-left valign-top">Up</th>
-<th class="tableblock halign-left valign-top">Stair Light</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
-</tr>
-</tbody>
-</table>
-<div class="paragraph">
-<p>Where if only one of the two switches is on, <em>but not both</em> the light
-will be lit. In a house, we would wire this up like this:</p>
-</div>
-<div class="imageblock">
-<div class="content">
-<img src="img/xor_switch.png" alt="xor light switch">
-</div>
-<div class="title">Figure 3. xor light switch</div>
-</div>
-<div class="paragraph">
-<p>Now, as we can see, if we were to flip the downstairs switch, there
-would be a path from the power through the switches, through the light,
-then to ground. And, when we get upstairs and flip that switch, the
-circuit is interrupted and the light goes out. You may notice, by
-comparing to previous week’s lab, that this is the XOR truth table. This
-is a real example of how various logic equations can be used in the real
-world to solve actual problems.</p>
-</div>
-<div class="paragraph">
-<p><strong>TASK</strong>: The file <code>light.v</code> includes the skeleton of a Verilog module for
-you to implement. Go ahead and declare two inputs: <code>downstairs</code> and
-<code>upstairs</code> as well as one output <code>stair_light</code>. Then, using the syntax
-learned in the previous lab, implement this XOR light switch equation.
-Set this up in your top level file with the following input/output
-table:</p>
-</div>
+<h3 id="_io_table">IO Table</h3>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 33.3333%;">
@@ -655,549 +821,95 @@ table:</p>
 <tbody>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">sw[0]</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Downstairs light switch</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Circuit A: Input A</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">IN</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">sw[1]</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Upstairs light switch</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Circuit A: Input B</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">IN</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">led[0]</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Stairway light</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">OUT</p></td>
-</tr>
-</tbody>
-</table>
-</div>
-<div class="sect2">
-<h3 id="_lets_go_bigger">Let’s go bigger</h3>
-<div class="quoteblock">
-<blockquote>
-<div class="paragraph">
-<p>Cool… so we can turn a stairway lightbulb on and off</p>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p>You, probably.</p>
-</li>
-</ul>
-</div>
-</blockquote>
-</div>
-<div class="paragraph">
-<p>Yes, actually, that is super cool. In fact, it is <em>foundational</em> cool,
-and I will show you how throughout the rest of this lab.</p>
-</div>
-<div class="paragraph">
-<p>What if I told you that this light switch system is actually doing math?
-I know it sounds like a stretch, but let’s walk through this. You ever
-heard the joke "There are 10 kinds of people in this world, those who
-understand binary and those who don’t"? We’re going to get you into
-that first category here.</p>
-</div>
-<div class="paragraph">
-<p>The way we normally do math is in a system called Base Ten. That means
-there are ten different numbers in each digit. In our case, we represent
-them with the numbers 0 through 9. Since there are ten values in each
-digit, each place contains 10x the value of the previous, we call these
-the <strong>one’s place</strong>, <strong>ten’s place</strong>, <strong>hundred’s place</strong>, and so on:</p>
-</div>
-<div class="literalblock">
-<div class="content">
-<pre>1234
-^^^^
-|||└-: One's place
-||└--: Ten's place
-|└---: Hundred's place
-└----: Thousand's place</pre>
-</div>
-</div>
-<div class="paragraph">
-<p>That is to say: the decimal number 20 is 10 larger than 10. Even though
-we changed that number by a 1, it was in the tens place, so it got 1 *
-10 bigger. Each number in a place is multiplied by its digit. So a 1 in
-the Thousand’s place is actually worth 1000, not 1. This may seem like a
-whole lot of words to explain the readily obvious. But it is important
-we get down to the foundation of how a number represents its values in
-its digits, because we’re about to switch bases. Computers think in
-binary, or Base Two. That means each digit can only contain two values:
-0 and 1. That means we don’t have the One’s, Ten’s, Hundred’s, etc
-digit, we have the One’s, Two’s, Four’s, Eight’s, Sixteen’s, etc.
-Because each digit is 2x as large as the last, as opposed to 10x with
-Base Ten.</p>
-</div>
-<div class="literalblock">
-<div class="content">
-<pre>0101
-^^^^
-|||└-: One's place
-||└--: Two's place
-|└---: Fours's place
-└----: Eight's place</pre>
-</div>
-</div>
-<div class="paragraph">
-<p>So just as we can get the value of <code>1234</code> as
-<code>(4 * 1) + (3 * 10) + (2 * 100) + (1 * 1000)</code>, we can ge the value of
-<code>0101</code> as <code>(1 * 1) + (0 * 2) + (1 * 4) + (0 * 8)</code>, or 5. Of course, 1234
-is already decimal so it is fairly trivial for us to understand the
-value because we’re used to thinking in it, but it still proves the
-point.</p>
-</div>
-<div class="paragraph">
-<p>What on earth does this have to do with our light switch, though? Let’s
-consider a <em>single digit</em> binary number. As we’ve described above, given
-it is Base Two, it can have two states: 0 or 1. Well… our light can
-either be off or on, so that maps pretty well. We can represent the
-state of our stair light with a single binary digit. What is <code>0 + 1</code> in
-binary? Thankfully this is exactly as straightforward as it looks: <code>1</code>.
-However, what happens if we do <code>1 + 1</code> – well, now we get to the
-punchline of our joke, because that’s <code>10</code>. Just like when you add
-<code>9 + 1 = 10</code> in decimal, we move to the next digit, since we are past
-the end of our base. <code>9 + 1</code> is actually <code>0, carry the 1</code>. That means,
-if we only have a single binary digit, <code>1 + 1 = 0</code>, since we can’t carry
-the 1 to the next digit. Let’s look at the results of a single digit
-binary summation in a table, where we are doing <code>A + B = Y</code>:</p>
-</div>
-<table class="tableblock frame-all grid-all stretch">
-<colgroup>
-<col style="width: 33.3333%;">
-<col style="width: 33.3333%;">
-<col style="width: 33.3334%;">
-</colgroup>
-<thead>
-<tr>
-<th class="tableblock halign-left valign-top">A</th>
-<th class="tableblock halign-left valign-top">B</th>
-<th class="tableblock halign-left valign-top">Y</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
-</tr>
-</tbody>
-</table>
-<div class="paragraph">
-<p>You may notice something: that’s the output table for our properly wired
-switch from above. So, long winded explanation aside, the XOR switch
-pattern for our stair light is doing binary addition of a single digit.
-It is <em>doing math</em>.</p>
-</div>
-</div>
-<div class="sect2">
-<h3 id="_basic_adder">Basic Adder<a id="basic-adder"></a></h3>
-<div class="paragraph">
-<p>Some of you have likely noticed at this point that the lab is titled
-<em>Combinatorial Logic</em>, yet we have only <strong>combined</strong> one logic gate here
-today. I promised some <strong>more advanced combinatorial logic equations and
-circuits</strong>, and you’re right to demand them! Let’s add one more thing
-into our… adder. Just how when doing addition in Base Ten we carry out
-to the next digit where <code>9 + 1 = 0 + carry the 1</code>, we do the same in
-binary. Let’s look at the full truth table for an adder <code>A + B = Y</code>:</p>
-</div>
-<table class="tableblock frame-all grid-all stretch">
-<colgroup>
-<col style="width: 25%;">
-<col style="width: 25%;">
-<col style="width: 25%;">
-<col style="width: 25%;">
-</colgroup>
-<thead>
-<tr>
-<th class="tableblock halign-left valign-top">A</th>
-<th class="tableblock halign-left valign-top">B</th>
-<th class="tableblock halign-left valign-top">Y</th>
-<th class="tableblock halign-left valign-top">Carry</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
-</tr>
-</tbody>
-</table>
-<div class="paragraph">
-<p>If we isolate just the carry bit, the table looks like this:</p>
-</div>
-<table class="tableblock frame-all grid-all stretch">
-<colgroup>
-<col style="width: 33.3333%;">
-<col style="width: 33.3333%;">
-<col style="width: 33.3334%;">
-</colgroup>
-<thead>
-<tr>
-<th class="tableblock halign-left valign-top">A</th>
-<th class="tableblock halign-left valign-top">B</th>
-<th class="tableblock halign-left valign-top">Carry</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
-</tr>
-</tbody>
-</table>
-<div class="paragraph">
-<p>Which, if you look at last week’s lab, is the AND gate. That means we
-can have a single digit binary adder that looks like this:</p>
-</div>
-<div class="imageblock">
-<div class="content">
-<img src="img/one_bit_block_diagram.png" alt="one bit adder">
-</div>
-<div class="title">Figure 4. one bit adder</div>
-</div>
-<div class="paragraph">
-<p>Where the logic equations are:</p>
-</div>
-<div class="literalblock">
-<div class="content">
-<pre>Y = A ^ B;
-Carry = A &amp; B;</pre>
-</div>
-</div>
-<div class="paragraph">
-<p><strong>TASK:</strong> You probably know what’s coming now. There’s an <code>adder.v</code> file
-with a stubbed out module for you to implement. Fill out the required
-equations and complete the implementation of the single bit adder. Wire
-this up in your top level module according to the following I/O table:</p>
-</div>
-<table class="tableblock frame-all grid-all stretch">
-<colgroup>
-<col style="width: 33.3333%;">
-<col style="width: 33.3333%;">
-<col style="width: 33.3334%;">
-</colgroup>
-<thead>
-<tr>
-<th class="tableblock halign-left valign-top">Pin</th>
-<th class="tableblock halign-left valign-top">Purpose</th>
-<th class="tableblock halign-left valign-top">Direction</th>
-</tr>
-</thead>
-<tbody>
-<tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">sw[2]</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">A for one bit adder</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Circuit A: Input C</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">IN</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">sw[3]</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">B for one bit adder</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Circuit A: Input D</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">IN</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">led[1]</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Y (sum output) of one bit adder</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">OUT</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">led[2]</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Carry out of one bit adder</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">OUT</p></td>
-</tr>
-</tbody>
-</table>
-</div>
-<div class="sect2">
-<h3 id="_full_adder">Full Adder<a id="full-adder"></a></h3>
-<div class="paragraph">
-<p>This lab is all about combinatorial logic, so let’s slam two of these
-together to add two bit numbers together instead. We will call these
-four bits (two bits per number, two numbers) A, B, C, D:</p>
-</div>
-<div class="literalblock">
-<div class="content">
-<pre>B A  +  D C</pre>
-</div>
-</div>
-<div class="paragraph">
-<p>I have assigned them in least to most significant digit to make the
-following diagrams easier to read.</p>
-</div>
-<div class="imageblock">
-<div class="content">
-<img src="img/cascade_fail.png" alt="can’t fit won’t fit">
-</div>
-<div class="title">Figure 5. can’t fit won’t fit</div>
-</div>
-<div class="paragraph">
-<p>Well… what on earth do we do with the carry signals? There’s nowhere to
-put them, the second adder summing B + D cannot take into account the
-carry from the previous bit. If we look at the what this means, let’s
-add the numbers <code>11 + 01</code>:</p>
-</div>
-<div class="literalblock">
-<div class="content">
-<pre>B A     D C
-1 1  +  0 1
-
-A + C = 0, carry 1
-B + D = 1, carry 0
-
-11 + 01 = 10</pre>
-</div>
-</div>
-<div class="paragraph">
-<p>Sadly for our nice little two bit adder, this answer is completely
-wrong. Thankfully, we can return back to our decimal addition from
-elementary school for inspiration:</p>
-</div>
-<div class="literalblock">
-<div class="content">
-<pre>Step 1:
-     v
-C
-    12
-+   19
-------
-
-9 + 2 = 11, or 1, carry the 10
-
-Step 2:
-    v
-C   1
-    1
-+   11
-------
-1 + 1 + 1 = 3
-
-= 31</pre>
-</div>
-</div>
-<div class="paragraph">
-<p>Step 2 above has our secret. Notice how we combine the carry-out from
-the previous number (9 + 2) over on top of our second number (1 + 1).
-Therefore, to get the second digit in our base ten sum above, we
-actually needed to add <em>three</em> different numbers together, the ten’s
-place from 12 and 19, as well as the carry from the 9 + 2.</p>
-</div>
-<div class="paragraph">
-<p>All we have to do is the same to our 1-bit adder – instead of summing
-just one bit from each number, we also need to include the carry in from
-the previous digit. In other words, we need to sum three bits together.</p>
-</div>
-<div class="paragraph">
-<p><strong>TASK:</strong> The truth table for this is below. Implement it in the file
-<code>full_adder.v</code>. Cin means carry in, and Cout means carry out. You can
-think of this as two three-input equations, one where <code>Y</code> is composed of
-<code>A</code>, <code>B</code>, and <code>Cin</code> and the other where <code>Cout</code> is composed of the same.
-You can use KMaps to find these equations.</p>
-</div>
-<table class="tableblock frame-all grid-all stretch">
-<colgroup>
-<col style="width: 20%;">
-<col style="width: 20%;">
-<col style="width: 20%;">
-<col style="width: 20%;">
-<col style="width: 20%;">
-</colgroup>
-<thead>
-<tr>
-<th class="tableblock halign-left valign-top">A</th>
-<th class="tableblock halign-left valign-top">B</th>
-<th class="tableblock halign-left valign-top">Cin</th>
-<th class="tableblock halign-left valign-top">Y</th>
-<th class="tableblock halign-left valign-top">Cout</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
-</tr>
-</tbody>
-</table>
-<div class="paragraph">
-<p>Then, wire it up in your top level module according to the following I/O
-table. You will need two instances of a 1 bit full-adder to add two bit
-numbers together:</p>
-</div>
-<div class="imageblock">
-<div class="content">
-<img src="./img/full_adder_block_diagram.png" alt="full_adder_bd">
-</div>
-<div class="title">Figure 6. full_adder_bd</div>
-</div>
-<table class="tableblock frame-all grid-all stretch">
-<colgroup>
-<col style="width: 33.3333%;">
-<col style="width: 33.3333%;">
-<col style="width: 33.3334%;">
-</colgroup>
-<thead>
-<tr>
-<th class="tableblock halign-left valign-top">Pin</th>
-<th class="tableblock halign-left valign-top">Purpose</th>
-<th class="tableblock halign-left valign-top">Direction</th>
-</tr>
-</thead>
-<tbody>
-<tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">sw[4]</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">LSB of A for two bit adder</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Circuit B: Input B</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">IN</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">sw[5]</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">MSB of A for two bit adder</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Circuit B: Input C</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">IN</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">sw[6]</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">LSB of B for two bit adder</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Circuit B: Input D</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">IN</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">sw[7]</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">MSB of B for two bit adder</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">IN</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">led[3]</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">LSB of two bit sum</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">led[0]</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Circuit A: Output</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">OUT</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">led[4]</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">MSB of two bit sum</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">OUT</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">led[5]</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Carry out of MSB adder</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">led[1]</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Circuit B: Output</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">OUT</p></td>
 </tr>
 </tbody>
 </table>
+<div class="paragraph">
+<p>Notice how Circuit B has no Input A, that&#8217;s because we are using the output of
+Circuit A as the first input of Circuit B. Implement this connection in the file
+<code>top.v</code>.</p>
 </div>
+<div class="paragraph">
+<p>Notice how A, B, C, and D of each circuit only gets meaning when we assign them
+by instantiating an instance of each module. This means several very cool
+things:</p>
 </div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>We can reuse these in future designs</p>
+</li>
+<li>
+<p>They can fit on any FPGA as long as we can map the inputs</p>
+</li>
+<li>
+<p>We can instantiate <strong>many</strong> of each design, giving different switches and LEDs
+to each as we see fit</p>
+</li>
+</ol>
 </div>
-<div class="sect1">
-<h2 id="_constraining_our_design">Constraining our design</h2>
-<div class="sectionbody">
+<div class="paragraph">
+<p><a href="#constraints">[constraints]</a>
+== Part 4: Constraining our design</p>
+</div>
 <div class="imageblock">
 <div class="content">
 <img src="img/basys_schematic.png" alt="Basys3 Schematic">
 </div>
-<div class="title">Figure 7. Basys3 Schematic</div>
+<div class="title">Figure 1. Basys3 Schematic</div>
+</div>
+<div class="paragraph">
+<p>Each pin on the FPGA has a name the FPGA understands. In the case of the Basys3
+board designed by digilent, that means the thing we know as SW0 is connected to
+the FPGA pin V17. This was decided by the engineers who did the hardware
+engineering and board layout for the Basys3.</p>
 </div>
 <div class="paragraph">
 <p>So, our pin-to-function mapping has been decided by Digilent. How do we
 tell Vivado that we mean V17 when we say SW0? Constraints. Open up the
-included <code>constraints.xdc</code> file. We glossed over this one in the last
+included <code>constraints.xdc</code> file. This was provided for you in the previous
 lab, but you won’t get so lucky twice. This file is directly taken from
 Digilent’s own github repo, where they publish the default mappings for
 all of their boards,
@@ -1233,20 +945,12 @@ Effectively, we are declaring this to be a 3.3V logic level pin.</p>
 </ul>
 </div>
 <div class="paragraph">
-<p>There are a ton of other things that can be done in these statements,
-but for the most part, during this lab, you will be simply uncommenting
-the lines that correspond to your design and making sure the names match
-to your top level file.</p>
+<p>There are a ton of other things that can be done in these statements, but for
+the most part, during this lab, you will be simply uncommenting the lines that
+correspond to your design and making sure the names match to your top level
+file. Go through the <code>constraints.xdc</code> file and uncomment all the I/O pins we
+need, based on the IO table in the section above.</p>
 </div>
-<div class="paragraph">
-<p>Go through the <code>constraints.xdc</code> file and uncomment all the I/O pins we
-need, based on the table we generated above. Once you are done, it will
-be time to start connecting modules together. To do this, we will take
-advantage of the modularity of Verilog. It’s in the name of the syntax
-we use to write the files, which gives a hint to their intended use.
-Each <code>module</code> declares its inputs and outputs immediately in its
-instantiation. You can use these in other files, much like we saw in
-<code>test.v</code> during last week’s lab.</p>
 </div>
 </div>
 </div>
@@ -1271,72 +975,47 @@ instantiation. You can use these in other files, much like we saw in
 <tbody>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">sw[0]</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Downstairs light switch</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Circuit A: Input A</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">IN</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">sw[1]</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Upstairs light switch</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Circuit A: Input B</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">IN</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">sw[2]</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">A for one bit adder</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Circuit A: Input C</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">IN</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">sw[3]</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">B for one bit adder</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Circuit A: Input D</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">IN</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">sw[4]</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">LSB of A for two bit adder</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Circuit B: Input B</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">IN</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">sw[5]</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">MSB of A for two bit adder</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Circuit B: Input C</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">IN</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">sw[6]</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">LSB of B for two bit adder</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">IN</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">sw[7]</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">MSB of B for two bit adder</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Circuit B: Input D</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">IN</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">led[0]</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Stairway light</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Circuit A: Output</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">OUT</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">led[1]</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Y (sum output) of one bit adder</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">OUT</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">led[2]</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Carry out of one bit adder</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">OUT</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">led[3]</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">LSB of two bit sum</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">OUT</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">led[4]</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">MSB of two bit sum</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">OUT</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">led[5]</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Carry out of MSB adder</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Circuit B: Output</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">OUT</p></td>
 </tr>
 </tbody>
@@ -1347,20 +1026,19 @@ instantiation. You can use these in other files, much like we saw in
 <div class="olist arabic">
 <ol class="arabic">
 <li>
-<p>Implemented light switch module in <code>light.v</code> described in
-<a href="#stairway-lights">this section</a></p>
+<p>Implemented equation for Circuit A in <code>circuit_a.v</code> described in
+<a href="#circuit-a">this section</a></p>
 </li>
 <li>
-<p>Implemented single bit adder in <code>adder.v</code> described in
-<a href="#basic-adder">this section</a></p>
+<p>Implemented equation for Circuit b in <code>circuit_b.v</code> described in
+<a href="#circuit-b">this section</a></p>
 </li>
 <li>
-<p>Implemented full adder in <code>full_adder.v</code> described in
-<a href="#full-adder">this section</a></p>
+<p>Filled out <code>constraints.xdc</code> as described in <a href="#constraints">this section</a></p>
 </li>
 <li>
-<p>Combine the three blocks above with the IO table provided in
-<a href="#full-adder">this section</a></p>
+<p>Combine the two circuits above into a <code>top.v</code> using the IO table above and
+described in <a href="#toplevel">here</a>.</p>
 </li>
 <li>
 <p>Demonstrate the combined design to TA or lab professor</p>

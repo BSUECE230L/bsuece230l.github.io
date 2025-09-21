@@ -689,20 +689,20 @@ thinking about it all happening at once.</p>
 <div class="ulist">
 <ul>
 <li>
-<p>The light switch</p>
+<p>Circuit A</p>
 </li>
 <li>
-<p>The partial adder</p>
+<p>Circuit B</p>
 </li>
 <li>
-<p>Two bit adder</p>
+<p>Top level file connecting the circuits to each other and to the switches</p>
 </li>
 </ul>
 </div>
 <div class="paragraph">
-<p>These are each in <code>light.v</code>, <code>adder.v</code>, and <code>full_adder.v</code>. Each of
-those files will have a single module declaration in it called <code>light</code>,
-<code>adder</code>, and <code>full_adder</code> respectively. We can reference these by those
+<p>These are each in <code>circuit_a.v</code>, <code>circuit_b.v</code>, and <code>top.v</code>. Each of
+those files will have a single module declaration in it called <code>circuit_a</code>,
+<code>circuit_b</code>, and <code>top</code> respectively. We can reference these by those
 names in the <code>top.v</code> file to <strong>create</strong> or instantiate those modules
 over and over by different names, and wire them up to each other, or top
 level inputs and outputs.</p>
@@ -713,48 +713,53 @@ our <code>top.v</code> file. We will need these inputs and outputs to match the
 names in our constraints file so that the place and route steps of
 synthesis will know how to wire things up. In addition, our constraints
 treat everything as a vector, or a bus of signals. In our I/O table, we
-can see we uses switches 0 through 7 (inclusive) and LEDs 0 through 4
-(inclusive). So, remembering last week’s lab, we will put those signals
-in MSB:LSB vectors:</p>
+can see we uses switches 0 through 6 (inclusive) and LEDs 0 through 1
+(inclusive). So, we will put those signals in MSB:LSB vectors:</p>
 </div>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-verilog hljs" data-lang="verilog">module top(
-    input [7:0]sw,
-    output [4:0]led
+    input [6:0]sw,
+    output [1:0]led
 );
 
 endmodule</code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p>That covers our ports and their names. These will now map to the
-uncomment lines in our constraints file to allow the synthesizer to
-place and route our design to actual hardware. In addition, this gives
-us <code>wire</code> type elements to use in our module. Let’s stick in the <code>light</code>
-module as an example:</p>
+<p>That covers our ports and their names. These will now map to the uncomment lines
+in our constraints file to allow the synthesizer to place and route our design
+to actual hardware. In addition, this gives us <code>wire</code> type elements to use in
+our module. Let’s stick in the <code>circuit_a</code> module as an example:</p>
 </div>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-verilog hljs" data-lang="verilog">module top(
-    input [7:0]sw,
-    output [4:0]led
+    input [6:0]sw,
+    output [1:0]led
 );
-    light stair_light(
-        .downstairs(sw[0]),
-        .upstairs(sw[1]),
-        .stair_light(led[0])
+    circuit_a a_inst(
+        .A(sw[0]),
+        .B(sw[1]),
+        .C(sw[2])
+        .D(sw[3])
+        .Y(led[0])
     );
 endmodule</code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p>In the above Verilog block, we’ve created an instance of <code>light</code> from
-<code>light.v</code> called <code>stair_light</code>. Then, in the parentheses that follow, we
-wire up the appropriate signals. For our design, as specified in the I/O
-table, we hook up the <code>downstairs</code> signal to <code>sw[0]</code>, the <code>upstairs</code>
-signal to <code>sw[1]</code>, and the <code>stair_light</code> signal to <code>led[0]</code>.
+<p>In the above Verilog block, we’ve created an instance of <code>circuit_a</code> from
+<code>circuit_a.v</code> called <code>a_inst</code>. Then, in the parentheses that follow, we wire up
+the appropriate signals. For our design, as specified in the I/O table, we hook
+up the signals A-D  to <code>sw[0]</code> through <code>sw[3], and the `Y</code> signal to <code>led[0]</code>.
 Essentially, we directly translate our I/O table into Verilog.</p>
+</div>
+<div class="paragraph">
+<p>Keep in mind how you might use a wire as we learned in the sections above to
+connect between Circuit A and Circuit B. You would instantiate a Circuit B in
+much the same way as shown above, but make sure that its <code>A</code> signal gets the
+value from <code>Y</code> in Circuit A.</p>
 </div>
 </div>
 </div>
