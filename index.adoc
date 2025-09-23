@@ -9,25 +9,25 @@ lab.
 
 === Week 1
 
-* xref:classes/lab01/index.adoc[Lab 01 - Introduction and Software]
+* xref:classes/intro_and_software/index.adoc[Lab 01 - Introduction and Software]
 
 === Week 2
 
-* xref:classes/lab02/index.adoc[Lab 02 - Introduction to Verilog]
+* xref:classes/first_verilog/index.adoc[Lab 02 - Introduction to Verilog]
 
 === Week 3
 
-* xref:classes/lab03/index.adoc[Lab 03 - NAND Only Design]
-* xref:classes/lab03/slides.adoc[Lab 03 - Presentation Slides]
+* xref:classes/nand_only_design/index.adoc[Lab 03 - NAND Only Design]
+* xref:classes/nand_only_design/slides.adoc[Lab 03 - Presentation Slides]
 
 === Week 4
 
-* xref:classes/lab04/index.adoc[Lab 04 - SOP POS and KMaps]
+* xref:classes/sop_pos_kmaps/index.adoc[Lab 04 - SOP POS and KMaps]
 
 === Week 5
 
-* xref:classes/lab05/index.adoc[Lab 05 - Combinatorial Logic]
-* xref:classes/lab05/slides.adoc[Lab 05 - Presentation Slides]
+* xref:classes/combinatorial_logic/index.adoc[Lab 05 - Combinatorial Logic]
+* xref:classes/combinatorial_logic/slides.adoc[Lab 05 - Presentation Slides]
 
 == Tutorials
 

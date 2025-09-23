@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="generator" content="Asciidoctor 2.0.23">
-<title>Boise State University ECE 230 Lab</title>
+<title>How To Verilog</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700">
 <style>
 /*! Asciidoctor default stylesheet | MIT License | https://asciidoctor.org */
@@ -433,117 +433,494 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 #footer-text{color:rgba(0,0,0,.6);font-size:.9em}}
 @media amzn-kf8{#header,#content,#footnotes,#footer{padding:0}}
 </style>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.3/styles/github.min.css">
 </head>
 <body class="article">
 <div id="header">
-<h1>Boise State University ECE 230 Lab</h1>
+<h1>How To Verilog</h1>
+<div id="toc" class="toc">
+<div id="toctitle">Table of Contents</div>
+<ul class="sectlevel1">
+<li><a href="#_basic_verilog_operators">Basic Verilog Operators</a></li>
+<li><a href="#_verilog_modules">Verilog Modules</a></li>
+<li><a href="#_continuous_assignment">Continuous Assignment</a></li>
+<li><a href="#_referring_back_to_the_lab">Referring back to the lab</a></li>
+<li><a href="#_something_to_excite_you">Something to Excite You</a></li>
+</ul>
+</div>
 </div>
 <div id="content">
-<div class="sect1">
-<h2 id="_assignments">Assignments</h2>
+<div id="preamble">
 <div class="sectionbody">
-<div class="admonitionblock note">
-<table>
+<div class="paragraph">
+<p>This is your first real complicated project in Verilog, so let’s really
+dive in. We are going to cover <strong>Continuous Assignment</strong> and <strong>Structural
+Verilog</strong> as opposed to <strong>Procedural Assignment</strong> and <strong>Behavioral Verilog</strong>.
+Those concepts will come later in this lab.</p>
+</div>
+<div class="paragraph">
+<p>As such, let’s start with the two major concepts of <strong>Continuous
+Assignment</strong> and <strong>Structural Verilog</strong>, as they are foundational concepts
+upon which this lab is based. Thankfully, it’s in the name! If only it
+were that easy…</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_basic_verilog_operators">Basic Verilog Operators</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Here’s the basic verilog operations:</p>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
 <tr>
-<td class="icon">
-<div class="title">Note</div>
-</td>
-<td class="content">
-Please remember to read the week&#8217;s lab before coming to class.  It will
-aid you in spending your time wisely, and make things go much more smoothly in
-lab.
-</td>
+<th class="tableblock halign-left valign-top">Operation</th>
+<th class="tableblock halign-left valign-top">Verilog Syntax</th>
 </tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Single NOT</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Y = ~A</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Bitwise OR</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Y = A | B</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Bitwise AND</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Y = A &amp; B</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Bitwise XOR</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Y = A ^ B</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Bitwise NOR</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Y = ~(A | B)</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Bitwise NAND</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Y = ~(A &amp; B)</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Bitwise XNOR</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Y = ~(A ^ B)</p></td>
+</tr>
+</tbody>
 </table>
+<div class="paragraph">
+<p>For these first labs, we will be dealing almost exclusively with <code>wire</code>
+type structures. To build up a structural assignment, we need to use the
+<code>assign</code> keyword. This will generally be the primary keyword you use.
+Type <code>assign &lt;net&gt; = &lt;expression&gt;;</code> for each of the various structural
+components of your circuit. Things declared as <code>input</code> or <code>output</code>
+without any other specifiers are by default <code>wire</code> data types.</p>
 </div>
-<div class="sect2">
-<h3 id="_week_1">Week 1</h3>
-<div class="ulist">
-<ul>
-<li>
-<p><a href="classes/intro_and_software/index.html">Lab 01 - Introduction and Software</a></p>
-</li>
-</ul>
-</div>
-</div>
-<div class="sect2">
-<h3 id="_week_2">Week 2</h3>
-<div class="ulist">
-<ul>
-<li>
-<p><a href="classes/first_verilog/index.html">Lab 02 - Introduction to Verilog</a></p>
-</li>
-</ul>
+<div class="paragraph">
+<p>Using last lab’s tables, we know we can combine <code>&amp;</code> (AND), <code>|</code> (OR), <code>^</code>
+(X-OR), and <code>~</code> (NOT) to build up our equations. The order of precedence
+is… <a href="https://ieeexplore.ieee.org/document/8299595">complicated</a> – so just
+use parens to force the order when you’re unsure. This generally makes
+things easier to read at any rate.</p>
 </div>
 </div>
-<div class="sect2">
-<h3 id="_week_3">Week 3</h3>
-<div class="ulist">
-<ul>
-<li>
-<p><a href="classes/nand_only_design/index.html">Lab 03 - NAND Only Design</a></p>
-</li>
-<li>
-<p><a href="classes/nand_only_design/slides.html">Lab 03 - Presentation Slides</a></p>
-</li>
-</ul>
+</div>
+<div class="sect1">
+<h2 id="_verilog_modules">Verilog Modules</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Every Verilog file <code>*.v</code> must contain one or more verilog Modules. These
+are discrete functional chunks of Verilog code that declare their
+inputs, outputs, and the operations therein. Let’s look at an example:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-verilog hljs" data-lang="verilog">module your_first_module(
+    input A, // Single bit input -- END EACH LINE with a comma...
+    input [5:0] B, // Six bit wide input
+    output C, Another, // two single bit outputs (can be done for input too)
+    output BitFour, // We can do any name for our outputs
+                    // as long as it doesn't have whitespace in it
+    output [5:0] D // Six bit wide ouput... without a comma
+    // DO NOT PUT A COMMA AFTER THE LAST LIST ENTRY
+); // Note this end paren with a semicolon
+
+    assign C = A; // End each assignment with a semicolon
+
+    wire invertC; // Declare local wires.
+                  // These are neither inputs or outputs
+                  // but can be used locally to hold values
+
+    assign invertC = ~C; // And can be assigned to regularly
+    assign Another = invertC; // And used as if they were regular values
+
+    assign D = B; // When vectors match in size,
+                  // they can just be directly assigned
+
+    assign BitFour = B[4]; // Or decomposed for single elements
+
+endmodule // No semicolon here for....... reasons</code></pre>
 </div>
 </div>
-<div class="sect2">
-<h3 id="_week_4">Week 4</h3>
-<div class="ulist">
-<ul>
-<li>
-<p><a href="classes/sop_pos_kmaps/index.html">Lab 04 - SOP POS and KMaps</a></p>
-</li>
-</ul>
+<div class="paragraph">
+<p>Modules are really cool, because when you have their input output
+declaration, you can use them as black boxes in other modules, composing
+higher level functionality out of small blocks:</p>
 </div>
-</div>
-<div class="sect2">
-<h3 id="_week_5">Week 5</h3>
-<div class="ulist">
-<ul>
-<li>
-<p><a href="classes/combinatorial_logic/index.html">Lab 05 - Combinatorial Logic</a></p>
-</li>
-<li>
-<p><a href="classes/combinatorial_logic/slides.html">Lab 05 - Presentation Slides</a></p>
-</li>
-</ul>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-verilog hljs" data-lang="verilog">module invert_input(
+    input A,
+    output NotA
+);
+
+    assign NotA = ~A;
+
+endmodule
+
+module top(
+    input [1:0] sw,
+    input [2:0] led
+);
+
+    // We can even have more than one of the same module!
+    invert_input first( // Instantiate an invert_input named first
+        .A(sw[0]), // Hook up its A to sw[0]
+        .NotA(led[0]) // and its B to led[0]
+    );
+
+    invert_input first( // Instantiate an invert_input named second
+        .A(sw[1]), // Hook up its A to sw[1]
+        .NotA(led[1]) // and its B to led[1]
+    );
+
+    // And to use a signal between them, if required:
+    wire inverted;
+    invert_input contrived(
+        .A(sw[0]),
+        .NotA(inverted) // Hook up its output to our new wire instead
+    );
+
+    invert_input example(
+        .A(inverted), // Use the output from the previous instance
+        .NotA(sw[2]) // and send it wherever you need
+    );
+
+endmodule</code></pre>
 </div>
 </div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_tutorials">Tutorials</h2>
+<h2 id="_continuous_assignment">Continuous Assignment</h2>
 <div class="sectionbody">
-<div class="ulist">
-<ul>
-<li>
-<p><a href="classes/iverilog/index.html">Icarus Verilog</a></p>
-</li>
-</ul>
+<div class="paragraph">
+<p>This will likely be the stickiest point for many of you coming from
+regular programming languages like C, Python, Java, etc. Verilog is
+<strong>not</strong> procedural, (yes, even when using procedural assignment). There’s
+no order of execution, there’s no <strong>entry point</strong>, there’s no <code>main</code>.
+Verilog is a language designed and used to describe and construct
+physical electrical circuits. As such, it does not behave like a
+traditional programming language.</p>
+</div>
+<div class="paragraph">
+<p>So, what do I mean by this? A way to think of it is that Verilog code
+effectively executes <strong>all at once</strong>, but really if you can envision it
+in your mind’s eye as if you are constructing a circuit and connecting
+wires, then you will be more successful. Let’s look at an example to
+help drive this home.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-verilog hljs" data-lang="verilog">module demo1(
+    input B, D, // Declare inputs
+    output A, C // Declare outputs
+);
+
+    // Content of module
+    assign C = ~A;
+    assign A = ~B &amp; D;
+
+endmodule</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>This, in a traditional programming language, would likely result in a
+runtime or compilation error, as we are <strong>using</strong> A before we <strong>define
+it</strong> in our statement for C. But, in reality, this Verilog is simply
+describing this circuit:</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="img/initial_layout.png" alt="Circuit">
+</div>
+<div class="title">Figure 1. Circuit</div>
+</div>
+<div class="paragraph">
+<p>As you can see, there <em>is</em> no <strong>order</strong> to any of this. We tell the
+system that A is composed of B and D, then C is composed of A. We have
+connected these things together with wires. Where you put the various
+chunks in physical space doesn’t really matter. What we have area set of
+virtual <em>wires</em> (or, you may hear them called <em>nets</em> or something
+similar) that plug into structural chunks (OOH FORESHADOWING!). You’re
+not describing a process with Verilog, but the Structure of a physical
+thing.</p>
+</div>
+<div class="paragraph">
+<p>This will be a major shift in thinking for many of you. The things you
+write here will seem to behave very strangely until you get used to
+thinking about it all happening at once.</p>
 </div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_rubric">Rubric</h2>
+<h2 id="_referring_back_to_the_lab">Referring back to the lab</h2>
 <div class="sectionbody">
+<div class="paragraph">
+<p>We know our final design needs three main chunks:</p>
+</div>
 <div class="ulist">
 <ul>
 <li>
-<p>20% for Lab Report</p>
+<p>The light switch</p>
 </li>
 <li>
-<p>50% for Verilog code</p>
+<p>The partial adder</p>
 </li>
 <li>
-<p>30% for demonstration in lab (also counts attendance)</p>
-</li>
-<li>
-<p>Absolutely NO plagarism or AI allowed</p>
+<p>Two bit adder</p>
 </li>
 </ul>
+</div>
+<div class="paragraph">
+<p>These are each in <code>light.v</code>, <code>adder.v</code>, and <code>full_adder.v</code>. Each of
+those files will have a single module declaration in it called <code>light</code>,
+<code>adder</code>, and <code>full_adder</code> respectively. We can reference these by those
+names in the <code>top.v</code> file to <strong>create</strong> or instantiate those modules
+over and over by different names, and wire them up to each other, or top
+level inputs and outputs.</p>
+</div>
+<div class="paragraph">
+<p>As a start, let’s go ahead and map in all of the I/O we decided on into
+our <code>top.v</code> file. We will need these inputs and outputs to match the
+names in our constraints file so that the place and route steps of
+synthesis will know how to wire things up. In addition, our constraints
+treat everything as a vector, or a bus of signals. In our I/O table, we
+can see we uses switches 0 through 7 (inclusive) and LEDs 0 through 4
+(inclusive). So, remembering last week’s lab, we will put those signals
+in MSB:LSB vectors:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-verilog hljs" data-lang="verilog">module top(
+    input [7:0]sw,
+    output [4:0]led
+);
+
+endmodule</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>That covers our ports and their names. These will now map to the
+uncomment lines in our constraints file to allow the synthesizer to
+place and route our design to actual hardware. In addition, this gives
+us <code>wire</code> type elements to use in our module. Let’s stick in the <code>light</code>
+module as an example:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-verilog hljs" data-lang="verilog">module top(
+    input [7:0]sw,
+    output [4:0]led
+);
+    light stair_light(
+        .downstairs(sw[0]),
+        .upstairs(sw[1]),
+        .stair_light(led[0])
+    );
+endmodule</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>In the above Verilog block, we’ve created an instance of <code>light</code> from
+<code>light.v</code> called <code>stair_light</code>. Then, in the parentheses that follow, we
+wire up the appropriate signals. For our design, as specified in the I/O
+table, we hook up the <code>downstairs</code> signal to <code>sw[0]</code>, the <code>upstairs</code>
+signal to <code>sw[1]</code>, and the <code>stair_light</code> signal to <code>led[0]</code>.
+Essentially, we directly translate our I/O table into Verilog.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_something_to_excite_you">Something to Excite You</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>And, mind you, physical it actually will be! Here is the part where I
+try to impress on you just how mind blowingly cool this technology is
+that you have at your fingertips. Let’s launch Vivado and build our
+circuit in reality. Create an empty project and add a single design
+source we shall call <code>top.v</code>. Put the content of <code>demo1</code> in this file,
+then add the following piece of code:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-verilog hljs" data-lang="verilog">module top(
+    input [1:0] sw,
+    output [1:0] led
+);
+    // This is an instantiation, not a function call
+    // Think of it like plugging in a circuit to a breadboard
+    demo1 uut(
+        .B(sw[0]),
+        .D(sw[1]),
+        .A(led[0]),
+        .C(led[1])
+    );
+
+endmodule</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Alternatively, add the existing source <code>demo_top.v</code> to your project.
+Then, load in the <code>demo_constraints.xdc</code> file into Vivado. When you are
+done with this, hit the <strong>Generate Bitstream</strong> button and launch the
+runs as it asks. When it finishes, select the <strong>Open Implemented
+Design</strong> and hit OK.</p>
+</div>
+<div class="paragraph">
+<p>It’ll pop up with a device view, like seen below:</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="img/device_view.png" alt="Device view">
+</div>
+<div class="title">Figure 2. Device view</div>
+</div>
+<div class="paragraph">
+<p>We will come back to this. First, in the panel on the left, hit the drop
+down next to <strong>Open Elaborated Design</strong> and click <strong>Schematic</strong> from
+there.</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="img/elab_schematic.png" alt="Elaborated schematic">
+</div>
+<div class="title">Figure 3. Elaborated schematic</div>
+</div>
+<div class="paragraph">
+<p>It will ask you if you want to close the other view first, hit Yes. You
+will now be presented with something that looks like this:</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="img/collapsed_schematic.png" alt="Collapsed schematic">
+</div>
+<div class="title">Figure 4. Collapsed schematic</div>
+</div>
+<div class="paragraph">
+<p>Click the <strong>+</strong> button in the top left corner. This will expand the
+schematic out to something like what you see below:</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="img/expanded_schematic.png" alt="Expanded schematic">
+</div>
+<div class="title">Figure 5. Expanded schematic</div>
+</div>
+<div class="paragraph">
+<p>Hey! That looks an awful lot like my silly drawing up above. The tooling
+within Verilog translated our Verilog code into the virtual
+representation of a physical circuit. You can even see the little
+inverters and the AND gate exactly where we would expect to see them.
+<em>But we can go deeper</em></p>
+</div>
+<div class="paragraph">
+<p>Next, in the panel on the left, hit the drop down next to <strong>Open
+Synthesized Design</strong>, then click <strong>Schematic</strong> from there and open the
+synthesized design:</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="img/synth_schematic.png" alt="Synthesized schematic">
+</div>
+<div class="title">Figure 6. Synthesized schematic</div>
+</div>
+<div class="paragraph">
+<p>Another block diagram appears – similar to what we saw before, but
+there’s a few notable differences that are important to talk about here.
+Let’s look at the design here:</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="img/synth_block_design.png" alt="Synthesized block design">
+</div>
+<div class="title">Figure 7. Synthesized block design</div>
+</div>
+<div class="paragraph">
+<p>Even though it looks really similar, we can no longer see the clear AND
+gate and inverter that we saw above! What gives? During this step of the
+RTL <strong>compilation</strong> process, we have mapped the design onto the
+resources available for the FPGA we are targeting. Remember when you
+selected the Basys3 board as the design target for this project? That
+means we have actually specified an exact chip (the one on the board)
+and that allows Vivado to know exactly what and where everything on the
+board is.</p>
+</div>
+<div class="paragraph">
+<p>So what we are seeing in this schematic is exactly the hardware pieces
+that we are recruiting to achieve our simple design. The IBUF and OBUF
+components are input and output buffers, and are outside the scope of
+this class, but you can read about them
+<a href="https://en.wikipedia.org/wiki/Digital_buffer">here</a>. Then, there are two
+LUT instances – LUT meaning Look Up Table. This is how FPGAs actually
+work, it’s the secret sauce, the man behind the curtain.</p>
+</div>
+<div class="paragraph">
+<p>Select one of the two LUTs. In the cell properties window in the bottom
+left of the Synthesized Design view, select Truth Table. Something like
+this should appear:</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="img/lut_equation.png" alt="LUT Equation">
+</div>
+<div class="title">Figure 8. LUT Equation</div>
+</div>
+<div class="paragraph">
+<p>You can select and compare the two LUTs and see that each is
+implementing the exact required logic to make A and C happen as
+specified by our design.</p>
+</div>
+<div class="paragraph">
+<p>Finally, we can go back to the implemented design. Open that, and keep
+the device view open, the one we saw at the very beginning. if you look
+at the top left panel, you should see a drop down for Nets, open that,
+open <code>led_OBUF</code>, and select <code>led_OBUF[0]</code>, then click the <strong>Auto-fit
+selection</strong> option:</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="img/expand_device_view.png" alt="Look at device view">
+</div>
+<div class="title">Figure 9. Look at device view</div>
+</div>
+<div class="paragraph">
+<p>This has now focused our view of the FPGA in on our selected OBUF. What
+we are seeing here is the exact physical layout of the piece of silicon
+that is the FPGA on the Basys3 board. Highlighted are the exact chunks
+of the FPGA that our RTL will be hooking together and loading equations
+into in order to achieve the structure we designed in our <code>top.v</code>. Click
+around this for a while and examine how each piece connects to each
+other. <em>You</em> are in complete control of this hardware. It can do
+anything and be anything. If you ask me, these are probably the single
+coolest things mankind has ever created.</p>
 </div>
 </div>
 </div>
@@ -552,5 +929,13 @@ lab.
 <div id="footer-text">
 </div>
 </div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.3/highlight.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.3/languages/verilog.min.js"></script>
+<script>
+if (!hljs.initHighlighting.called) {
+  hljs.initHighlighting.called = true
+  ;[].slice.call(document.querySelectorAll('pre.highlight > code[data-lang]')).forEach(function (el) { hljs.highlightBlock(el) })
+}
+</script>
 </body>
 </html>
