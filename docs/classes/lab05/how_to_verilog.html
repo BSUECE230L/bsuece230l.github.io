@@ -587,7 +587,7 @@ endmodule
 
 module top(
     input [1:0] sw,
-    input [2:0] led
+    output [2:0] led
 );
 
     // We can even have more than one of the same module!
@@ -611,6 +611,39 @@ module top(
     invert_input example(
         .A(inverted), // Use the output from the previous instance
         .NotA(sw[2]) // and send it wherever you need
+    );
+
+    // ----------------------------------------------------------------
+
+    // There are other ways to refer to connect outputs:
+    // If we wanted a module that used NotA from first,
+    // you could do the following
+
+    invert_input from_another(
+        .A(first.NotA),
+        .NotA(led[2])
+    );
+
+    // In addition, we can actually just use the already existing
+    // wire, led[0]! Keep in mind all inputs and outputs are wire
+    // types
+    
+    invert_input from_another_again(
+        .A(led[0]),
+        .NotA(led[2])
+    );
+
+    // Finally, we can do it with a direct wire
+
+    wire between;
+    invert_input first (
+        .A(sw[0]),
+        .NotA(between)
+    );
+    assign led[0] = between;
+    invert_input from_another_again_again (
+        .A(between),
+        .NotA(led[2])
     );
 
 endmodule</code></pre>
