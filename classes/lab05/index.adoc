@@ -129,7 +129,7 @@ things:
 . We can instantiate *many* of each design, giving different switches and LEDs
   to each as we see fit
 
-<<constraints>>
+[[constraints]]
 == Part 4: Constraining our design
 
 .Basys3 Schematic
