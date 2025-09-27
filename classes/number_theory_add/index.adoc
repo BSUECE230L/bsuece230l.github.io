@@ -1,4 +1,4 @@
-= Lab 05 - Combinatorial Logic
+= Number Theory: Addition
 :source-highlighter: highlight.js
 :highlightjs-languages: verilog
 :icons: font

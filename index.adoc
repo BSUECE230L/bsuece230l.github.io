@@ -29,6 +29,10 @@ lab.
 * xref:classes/combinatorial_logic/index.adoc[Lab 05 - Combinatorial Logic]
 * xref:classes/combinatorial_logic/slides.adoc[Lab 05 - Presentation Slides]
 
+=== Week 6
+
+* xref:classes/number_theory_add/index.adoc[Lab 06 - Number Theory: Addition]
+
 == Tutorials
 
 * xref:classes/iverilog/index.adoc[Icarus Verilog]
