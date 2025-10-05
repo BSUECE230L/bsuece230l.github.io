@@ -33,6 +33,10 @@ lab.
 
 * xref:classes/number_theory_add/index.adoc[Lab 06 - Number Theory: Addition]
 
+=== Week 7
+
+* xref:classes/number_theory_sub/index.adoc[Lab 07 - Number Theory: Subtraction]
+
 == Tutorials
 
 * xref:classes/iverilog/index.adoc[Icarus Verilog]
