@@ -632,7 +632,7 @@ module top(
         .A(APlusB[0]), // Adding LSB of (A + B)
         .B(1'b0), // We are adding 0, with the optional carry:
         .Y(Y[0]), // This is now the real summation
-        .Cin(around), // Fix to zero
+        .Cin(around), // This now takes *in* from the last sum
         .Cout(second_carry) // We still need to carry to second
         // bit of second addition
     );
