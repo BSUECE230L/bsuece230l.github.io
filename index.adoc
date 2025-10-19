@@ -37,6 +37,10 @@ lab.
 
 * xref:classes/number_theory_sub/index.adoc[Lab 07 - Number Theory: Subtraction]
 
+=== Week 9
+
+* xref:classes/multiplex_demultiplex/index.adoc[Lab 08 - Multiplexers and Demultiplexers]
+
 == Tutorials
 
 * xref:classes/iverilog/index.adoc[Icarus Verilog]

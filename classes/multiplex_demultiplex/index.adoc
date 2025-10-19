@@ -1,4 +1,4 @@
-= Lab 08 - Mux and Demux
+= Multiplexers and Demultiplexers
 :source-highlighter: highlight.js
 :highlightjs-languages: verilog
 :icons: font
