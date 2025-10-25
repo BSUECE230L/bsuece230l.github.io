@@ -1,4 +1,4 @@
-= Lab 09 - Sequential Circuits
+= Sequential Circuits: Latches
 :source-highlighter: highlight.js
 :highlightjs-languages: verilog
 :icons: font

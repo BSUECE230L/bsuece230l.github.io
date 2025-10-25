@@ -41,6 +41,11 @@ lab.
 
 * xref:classes/multiplex_demultiplex/index.adoc[Lab 08 - Multiplexers and Demultiplexers]
 
+=== Week 10
+
+* xref:classes/sequential_circuits/index.adoc[Lab 09 - Sequential Circuits: Latches]
+* xref:classes/sequential_circuits/slides.adoc[Lab 09 - Presentation Slides]
+
 == Tutorials
 
 * xref:classes/iverilog/index.adoc[Icarus Verilog]
