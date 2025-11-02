@@ -1,4 +1,4 @@
-= Flipping And Flopping Our Way To Displays
+= Making Computers Count
 :last-update-label!:
 :source-highlighter: highlight.js
 :highlightjs-languages: verilog
