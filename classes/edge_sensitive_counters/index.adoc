@@ -1,4 +1,4 @@
-= Lab 10 - Edge Sensitive Circuits
+= Edge Sensitive Circuits
 :source-highlighter: highlight.js
 :highlightjs-languages: verilog
 :icons: font

@@ -197,8 +197,8 @@ image::img/zoomed_block_diagram.drawio.svg[]
 | Signal    | Purpose        | Direction
 | sw[0]     | D-Latch D     | IN
 | btnC      | D-Latch E     | IN
-| led[0]    | SR-Latch Q     | OUT
-| led[1]    | SR-Latch ~Q    | OUT
+| led[0]    | D-Latch Q     | OUT
+| led[1]    | D-Latch ~Q    | OUT
 | sw[15:8]  | 8 data bits    | IN
 | sw[7:6]   | Address Select | IN
 | btnC      | Store          | IN

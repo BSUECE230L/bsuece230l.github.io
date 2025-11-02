@@ -46,6 +46,11 @@ lab.
 * xref:classes/sequential_circuits/index.adoc[Lab 09 - Sequential Circuits: Latches]
 * xref:classes/sequential_circuits/slides.adoc[Lab 09 - Presentation Slides]
 
+=== Week 11
+
+* xref:classes/edge_sensitive_counters/index.adoc[Lab 10 - Edge Sensitive Circuits]
+* xref:classes/edge_sensitive_counters/slides.adoc[Lab 10 - Presentation Slides]
+
 == Tutorials
 
 * xref:classes/iverilog/index.adoc[Icarus Verilog]
