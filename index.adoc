@@ -51,6 +51,10 @@ lab.
 * xref:classes/edge_sensitive_counters/index.adoc[Lab 10 - Edge Sensitive Circuits]
 * xref:classes/edge_sensitive_counters/slides.adoc[Lab 10 - Presentation Slides]
 
+=== Week 12
+
+* xref:classes/finite_state_machine/index.adoc[Lab 11 - Finite State Machines]
+
 == Tutorials
 
 * xref:classes/iverilog/index.adoc[Icarus Verilog]

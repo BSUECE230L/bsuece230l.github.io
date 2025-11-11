@@ -1,4 +1,4 @@
-= Lab 10 - 7-Segment Displays
+= 7-Segment Displays
 :source-highlighter: highlight.js
 :highlightjs-languages: verilog
 :icons: font
