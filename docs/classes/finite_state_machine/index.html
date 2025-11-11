@@ -722,10 +722,10 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <p>Let&#8217;s start with the easy part now, the output. Just as above, we only assert <code>z</code> if we are in state C, so the equation is very simple: <code>z = y &amp; ~x</code>.</p>
 </div>
 <div class="paragraph">
-<p>The next state logic is slightly more complicated, and can be solved using KMaps for each bit of the D-FFs binary representation, each as functions of the current state (<code>x</code> and <code>y</code>) as well as <code>w</code>. As a rule of thumb, as these tables/diagrams/maps are written, the lowercase symbol is "current" and uppercase is "next", that is we would write "Current state of the MSB D-FF" as <code>x</code> and the "Next state of the MSB D-FF" as <code>Y</code>. For the KMaps below the letter "i" means invalid or do not care. Notice that they are in the row <code>11</code> which corresponds to state <code>D</code> that does not exist.</p>
+<p>The next state logic is slightly more complicated, and can be solved using KMaps for each bit of the D-FFs binary representation, each as functions of the current state (<code>x</code> and <code>y</code>) as well as <code>w</code>. As a rule of thumb, as these tables/diagrams/maps are written, the lowercase symbol is "current" and uppercase is "next", that is we would write "Current state of the MSB D-FF" as <code>y</code> and the "Next state of the MSB D-FF" as <code>Y</code>. For the KMaps below the letter "i" means invalid or do not care. Notice that they are in the row <code>11</code> which corresponds to state <code>D</code> that does not exist.</p>
 </div>
 <table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 6. X KMap</caption>
+<caption class="title">Table 6. X KMap (next LSB)</caption>
 <colgroup>
 <col style="width: 33.3333%;">
 <col style="width: 33.3333%;">
@@ -760,7 +760,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </tbody>
 </table>
 <table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 7. Y KMap</caption>
+<caption class="title">Table 7. Y KMap (next MSB)</caption>
 <colgroup>
 <col style="width: 33.3333%;">
 <col style="width: 33.3333%;">
