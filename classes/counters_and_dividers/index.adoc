@@ -1,5 +1,12 @@
 = Counters and Dividers
 :stem:
+:source-highlighter: highlight.js
+:highlightjs-languages: verilog
+:icons: font
+:toc:
+:last-update-label!:
+
+xref:class.zip[Download Class Materials]
 
 As we talked about previously in the edge sensitivity lab, we have a new tool in
 our toolbox. Flip flops, as opposed to latches, can be used to build counters.
@@ -73,7 +80,9 @@ stem:[ceil(log2(100,000,000))], which is: 27. We would a 27 bit wide adder and
 How does the reset/comparison work, then? Well, it is purely combinatorial logic
 that sits on top of the Q outputs of our D-FlipFlops and checks that the output
 value equals a certain number, and it then sets the next state of the output
-D-FlipFlop to 1, and queues up a reset.
+D-FlipFlop to 1, and queues up a reset. It would check for the binary pattern of
+`101111101011110000100000000` (100 million in binary) on the output, and assert
+the D line to the output flip flop as well as the reset line for all counters.
 
 
 === Answer 2: Close enough, probably, I hope (Ripple Counters)
@@ -114,6 +123,9 @@ With a waveform like this:
 include::src/ripple_counter.puml[]
 ....
 
+The output of the ripple counter is just the Q of the final T-FlipFlop, however
+many you have.
+
 == Lab Procedure
 
 To properly visualize this, we are going to implement a much... smaller divider.
@@ -135,7 +147,7 @@ divider folowing the below IO table:
 | btnC      | Input Clock     | IN
 | led[0]    | Ripple counter stage 1 | OUT
 | led[1]    | Ripple counter stage 2 | OUT
-| led[2]    | Ripple counter stage 2 | OUT
+| led[2]    | Ripple counter stage 3 | OUT
 | led[3]    | Modulo counter state bit 0 | OUT
 | led[4]    | Modulo counter state bit 1 | OUT
 | led[5]    | Modulo counter state bit 2 | OUT

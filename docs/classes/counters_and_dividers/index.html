@@ -433,14 +433,31 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 #footer-text{color:rgba(0,0,0,.6);font-size:.9em}}
 @media amzn-kf8{#header,#content,#footnotes,#footer{padding:0}}
 </style>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.3/styles/github.min.css">
 </head>
 <body class="article">
 <div id="header">
 <h1>Counters and Dividers</h1>
+<div id="toc" class="toc">
+<div id="toctitle">Table of Contents</div>
+<ul class="sectlevel1">
+<li><a href="#_why_do_we_need_clock_dividers">Why do we need clock dividers?</a>
+<ul class="sectlevel2">
+<li><a href="#_answer_1_technically_correct_module_counters">Answer 1: Technically Correct (Module Counters)</a></li>
+<li><a href="#_answer_2_close_enough_probably_i_hope_ripple_counters">Answer 2: Close enough, probably, I hope (Ripple Counters)</a></li>
+</ul>
+</li>
+<li><a href="#_lab_procedure">Lab Procedure</a></li>
+</ul>
+</div>
 </div>
 <div id="content">
 <div id="preamble">
 <div class="sectionbody">
+<div class="paragraph">
+<p><a href="class.zip">Download Class Materials</a></p>
+</div>
 <div class="paragraph">
 <p>As we talked about previously in the edge sensitivity lab, we have a new tool in
 our toolbox. Flip flops, as opposed to latches, can be used to build counters.
@@ -496,7 +513,7 @@ the following:</p>
 <table>
 <tr>
 <td class="icon">
-<div class="title">Note</div>
+<i class="fa icon-note" title="Note"></i>
 </td>
 <td class="content">
 Please note, when N = 100 million, as in our example here, we are dividing
@@ -527,7 +544,7 @@ against the reset value. Practically the block diagram is this:</p>
 <table>
 <tr>
 <td class="icon">
-<div class="title">Note</div>
+<i class="fa icon-note" title="Note"></i>
 </td>
 <td class="content">
 Each of the <code>Cmp Reset</code> lines are connected to the Comparator&#8217;s reset
@@ -547,7 +564,9 @@ value we count to. In this example case, we have:
 <p>How does the reset/comparison work, then? Well, it is purely combinatorial logic
 that sits on top of the Q outputs of our D-FlipFlops and checks that the output
 value equals a certain number, and it then sets the next state of the output
-D-FlipFlop to 1, and queues up a reset.</p>
+D-FlipFlop to 1, and queues up a reset. It would check for the binary pattern of
+<code>101111101011110000100000000</code> (100 million in binary) on the output, and assert
+the D line to the output flip flop as well as the reset line for all counters.</p>
 </div>
 </div>
 <div class="sect2">
@@ -593,6 +612,10 @@ counter. The arrangement would look like this:</p>
 <img src="diag-plantuml-md5-b7da6082cca3fd759e11b08d662e0981.svg" alt="Diagram" width="620" height="237">
 </div>
 <div class="title">Figure 3. Ripple Counter Timing</div>
+</div>
+<div class="paragraph">
+<p>The output of the ripple counter is just the Q of the final T-FlipFlop, however
+many you have.</p>
 </div>
 </div>
 </div>
@@ -650,7 +673,7 @@ divider folowing the below IO table:</p>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">led[2]</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Ripple counter stage 2</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Ripple counter stage 3</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">OUT</p></td>
 </tr>
 <tr>
@@ -680,9 +703,16 @@ divider folowing the below IO table:</p>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2025-11-11 18:22:00 -0700
 </div>
 </div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.3/highlight.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.3/languages/verilog.min.js"></script>
+<script>
+if (!hljs.initHighlighting.called) {
+  hljs.initHighlighting.called = true
+  ;[].slice.call(document.querySelectorAll('pre.highlight > code[data-lang]')).forEach(function (el) { hljs.highlightBlock(el) })
+}
+</script>
 <script type="text/x-mathjax-config">
 MathJax.Hub.Config({
   messageStyle: "none",
