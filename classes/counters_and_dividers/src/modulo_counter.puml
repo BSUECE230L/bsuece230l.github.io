@@ -1,0 +1,24 @@
+@startuml modulo_example
+
+scale 10 as 150 pixels
+clock "Clock" as clk with period 10
+concise "Counter" as C
+binary "Reset" as R
+binary "Output" as O
+
+@0
+C is "99,999,998"
+O is 0
+R is 0
+@10
+C is "99,999,999"
+@20
+C is "100,000,000"
+O is 1
+R is 1
+@30
+C is "0"
+O is 1
+R is 0
+
+@enduml

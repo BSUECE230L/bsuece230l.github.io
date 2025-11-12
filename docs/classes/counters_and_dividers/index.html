@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="generator" content="Asciidoctor 2.0.23">
-<title>Finite State Machine Lab</title>
+<title>Counters and Dividers</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700">
 <style>
 /*! Asciidoctor default stylesheet | MIT License | https://asciidoctor.org */
@@ -433,390 +433,166 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 #footer-text{color:rgba(0,0,0,.6);font-size:.9em}}
 @media amzn-kf8{#header,#content,#footnotes,#footer{padding:0}}
 </style>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.3/styles/github.min.css">
 </head>
 <body class="article">
 <div id="header">
-<h1>Finite State Machine Lab</h1>
-<div id="toc" class="toc">
-<div id="toctitle">Table of Contents</div>
-<ul class="sectlevel1">
-<li><a href="#_introduction">Introduction</a></li>
-<li><a href="#_example_state_machine">Example State Machine</a>
-<ul class="sectlevel2">
-<li><a href="#_one_hot_implementation">One Hot Implementation</a></li>
-<li><a href="#_binary_implementation">Binary Implementation</a></li>
-</ul>
-</li>
-<li><a href="#_lab_procedure">Lab Procedure</a></li>
-<li><a href="#ex-onehot">Appendix A: Example One Hot State Machine</a></li>
-<li><a href="#ex-binary">Appendix B: Example Binary State Machine</a></li>
-</ul>
-</div>
+<h1>Counters and Dividers</h1>
 </div>
 <div id="content">
 <div id="preamble">
 <div class="sectionbody">
 <div class="paragraph">
-<p><a href="class.zip">Download Class Materials</a></p>
+<p>As we talked about previously in the edge sensitivity lab, we have a new tool in
+our toolbox. Flip flops, as opposed to latches, can be used to build counters.
+While these may seem trivial, counters are a versatile and flexible tool that we
+can use to do all sorts of fun things.</p>
+</div>
+<div class="paragraph">
+<p>In this lab, we are going to use them to build two kinds of clock dividers&#8201;&#8212;&#8201;modulo counters and cascaded T-FF counters.</p>
 </div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_introduction">Introduction</h2>
+<h2 id="_why_do_we_need_clock_dividers">Why do we need clock dividers?</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>We now have all the ingredients to make anything from a simple wall clock to a modern nVidia GPU. The latter being a little bit unlikely for a 200 level college course, let&#8217;s start with the basics.</p>
+<p>Generally, digital logic hardware will have only small numbers of actual
+hardware oscillators, that is some sort of hardware that generates a regular
+pulse train. On the Basys 3 board we use in this class, there is a single 100
+MHz crystal oscillator.</p>
 </div>
 <div class="paragraph">
-<p>Most complex digital logic circuits are built out of many components. There will be combinatorial logic that does most of the heavy lifting, there will be sequential circuits holding on to temporary values, and synchronous flip flops for data storage.</p>
+<p>100 MHz, or 100 million times a second, is <em>really fast</em>. I mean, in terms of
+modern computers that run at ~5 GHz, maybe not that fast, but it is way too fast
+for most of the things we do in our college labs. If we hooked up an LED to the
+output of the clock, it would just look like it was solidly on, as your
+persistence of vision would make it so you couldn&#8217;t see the individual on/off
+events.</p>
 </div>
 <div class="paragraph">
-<p>Generally, all of these combine together to form <strong>state machines</strong> in these systems, as complex circuits generally need to perform a series of operations in a specific order. Consider, for instance, a CPU. It has to load the next instruction, load the data for the instruction, execute the instruction, then store the result somewhere. If it does any of those things out of order or requires human intervention in the middle, it would make for an extremely poor CPU.</p>
+<p>So, what would we do if we wanted to turn on/off the LED once a second?</p>
+</div>
+<div class="sect2">
+<h3 id="_answer_1_technically_correct_module_counters">Answer 1: Technically Correct (Module Counters)</h3>
+<div class="paragraph">
+<p>Let&#8217;s suppose a digital logic circuit that can count. Let&#8217;s say it has a button
+on it where every time it gets pressed, it counts up by 1. If we were to hook up
+the 100 MHz clock to that button, we would see that in 1 second, it had counted
+up to 100 million.</p>
 </div>
 <div class="paragraph">
-<p>To do these things, then, we need the state machines. These are digital logic circuits that have "next state" logic, typically purely combinatorial, as well as "state storage" which is typically in the form of D-FlipFlops. The next state logic uses a combination of inputs as well as current state to drive the next state, allowing the whole machine to tick along with the clock assigned to the D-FlipFlops.</p>
-</div>
-<div class="paragraph">
-<p>In this lab, we will explore two different ways to create state machines, and implement a simple one on the board and watch as it does its actions.</p>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_example_state_machine">Example State Machine</h2>
-<div class="sectionbody">
-<div class="paragraph">
-<p>Let&#8217;s take for example the following state machine. It has a single input <code>w</code> and a single output <code>z</code>. It is a Moore type state machine, that is its output <code>z</code> is only dependent on the current state. If the output is dependent on current state as well as inputs, that would be a Mealy type state machine.</p>
+<p>If we then had another digital circuit that could read that counter value and
+compare it to an arbitrary value, say 100 million, and toggle an output each
+time it reaches that value, we would have a circuit that outputs something like
+the following:</p>
 </div>
 <div class="imageblock">
 <div class="content">
-<img src="diag-plantuml-md5-7208c2bec56123fb703c03888ec7b93f.svg" alt="Diagram" width="210" height="337">
+<img src="diag-plantuml-md5-d5c35b012f42fbd7c7be6c28a20cd309.svg" alt="Diagram" width="692" height="209">
 </div>
-</div>
-<div class="paragraph">
-<p>Its state table is shown below:</p>
-</div>
-<table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 1. State Table</caption>
-<colgroup>
-<col style="width: 25%;">
-<col style="width: 25%;">
-<col style="width: 25%;">
-<col style="width: 25%;">
-</colgroup>
-<tbody>
-<tr>
-<td class="tableblock halign-left valign-top" rowspan="2"><p class="tableblock">Current State</p></td>
-<td class="tableblock halign-left valign-top" colspan="2"><p class="tableblock">Next State</p></td>
-<td class="tableblock halign-left valign-top" rowspan="2"><p class="tableblock">Output</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">w = 0</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">w = 1</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">A</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">A</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">B</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">B</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">A</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">C</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">C</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">A</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">C</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
-</tr>
-</tbody>
-</table>
-<div class="paragraph">
-<p>There are two ways to implement the above state table. Think about how the current state is stored in D-FlipFlops. First, we could have one D-FF for each state, that is, three total D-FF, where when they are asserted, the machine is in that state. This is called one-hot encoding, as there is always one and only one D-FF asserted at any time:</p>
-</div>
-<table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 2. One Hot Encoding</caption>
-<colgroup>
-<col style="width: 25%;">
-<col style="width: 25%;">
-<col style="width: 25%;">
-<col style="width: 25%;">
-</colgroup>
-<tbody>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">State</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">A D-FF</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">B D-FF</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">C D-FF</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">A</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">B</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">C</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
-</tr>
-</tbody>
-</table>
-<div class="paragraph">
-<p>This means we need <code>N</code> D-FFs, one per state. The other way to encode the current state is by using a binary number. This requires \$ceil(log_2(Nstates))\$ D-FFs to implement. In the case of our three state system above, we need two D-FFs. Let&#8217;s see how that would look:</p>
-</div>
-<table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 3. Binary Encoding</caption>
-<colgroup>
-<col style="width: 50%;">
-<col style="width: 50%;">
-</colgroup>
-<tbody>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">State</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Binary Value</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">A</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">00</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">B</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">01</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">C</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">10</p></td>
-</tr>
-</tbody>
-</table>
-<div class="paragraph">
-<p>There are advantages and disadvantages to each approach. For one, the One Hot encoding makes current state logic decisions much easier, as we don&#8217;t need to look at the value of multiple D-FFs. However, it requires many more D-FFs as the complexity of state machines grows. The downsides of binary encoding are that there are often <em>invalid</em> representations. There&#8217;s no state D in our example, but the two D-FFs can represent the state <code>11</code> which does not actually exist. In addition, we need to consider the value of all D-FFs each time we want to make next state decisions.</p>
-</div>
-<div class="paragraph">
-<p>Let&#8217;s look at this state machine implemented in both ways now.</p>
-</div>
-<div class="sect2">
-<h3 id="_one_hot_implementation">One Hot Implementation</h3>
-<div class="paragraph">
-<p>Let&#8217;s rewrite our state table with <code>XXX</code> representing the <code>CBA</code> flip flops each:</p>
-</div>
-<table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 4. One-hot state assignment</caption>
-<colgroup>
-<col style="width: 25%;">
-<col style="width: 25%;">
-<col style="width: 25%;">
-<col style="width: 25%;">
-</colgroup>
-<tbody>
-<tr>
-<td class="tableblock halign-left valign-top" rowspan="2"><p class="tableblock">Current State</p></td>
-<td class="tableblock halign-left valign-top" colspan="2"><p class="tableblock">Next State</p></td>
-<td class="tableblock halign-left valign-top" rowspan="2"><p class="tableblock">Output</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">w = 0</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">w = 1</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">001</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">001</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">010</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">010</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">001</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">100</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">100</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">001</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">100</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
-</tr>
-</tbody>
-</table>
-<div class="paragraph">
-<p>Where <code>A = 001</code>, <code>B = 010</code>, <code>C = 100</code>. If we initialize the D-FFs into one of the three valid states (using either a reset line or <code>initial begin</code>), we can carefully design our next-state logic to drive the inputs of our D-FFs so that they cannot enter one of the invalid states, that is a state where more than one or zero D-FFs are asserted (remember, this is one hot). We can also design the logic required to drive our output <code>z</code>.</p>
-</div>
-<div class="paragraph">
-<p>Let&#8217;s start with the output as it is most simple. We can see that <code>z</code> is only asserted when we are in state C, so that leads us to an extremely easy equation: <code>z = C</code>, where <code>C</code> is the <code>Q</code> output of the D-FF associated with the C state.</p>
-</div>
-<div class="paragraph">
-<p>Next, let&#8217;s design the logic for our next state. In this case, it will take the form of logic gates driving the <code>D</code> input of each D-FF for each state.</p>
-</div>
-<div class="paragraph">
-<p>We can use the simple state first: A. We can see from the state assignment table, that we go into state A <em>no matter what</em> when <code>w = 0</code>. So, the equation for the input of the A D-FF is as follows: <code>A = ~w</code></p>
-</div>
-<div class="paragraph">
-<p>The equations for B and C are slightly more complicated. We can see that there is only one case where B is the next state, when <code>w = 1</code> and we are in state A: <code>B = w &amp; A</code>. For C, we can see if state is B or C, we go to C if <code>w = 1</code>, so that equation is <code>C = (B &amp; w) | (C &amp; w)</code></p>
-</div>
-<div class="paragraph">
-<p>The full implementation for the One Hot encoding of this state machine can be found in <a href="#ex-onehot">Example One Hot State Machine</a>.</p>
-</div>
-</div>
-<div class="sect2">
-<h3 id="_binary_implementation">Binary Implementation</h3>
-<div class="paragraph">
-<p>Let&#8217;s rewrite our state machine table with 'XX' representing the two bits of D-FF in the binary solution:</p>
-</div>
-<table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 5. Binary state assignment</caption>
-<colgroup>
-<col style="width: 25%;">
-<col style="width: 25%;">
-<col style="width: 25%;">
-<col style="width: 25%;">
-</colgroup>
-<tbody>
-<tr>
-<td class="tableblock halign-left valign-top" rowspan="2"><p class="tableblock">Current State</p></td>
-<td class="tableblock halign-left valign-top" colspan="2"><p class="tableblock">Next State</p></td>
-<td class="tableblock halign-left valign-top" rowspan="2"><p class="tableblock">Output</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">w = 0</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">w = 1</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">00</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">00</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">01</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">01</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">00</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">10</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">10</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">00</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">10</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
-</tr>
-</tbody>
-</table>
-<div class="paragraph">
-<p>Where <code>A = 00</code>, <code>B = 01</code>, <code>C = 10</code>. We will refer to these two D-FFs as <code>[y, x]</code> from now on (<code>y</code> is MSB, <code>x</code> is LSB)</p>
-</div>
-<div class="paragraph">
-<p>If we do the same, and initialize the two D-FFs to a single valid state, and design next state logic driving each of the <code>D</code> inputs to our two D-FFs so that they cannot enter the single invalid state and transition properly, we can build a functioning state machine as we did above.</p>
-</div>
-<div class="paragraph">
-<p>Let&#8217;s start with the easy part now, the output. Just as above, we only assert <code>z</code> if we are in state C, so the equation is very simple: <code>z = y &amp; ~x</code>.</p>
-</div>
-<div class="paragraph">
-<p>The next state logic is slightly more complicated, and can be solved using KMaps for each bit of the D-FFs binary representation, each as functions of the current state (<code>x</code> and <code>y</code>) as well as <code>w</code>. As a rule of thumb, as these tables/diagrams/maps are written, the lowercase symbol is "current" and uppercase is "next", that is we would write "Current state of the MSB D-FF" as <code>y</code> and the "Next state of the MSB D-FF" as <code>Y</code>. For the KMaps below the letter "i" means invalid or do not care. Notice that they are in the row <code>11</code> which corresponds to state <code>D</code> that does not exist.</p>
-</div>
-<table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 6. X KMap (next LSB)</caption>
-<colgroup>
-<col style="width: 33.3333%;">
-<col style="width: 33.3333%;">
-<col style="width: 33.3334%;">
-</colgroup>
-<tbody>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">xy / w</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">00</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">(1)</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">01</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">11</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">i</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">i</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">10</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
-</tr>
-</tbody>
-</table>
-<table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 7. Y KMap (next MSB)</caption>
-<colgroup>
-<col style="width: 33.3333%;">
-<col style="width: 33.3333%;">
-<col style="width: 33.3334%;">
-</colgroup>
-<tbody>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">xy / w</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">00</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">01</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">(1)</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">11</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">i</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">([i])</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">10</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">[1]</p></td>
-</tr>
-</tbody>
-</table>
-<div class="paragraph">
-<p>Using the parentheses and square brackets to represent our groups, our equations are as follows:</p>
+<div class="title">Figure 1. Modulo Counter State</div>
 </div>
 <div class="admonitionblock note">
 <table>
 <tr>
 <td class="icon">
-<i class="fa icon-note" title="Note"></i>
+<div class="title">Note</div>
 </td>
 <td class="content">
-Capitol letters mean <em>next</em> value, lowercase mean current
+Please note, when N = 100 million, as in our example here, we are dividing
+by 200 Million, leading to a 0.5 Hz signal. Why is this? In the modulo counter
+we toggle the output each time we reach our desired count. A single "Hz" is
+defined by a transition from high to low and <em>back to high</em>. That means we
+actually have to do two full counts to reach a single Hz.
 </td>
 </tr>
 </table>
 </div>
-<div class="listingblock">
-<div class="content">
-<pre>X = w &amp; ~y &amp; ~x
-Y = w &amp; (x | y)</pre>
-</div>
+<div class="paragraph">
+<p>If we then also had that circuit reset our counter, we could have a digital
+circuit that takes our input 100 MHz clock and generates one that toggles once a
+second! This is known as a "modulo counter", one where it counts to a programmed
+level, then toggles and resets.</p>
 </div>
 <div class="paragraph">
-<p>Again, see the full Verilog implementation in <a href="#ex-binary">Example Binary State Machine</a>.</p>
+<p>To implement this, we need an adder to compute N + 1, a set of D-FlipFlops to
+store the current count, and a comparison block to check the current count
+against the reset value. Practically the block diagram is this:</p>
+</div>
+<div class="paragraph">
+<div class="title">Simple Modulo Counter</div>
+<p><span class="image"><img src="img/modulo_counter.drawio.svg" alt="modulo counter.drawio"></span></p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<div class="title">Note</div>
+</td>
+<td class="content">
+Each of the <code>Cmp Reset</code> lines are connected to the Comparator&#8217;s reset
+output. For brevity I showed them connected like that.
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>How do we pick how many bits wide our adder/storage need to be? Thankfully,
+there&#8217;s a super easy eqation for this \$ceil(log2(Cval))\$, where Cval is the
+value we count to. In this example case, we have:
+\$ceil(log2(100,000,000))\$, which is: 27. We would a 27 bit wide adder and
+27 bits of storage.</p>
+</div>
+<div class="paragraph">
+<p>How does the reset/comparison work, then? Well, it is purely combinatorial logic
+that sits on top of the Q outputs of our D-FlipFlops and checks that the output
+value equals a certain number, and it then sets the next state of the output
+D-FlipFlop to 1, and queues up a reset.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_answer_2_close_enough_probably_i_hope_ring_counters">Answer 2: Close enough, probably, I hope (Ring Counters)</h3>
+<div class="paragraph">
+<p>The modulo counter, for reasons we will examine as we implement things in our
+lab, can be fairly expensive to implement. It requires an n-bit adder, and then
+a whole pile of circuitry to compare that count to a given value (could even be
+configurable! That&#8217;s even harder). So, what if we&#8217;re in a resource constrained
+environment and we don&#8217;t actually care what rate the LED toggles at? What if it
+only has to be <em>about</em> every once a second?</p>
+</div>
+<div class="paragraph">
+<p>For this, we have the Ring Counter. It is a signifcanly more simple, if more
+limited, way to implement clock dividers.</p>
+</div>
+<div class="paragraph">
+<p>It is very simple in construction. If we have a single T-FlipFlop and we hook up
+the 100 MHz clock to it, we get something like this:</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="diag-plantuml-md5-533ffcc479dfd28e82425a01a8b2f805.svg" alt="Diagram" width="401" height="139">
+</div>
+<div class="title">Figure 2. Single T-FlipFlop Output</div>
+</div>
+<div class="paragraph">
+<p>It divided the clock by 2! If we then feed that into <em>another</em> T-FlipFlop&#8230;&#8203; It
+divides it by 2 again. We have now divided the 100 MHz signal to 25 MHz. If we
+keep going, we find out that chaining N T-FlipFlops divides our input clock by
+\$2^N\$. Notice, this cannot be any arbitrary value like could the modulo
+counter. The arrangement would look like this:</p>
+</div>
+<div class="paragraph">
+<div class="title">Simple Ring Counter</div>
+<p><span class="image"><img src="img/ring_counter.drawio.svg" alt="ring counter.drawio"></span></p>
+</div>
+<div class="paragraph">
+<p>With a waveform like this:</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="diag-plantuml-md5-b7da6082cca3fd759e11b08d662e0981.svg" alt="Diagram" width="620" height="237">
+</div>
+<div class="title">Figure 3. Ring Counter Timing</div>
 </div>
 </div>
 </div>
@@ -825,63 +601,22 @@ Y = w &amp; (x | y)</pre>
 <h2 id="_lab_procedure">Lab Procedure</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>Using the techniques shown above, implement the following state machine. It has the same single input and output <code>w</code> and <code>z</code> respectively, but has five states:</p>
+<p>To properly visualize this, we are going to implement a much&#8230;&#8203; smaller divider.
+Using the center button as our "clock" signal, we will divide this by 12 (a
+count of 6) with a modulo divider and by 8 with a ring counter.</p>
 </div>
-<table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 8. Lab Assignment State Table</caption>
-<colgroup>
-<col style="width: 25%;">
-<col style="width: 25%;">
-<col style="width: 25%;">
-<col style="width: 25%;">
-</colgroup>
-<tbody>
-<tr>
-<td class="tableblock halign-left valign-top" rowspan="2"><p class="tableblock">Current State</p></td>
-<td class="tableblock halign-left valign-top" colspan="2"><p class="tableblock">Next State</p></td>
-<td class="tableblock halign-left valign-top" rowspan="2"><p class="tableblock">Output</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">w = 0</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">w = 1</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">A</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">B</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">D</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">B</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">C</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">D</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">C</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">C</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">D</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">D</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">B</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">E</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">E</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">B</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">E</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
-</tr>
-</tbody>
-</table>
 <div class="paragraph">
-<p>Generate a One Hot and Binary encoded state machines using KMaps and other combinatorial logic. See the IO table below for the pin assignments.</p>
+<p>For the ring counter, use the T-FlipFlop module you implemented in previous
+labs. For the modulo divider, please use your existing full adder circuitry and
+D-FlipFlops from previous labs. The only behavioral verilog should be within the
+D-FlipFlop.</p>
+</div>
+<div class="paragraph">
+<p>You will be responsible to implmement both the ring counter and the modulo
+divider folowing the below IO table:</p>
 </div>
 <table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 9. IO Table</caption>
+<caption class="title">Table 1. IO Table Summary</caption>
 <colgroup>
 <col style="width: 33.3333%;">
 <col style="width: 33.3333%;">
@@ -889,173 +624,65 @@ Y = w &amp; (x | y)</pre>
 </colgroup>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Pin</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Signal</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Purpose</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Direction</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">sw[0]</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>w</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">INPUT</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">btnU</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Reset</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">IN</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">btnC</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Clock</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">INPUT</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">btnU</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Reset</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">INPUT</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Input Clock</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">IN</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">led[0]</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">One-hot Z</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">OUTPUT</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Ring counter stage 1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">OUT</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">led[1]</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Binary Z</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">OUTPUT</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Ring counter stage 2</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">OUT</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">led[2]</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">One-hot state A</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">OUTPUT</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Ring counter stage 2</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">OUT</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">led[3]</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">One-hot state B</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">OUTPUT</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Modulo counter state bit 0</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">OUT</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">led[4]</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">One-hot state C</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">OUTPUT</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Modulo counter state bit 1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">OUT</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">led[5]</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">One-hot state D</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">OUTPUT</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Modulo counter state bit 2</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">OUT</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">led[6]</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">One-hot state E</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">OUTPUT</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">led[9:7]</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Binary State</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">OUTPUT</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Modulo counter output</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">OUT</p></td>
 </tr>
 </tbody>
 </table>
-<div class="admonitionblock note">
-<table>
-<tr>
-<td class="icon">
-<i class="fa icon-note" title="Note"></i>
-</td>
-<td class="content">
-Draw out the state diagram and make sure to use your KMaps. Keep calm and focus on the digital logic.
-</td>
-</tr>
-</table>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="ex-onehot">Appendix A: Example One Hot State Machine</h2>
-<div class="sectionbody">
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight"><code class="language-verilog hljs" data-lang="verilog">module one_hot(
-    input w,
-    input clk,
-    output z
-);
-    wire Anext, Bnext, Cnext;
-    wire Astate, Bstate, Cstate;
-
-    dff Adff(
-        .Default(1'b1),
-        .D(Anext),
-        .clk(clk),
-        .Q(Astate)
-    );
-
-    dff Bdff(
-        .Default(1'b0),
-        .D(Bnext),
-        .clk(clk),
-        .Q(Bstate)
-    );
-
-    dff Cdff(
-        .Default(1'b0),
-        .D(Cnext),
-        .clk(clk),
-        .Q(Cstate)
-    );
-
-    assign z = Cstate;
-
-    assign Anext = ~w;
-    assign Bnext = w &amp; Astate;
-    assign Cnext = (w &amp; Bstate) | (w &amp; Cstate);
-endmodule</code></pre>
-</div>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="ex-binary">Appendix B: Example Binary State Machine</h2>
-<div class="sectionbody">
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight"><code class="language-verilog hljs" data-lang="verilog">module binary(
-    input w,
-    input clk,
-    output z
-);
-
-    wire [1:0] State;
-    wire [1:0] Next;
-
-    dff zero(
-        .D(Next[0]),
-        .clk(clk),
-        .Q(State[0])
-    );
-
-    dff one(
-        .D(Next[1]),
-        .clk(clk),
-        .Q(State[1])
-    );
-
-    assign z = State[1] &amp; ~State[0];
-    assign Next[0] = w &amp; ~State[1] &amp; ~State[0];
-    assign Next[1] = w &amp; (State[1] | State[0]);
-
-endmodule</code></pre>
-</div>
-</div>
 </div>
 </div>
 </div>
 <div id="footer">
 <div id="footer-text">
+Last updated 2025-11-11 18:00:07 -0700
 </div>
 </div>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.3/highlight.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.3/languages/verilog.min.js"></script>
-<script>
-if (!hljs.initHighlighting.called) {
-  hljs.initHighlighting.called = true
-  ;[].slice.call(document.querySelectorAll('pre.highlight > code[data-lang]')).forEach(function (el) { hljs.highlightBlock(el) })
-}
-</script>
 <script type="text/x-mathjax-config">
 MathJax.Hub.Config({
   messageStyle: "none",

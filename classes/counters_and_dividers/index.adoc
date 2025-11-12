@@ -1,0 +1,143 @@
+= Counters and Dividers
+:stem:
+
+As we talked about previously in the edge sensitivity lab, we have a new tool in
+our toolbox. Flip flops, as opposed to latches, can be used to build counters.
+While these may seem trivial, counters are a versatile and flexible tool that we
+can use to do all sorts of fun things.
+
+In this lab, we are going to use them to build two kinds of clock dividers --
+modulo counters and cascaded T-FF counters.
+
+== Why do we need clock dividers?
+
+Generally, digital logic hardware will have only small numbers of actual
+hardware oscillators, that is some sort of hardware that generates a regular
+pulse train. On the Basys 3 board we use in this class, there is a single 100
+MHz crystal oscillator.
+
+100 MHz, or 100 million times a second, is _really fast_. I mean, in terms of
+modern computers that run at ~5 GHz, maybe not that fast, but it is way too fast
+for most of the things we do in our college labs. If we hooked up an LED to the
+output of the clock, it would just look like it was solidly on, as your
+persistence of vision would make it so you couldn't see the individual on/off
+events.
+
+So, what would we do if we wanted to turn on/off the LED once a second?
+
+=== Answer 1: Technically Correct (Module Counters)
+
+Let's suppose a digital logic circuit that can count. Let's say it has a button
+on it where every time it gets pressed, it counts up by 1. If we were to hook up
+the 100 MHz clock to that button, we would see that in 1 second, it had counted
+up to 100 million.
+
+If we then had another digital circuit that could read that counter value and
+compare it to an arbitrary value, say 100 million, and toggle an output each
+time it reaches that value, we would have a circuit that outputs something like
+the following:
+
+.Modulo Counter State
+[plantuml,format=svg]
+....
+include::src/modulo_counter.puml[]
+....
+
+NOTE: Please note, when N = 100 million, as in our example here, we are dividing
+by 200 Million, leading to a 0.5 Hz signal. Why is this? In the modulo counter
+we toggle the output each time we reach our desired count. A single "Hz" is
+defined by a transition from high to low and _back to high_. That means we
+actually have to do two full counts to reach a single Hz.
+
+If we then also had that circuit reset our counter, we could have a digital
+circuit that takes our input 100 MHz clock and generates one that toggles once a
+second! This is known as a "modulo counter", one where it counts to a programmed
+level, then toggles and resets.
+
+To implement this, we need an adder to compute N + 1, a set of D-FlipFlops to
+store the current count, and a comparison block to check the current count
+against the reset value. Practically the block diagram is this:
+
+.Simple Modulo Counter
+image:img/modulo_counter.drawio.svg[]
+
+NOTE: Each of the `Cmp Reset` lines are connected to the Comparator's reset
+output. For brevity I showed them connected like that.
+
+How do we pick how many bits wide our adder/storage need to be? Thankfully,
+there's a super easy eqation for this stem:[ceil(log2(Cval))], where Cval is the
+value we count to. In this example case, we have:
+stem:[ceil(log2(100,000,000))], which is: 27. We would a 27 bit wide adder and
+27 bits of storage.
+
+How does the reset/comparison work, then? Well, it is purely combinatorial logic
+that sits on top of the Q outputs of our D-FlipFlops and checks that the output
+value equals a certain number, and it then sets the next state of the output
+D-FlipFlop to 1, and queues up a reset.
+
+
+=== Answer 2: Close enough, probably, I hope (Ring Counters)
+
+The modulo counter, for reasons we will examine as we implement things in our
+lab, can be fairly expensive to implement. It requires an n-bit adder, and then
+a whole pile of circuitry to compare that count to a given value (could even be
+configurable! That's even harder). So, what if we're in a resource constrained
+environment and we don't actually care what rate the LED toggles at? What if it
+only has to be _about_ every once a second?
+
+For this, we have the Ring Counter. It is a signifcanly more simple, if more
+limited, way to implement clock dividers.
+
+It is very simple in construction. If we have a single T-FlipFlop and we hook up
+the 100 MHz clock to it, we get something like this:
+
+.Single T-FlipFlop Output
+[plantuml,format=svg]
+....
+include::src/single_ff.puml[]
+....
+
+It divided the clock by 2! If we then feed that into _another_ T-FlipFlop... It
+divides it by 2 again. We have now divided the 100 MHz signal to 25 MHz. If we
+keep going, we find out that chaining N T-FlipFlops divides our input clock by
+stem:[2^N]. Notice, this cannot be any arbitrary value like could the modulo
+counter. The arrangement would look like this:
+
+.Simple Ring Counter
+image:img/ring_counter.drawio.svg[]
+
+With a waveform like this:
+
+.Ring Counter Timing
+[plantuml,format=svg]
+....
+include::src/ring_counter.puml[]
+....
+
+== Lab Procedure
+
+To properly visualize this, we are going to implement a much... smaller divider.
+Using the center button as our "clock" signal, we will divide this by 12 (a
+count of 6) with a modulo divider and by 8 with a ring counter.
+
+For the ring counter, use the T-FlipFlop module you implemented in previous
+labs. For the modulo divider, please use your existing full adder circuitry and
+D-FlipFlops from previous labs. The only behavioral verilog should be within the
+D-FlipFlop.
+
+You will be responsible to implmement both the ring counter and the modulo
+divider folowing the below IO table:
+
+.IO Table Summary
+|===
+| Signal    | Purpose        | Direction
+| btnU      | Reset     | IN
+| btnC      | Input Clock     | IN
+| led[0]    | Ring counter stage 1 | OUT
+| led[1]    | Ring counter stage 2 | OUT
+| led[2]    | Ring counter stage 2 | OUT
+| led[3]    | Modulo counter state bit 0 | OUT
+| led[4]    | Modulo counter state bit 1 | OUT
+| led[5]    | Modulo counter state bit 2 | OUT
+| led[6]    | Modulo counter output | OUT
+|===

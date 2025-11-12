@@ -53,7 +53,7 @@ lab.
 
 === Week 12
 
-* xref:classes/finite_state_machine/index.adoc[Lab 11 - Finite State Machines]
+* xref:classes/counters_and_dividers/index.adoc[Lab 11 - Counters]
 
 == Tutorials
 

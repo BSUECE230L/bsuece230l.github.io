@@ -1,0 +1,12 @@
+@startuml ring_counter
+
+clock "Input" as c with period 25
+clock "FF1" as one with period 50
+clock "FF2" as two with period 100
+clock "FF3" as three with period 200
+
+@0
+
+@250
+
+@enduml
