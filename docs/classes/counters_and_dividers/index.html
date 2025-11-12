@@ -551,7 +551,7 @@ D-FlipFlop to 1, and queues up a reset.</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_answer_2_close_enough_probably_i_hope_ring_counters">Answer 2: Close enough, probably, I hope (Ring Counters)</h3>
+<h3 id="_answer_2_close_enough_probably_i_hope_ripple_counters">Answer 2: Close enough, probably, I hope (Ripple Counters)</h3>
 <div class="paragraph">
 <p>The modulo counter, for reasons we will examine as we implement things in our
 lab, can be fairly expensive to implement. It requires an n-bit adder, and then
@@ -561,7 +561,7 @@ environment and we don&#8217;t actually care what rate the LED toggles at? What 
 only has to be <em>about</em> every once a second?</p>
 </div>
 <div class="paragraph">
-<p>For this, we have the Ring Counter. It is a signifcanly more simple, if more
+<p>For this, we have the Ripple Counter. It is a signifcanly more simple, if more
 limited, way to implement clock dividers.</p>
 </div>
 <div class="paragraph">
@@ -582,8 +582,8 @@ keep going, we find out that chaining N T-FlipFlops divides our input clock by
 counter. The arrangement would look like this:</p>
 </div>
 <div class="paragraph">
-<div class="title">Simple Ring Counter</div>
-<p><span class="image"><img src="img/ring_counter.drawio.svg" alt="ring counter.drawio"></span></p>
+<div class="title">Simple Ripple Counter</div>
+<p><span class="image"><img src="img/ripple_counter.drawio.svg" alt="ripple counter.drawio"></span></p>
 </div>
 <div class="paragraph">
 <p>With a waveform like this:</p>
@@ -592,7 +592,7 @@ counter. The arrangement would look like this:</p>
 <div class="content">
 <img src="diag-plantuml-md5-b7da6082cca3fd759e11b08d662e0981.svg" alt="Diagram" width="620" height="237">
 </div>
-<div class="title">Figure 3. Ring Counter Timing</div>
+<div class="title">Figure 3. Ripple Counter Timing</div>
 </div>
 </div>
 </div>
@@ -603,16 +603,16 @@ counter. The arrangement would look like this:</p>
 <div class="paragraph">
 <p>To properly visualize this, we are going to implement a much&#8230;&#8203; smaller divider.
 Using the center button as our "clock" signal, we will divide this by 12 (a
-count of 6) with a modulo divider and by 8 with a ring counter.</p>
+count of 6) with a modulo divider and by 8 with a ripple counter.</p>
 </div>
 <div class="paragraph">
-<p>For the ring counter, use the T-FlipFlop module you implemented in previous
+<p>For the ripple counter, use the T-FlipFlop module you implemented in previous
 labs. For the modulo divider, please use your existing full adder circuitry and
 D-FlipFlops from previous labs. The only behavioral verilog should be within the
 D-FlipFlop.</p>
 </div>
 <div class="paragraph">
-<p>You will be responsible to implmement both the ring counter and the modulo
+<p>You will be responsible to implmement both the ripple counter and the modulo
 divider folowing the below IO table:</p>
 </div>
 <table class="tableblock frame-all grid-all stretch">
@@ -640,17 +640,17 @@ divider folowing the below IO table:</p>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">led[0]</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Ring counter stage 1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Ripple counter stage 1</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">OUT</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">led[1]</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Ring counter stage 2</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Ripple counter stage 2</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">OUT</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">led[2]</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Ring counter stage 2</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Ripple counter stage 2</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">OUT</p></td>
 </tr>
 <tr>
@@ -680,7 +680,7 @@ divider folowing the below IO table:</p>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2025-11-11 18:00:07 -0700
+Last updated 2025-11-11 18:22:00 -0700
 </div>
 </div>
 <script type="text/x-mathjax-config">

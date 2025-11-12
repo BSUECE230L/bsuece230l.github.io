@@ -76,7 +76,7 @@ value equals a certain number, and it then sets the next state of the output
 D-FlipFlop to 1, and queues up a reset.
 
 
-=== Answer 2: Close enough, probably, I hope (Ring Counters)
+=== Answer 2: Close enough, probably, I hope (Ripple Counters)
 
 The modulo counter, for reasons we will examine as we implement things in our
 lab, can be fairly expensive to implement. It requires an n-bit adder, and then
@@ -85,7 +85,7 @@ configurable! That's even harder). So, what if we're in a resource constrained
 environment and we don't actually care what rate the LED toggles at? What if it
 only has to be _about_ every once a second?
 
-For this, we have the Ring Counter. It is a signifcanly more simple, if more
+For this, we have the Ripple Counter. It is a signifcanly more simple, if more
 limited, way to implement clock dividers.
 
 It is very simple in construction. If we have a single T-FlipFlop and we hook up
@@ -103,29 +103,29 @@ keep going, we find out that chaining N T-FlipFlops divides our input clock by
 stem:[2^N]. Notice, this cannot be any arbitrary value like could the modulo
 counter. The arrangement would look like this:
 
-.Simple Ring Counter
-image:img/ring_counter.drawio.svg[]
+.Simple Ripple Counter
+image:img/ripple_counter.drawio.svg[]
 
 With a waveform like this:
 
-.Ring Counter Timing
+.Ripple Counter Timing
 [plantuml,format=svg]
 ....
-include::src/ring_counter.puml[]
+include::src/ripple_counter.puml[]
 ....
 
 == Lab Procedure
 
 To properly visualize this, we are going to implement a much... smaller divider.
 Using the center button as our "clock" signal, we will divide this by 12 (a
-count of 6) with a modulo divider and by 8 with a ring counter.
+count of 6) with a modulo divider and by 8 with a ripple counter.
 
-For the ring counter, use the T-FlipFlop module you implemented in previous
+For the ripple counter, use the T-FlipFlop module you implemented in previous
 labs. For the modulo divider, please use your existing full adder circuitry and
 D-FlipFlops from previous labs. The only behavioral verilog should be within the
 D-FlipFlop.
 
-You will be responsible to implmement both the ring counter and the modulo
+You will be responsible to implmement both the ripple counter and the modulo
 divider folowing the below IO table:
 
 .IO Table Summary
@@ -133,9 +133,9 @@ divider folowing the below IO table:
 | Signal    | Purpose        | Direction
 | btnU      | Reset     | IN
 | btnC      | Input Clock     | IN
-| led[0]    | Ring counter stage 1 | OUT
-| led[1]    | Ring counter stage 2 | OUT
-| led[2]    | Ring counter stage 2 | OUT
+| led[0]    | Ripple counter stage 1 | OUT
+| led[1]    | Ripple counter stage 2 | OUT
+| led[2]    | Ripple counter stage 2 | OUT
 | led[3]    | Modulo counter state bit 0 | OUT
 | led[4]    | Modulo counter state bit 1 | OUT
 | led[5]    | Modulo counter state bit 2 | OUT

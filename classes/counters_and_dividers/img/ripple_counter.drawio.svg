@@ -1,0 +1,52 @@
+<svg host="65bd71144e" xmlns="http://www.w3.org/2000/svg" style="background: transparent; background-color: transparent;" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" width="411px" height="81px" viewBox="-0.5 -0.5 411 81" content="&lt;mxfile&gt;&lt;diagram id=&quot;hcEdDEeHBox77Ya-hDRg&quot; name=&quot;Page-1&quot;&gt;7Vhbk6o4EP41Vu2+bHER0UcRr+NdR9S3CBGigXBCEPTXnyBBcZxzdmv21E6drXmxur90OulO92drRW35aZeC0BsRB+KKIjlpRTUrilJTJP6ZAecc0CUBuBQ5OSTfgQW6QAEWZjFyYPRgyAjBDIWPoE2CANrsAQOUkuTRbE/w46khcOETsLABfkYt5DAvR+uadMd7ELlecbJcxOeDwlgAkQcckpQgtV1RW5QQlkt+2oI4y12Rl3xf5wert4tRGLB/sqEqrsHORWzQ4aEKlVDmEZcEALfvqOExH/NFmYswRWzNZUnIm0z+S9eEaqalNfNcUqaQIh8ySAsscJrZw3A1IAHMkQ7CWKxTEgcOdIT2HKUIPCIxtUUgiigMQF0orNQcykIsbROZ6ULCb0TP3IBCDBg6Pb42EEXj3uzueeWCSO37aRZ3OQEcC6dPeT9ByhAvsSHYQTwlEWKIBHxpRxgjPg/6VipZBhwQebd0AIzczNTm6cgyWn6hwm1T2DAS5r7C7NyIwcBG+A+6WhoHMnLbUwkcaJwee1td3R1k1Z/z0JoT+XUxb/cjumtUFENaz8Ou531r4Lapn40xr6GOd1m0FmNvtXJ7RqubWJ0ZnA03Trq4WIfJcJOysDd0p0FnOLNYgqbKUlcZ3zaJx6OTtbJf+EuOViGsjsLJ9nAYzZsW6M5hY+Kfl43+5egOBlOkbvaLWRR647URdlH93J7aRzzyD609rg7Qarl6MZtQnc32vbHVUHry/tST3XZ/K7FFb9Xos61/TBBbthbeettkzuFlZrXm1iY0j2z4zbKmPLShtHqZxrrZuST8di1rwt++M2fjzXy66UYDUx6a87a2rQMtkv0jJaFihEknDZrMSg7aJrVn+nKcDJBR1R2b7I2OHpwHr3GIXgioW/bJPQ8O++38pOrr5k7jvtVv8euw2ycH55iYY+X1pOOxO1HpcUS2tVVSm5HZ2uYXm4wa7V1/oponnIC+Ep88e+P3vHoqs8llFeP5uIH1qmHzN/3zZw2SlQNMf1r8YlWpCYoSHF0t2C25M96N17wS29Wlf98v6lO/XI+SRr3LU+MUtZyAc0hQFq8RHSGzPdEde84iBaFFBGdHGFH+lVLj4nUPpO0TT1UkmuaKXa+vGRXNFE5aBBN6JygKuRewu/rNKYoBVtLDEsXlnVkiPSMKQLgk0/zC10Pxm8bHcM9KDfyWF3zkOFc6Lrqf5k/w1PE3w19RFOpjUWjSc1Eo79SE8gtqQvvi0C8O/b04VNU/kUNrHxjtipoWg3NGd29Gr3eGv0LOhz/lI8MfD21dVspzZKbffV21c1l76y1ilBxhQdYO3IMYs/c6/IdEuScB6wAf4eycHsQnmNmJBfFrRJaF/nzQlcgNYB/da+qeDf5u2P3oeKt91nirf1HzFzX/XtRcbXwiNde/qPn/TM3aMzXr/xE1c/X+59F1rfQPnNr+Dg==&lt;/diagram&gt;&lt;/mxfile&gt;">
+    <defs/>
+    <g>
+        <g>
+            <path d="M 80 60 L 70 60 L 80 60 L 60 60" fill="none" stroke="#000000" stroke-miterlimit="10" pointer-events="stroke" style="stroke: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));"/>
+        </g>
+        <g>
+            <rect x="100" y="0" width="60" height="80" fill="#ffffff" stroke="#000000" pointer-events="all" style="fill: light-dark(#ffffff, var(--ge-dark-color, #121212)); stroke: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));"/>
+            <path d="M 80 60 L 100 60 M 160 20 L 180 20 M 100 55 L 110 60 L 100 65 L 100 65" fill="none" stroke="#000000" stroke-miterlimit="10" pointer-events="all" style="stroke: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));"/>
+            <g fill="#000000" font-family="&quot;Arial&quot;, &quot;Helvetica&quot;" text-anchor="middle" font-size="11px" style="fill: light-dark(rgb(0, 0, 0), rgb(237, 237, 237));">
+                <text x="154.5" y="22.5">
+                    Q
+                </text>
+            </g>
+        </g>
+        <g>
+            <ellipse cx="60" cy="60" rx="3" ry="3" fill="#000000" stroke="none" pointer-events="all" style="fill: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));"/>
+            <rect x="50" y="50" width="20" height="20" fill="none" stroke="none" pointer-events="all"/>
+        </g>
+        <g>
+            <g fill="#000000" font-family="&quot;Helvetica&quot;" text-anchor="end" font-size="12px" style="fill: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));">
+                <text x="47.5" y="64.5">
+                    100 MHz
+                </text>
+            </g>
+        </g>
+        <g>
+            <rect x="210" y="0" width="60" height="80" fill="#ffffff" stroke="#000000" pointer-events="all" style="fill: light-dark(#ffffff, var(--ge-dark-color, #121212)); stroke: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));"/>
+            <path d="M 190 60 L 210 60 M 270 20 L 290 20 M 210 55 L 220 60 L 210 65 L 210 65" fill="none" stroke="#000000" stroke-miterlimit="10" pointer-events="all" style="stroke: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));"/>
+            <g fill="#000000" font-family="&quot;Arial&quot;, &quot;Helvetica&quot;" text-anchor="middle" font-size="11px" style="fill: light-dark(rgb(0, 0, 0), rgb(237, 237, 237));">
+                <text x="264.5" y="22.5">
+                    Q
+                </text>
+            </g>
+        </g>
+        <g>
+            <path d="M 180 20 L 190 20 L 190 60" fill="none" stroke="#000000" stroke-miterlimit="10" pointer-events="stroke" style="stroke: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));"/>
+        </g>
+        <g>
+            <rect x="330" y="0" width="60" height="80" fill="#ffffff" stroke="#000000" pointer-events="all" style="fill: light-dark(#ffffff, var(--ge-dark-color, #121212)); stroke: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));"/>
+            <path d="M 310 60 L 330 60 M 390 20 L 410 20 M 330 55 L 340 60 L 330 65 L 330 65" fill="none" stroke="#000000" stroke-miterlimit="10" pointer-events="all" style="stroke: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));"/>
+            <g fill="#000000" font-family="&quot;Arial&quot;, &quot;Helvetica&quot;" text-anchor="middle" font-size="11px" style="fill: light-dark(rgb(0, 0, 0), rgb(237, 237, 237));">
+                <text x="384.5" y="22.5">
+                    Q
+                </text>
+            </g>
+        </g>
+        <g>
+            <path d="M 290 20 L 300 20 L 300 60 L 310 60" fill="none" stroke="#000000" stroke-miterlimit="10" pointer-events="stroke" style="stroke: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));"/>
+        </g>
+    </g>
+</svg>
