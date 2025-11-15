@@ -55,6 +55,10 @@ lab.
 
 * xref:classes/counters_and_dividers/index.adoc[Lab 11 - Counters]
 
+=== Week 13
+
+* xref:classes/finite_state_machine/index.adoc[Lab 12 - Finite State Machines]
+
 == Tutorials
 
 * xref:classes/iverilog/index.adoc[Icarus Verilog]
