@@ -7,7 +7,7 @@ NOTE: Please remember to read the week's lab before coming to class.  It will
 aid you in spending your time wisely, and make things go much more smoothly in
 lab.
 
-=== Week 0
+=== Week 1
 
 * xref:classes/intro_and_software/index.adoc[Lab 01 - Introduction and Software]
 
