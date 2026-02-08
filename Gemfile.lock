@@ -12,17 +12,19 @@ GEM
       asciidoctor (>= 2.0.0, < 3.0.0)
     logger (1.7.0)
     rexml (3.4.1)
+    rouge (4.7.0)
 
 PLATFORMS
   ruby
-  x86_64-linux
+  x86_64-linux-gnu
 
 DEPENDENCIES
-  asciidoctor
+  asciidoctor (~> 2.0)
   asciidoctor-diagram
   asciidoctor-diagram-plantuml
   asciidoctor-revealjs
   logger
+  rouge
 
 BUNDLED WITH
    2.7.1

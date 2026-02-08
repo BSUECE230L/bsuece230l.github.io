@@ -15,7 +15,7 @@ lab.
 
 * xref:classes/first_verilog/index.adoc[Lab 02 - Introduction to Verilog]
 
-=== Week 3
+=== Week 3 Universal logic gates
 
 * xref:classes/nand_only_design/index.adoc[Lab 03 - NAND Only Design]
 * xref:classes/nand_only_design/slides.adoc[Lab 03 - Presentation Slides]

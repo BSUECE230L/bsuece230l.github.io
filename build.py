@@ -7,7 +7,17 @@ import sys
 import hashlib
 import time
 
-REVEAL_JS = "bundle exec asciidoctor-revealjs -r asciidoctor-diagram -a revealjsdir=https://cdn.jsdelivr.net/npm/reveal.js@4.1.2"
+
+REVEAL_JS = "bundle exec asciidoctor -b revealjs -r asciidoctor-revealjs -r asciidoctor-diagram"
+
+#REVEAL_JS = "bundle exec asciidoctor-revealjs -r asciidoctor-diagram -a revealjsdir=https://cdn.jsdelivr.net/npm/reveal.js@4.1.2"
+#REVEAL_JS = (
+ #   "bundle exec asciidoctor "
+  #  "-b revealjs "
+   # "-r asciidoctor-revealjs "
+   # "-r asciidoctor-diagram "
+   # "-a revealjsdir=https://cdn.jsdelivr.net/npm/reveal.js@4.1.2")
+
 HTML5 = "bundle exec asciidoctor -r asciidoctor-diagram"
 
 OUTPUT_PATH = pathlib.Path("docs/")
