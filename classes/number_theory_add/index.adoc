@@ -377,4 +377,5 @@ link:#io-table-summary[this section]
      - Light Switch Module
      - Basic Adder
      - 2-bit Adder (Note: Use full adders to build 2-bit adder as described in link:#two-bit-adder[this section])
+. Update `constraints.xdc` as per IO table description
 . Demonstrate the combined design to TA or lab professor
