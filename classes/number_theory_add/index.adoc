@@ -304,8 +304,7 @@ All we have to do is the same to our 1-bit adder – instead of summing
 just one bit from each number, we also need to include the carry in from
 the previous digit. In other words, we need to sum three bits together, aka, a _Full Adder_.
 
-==== Full Adder[[full-adder]]
-*TASK:* The truth table for this is below. Implement it in the file
+*TASK (Full Adder[[full-adder]]):* The truth table for this is below. Implement it in the file
 `full_adder.v`. Cin means carry in, and Cout means carry out. You can
 think of this as two three-input equations, one where `Y` is composed of
 `A`, `B`, and `Cin` and the other where `Cout` is composed of the same.
