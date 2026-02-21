@@ -1011,15 +1011,14 @@ actually needed to add <em>three</em> different numbers together, the ten’s
 place from 12 and 19, as well as the carry from the 9 + 2.</p>
 </div>
 <div class="paragraph">
-<h4>Full Adder<a id="full-adder"></a></h4>
 <p>All we have to do is do the same thing to our 1-bit adder – instead of 
 summing just one bit from each number, we also need to 
 include the carry-in from the previous digit. In other words, 
 we need to sum three bits together, aka a <em>full adder</em>.</p>
 </div>
 <div class="paragraph">
-<p><strong>TASK:</strong> The truth table for this is below. Implement it in the file
-<code>full_adder.v</code>. Cin means carry in, and Cout means carry out. You can
+<p><strong>TASK (Full Adder <span id="full-adder"></span>):</strong> The truth table for this is below. Implement it in the file
+<code>full_adder.v</code>. Cin means carry-in, and Cout means carry-out. You can
 think of this as two three-input equations, one where <code>Y</code> is composed of
 <code>A</code>, <code>B</code>, and <code>Cin</code> and the other where <code>Cout</code> is composed of the same.
 You can use KMaps to find these equations.</p>
