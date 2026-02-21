@@ -238,7 +238,7 @@ this up in your top level module according to the following I/O table:
 |led[2] |Carry out of one bit adder |OUT
 |===
 
-=== Full Adder[[full-adder]]
+=== 2-bit Adder[[two-bit-adder]]
 
 This lab is all about combinatorial logic, so let’s slam two of these
 together to add two bit numbers together instead. We will call these
@@ -302,8 +302,9 @@ place from 12 and 19, as well as the carry from the 9 + 2.
 
 All we have to do is the same to our 1-bit adder – instead of summing
 just one bit from each number, we also need to include the carry in from
-the previous digit. In other words, we need to sum three bits together.
+the previous digit. In other words, we need to sum three bits together, aka, a _Full Adder_.
 
+==== Full Adder[[full-adder]]
 *TASK:* The truth table for this is below. Implement it in the file
 `full_adder.v`. Cin means carry in, and Cout means carry out. You can
 think of this as two three-input equations, one where `Y` is composed of
@@ -323,12 +324,12 @@ You can use KMaps to find these equations.
 |1 |1 |1 |1 |1
 |===
 
-Then, wire it up in your top level module according to the following I/O
+Then, wire it up in your *top level module* `top.v` according to the following I/O
 table. You will need two instances of a 1 bit full-adder to add two bit
 numbers together:
 
-.full_adder_bd
-image::./img/full_adder_block_diagram.png[full_adder_bd]
+.Two_Bit_Adder_using_full_adders
+image::./img/full_adder_block_diagram.png[Two_Bit_Adder_using_full_adders]
 
 [cols=",,",options="header",]
 |===
@@ -344,7 +345,7 @@ image::./img/full_adder_block_diagram.png[full_adder_bd]
 
 == Lab Deliverables
 
-=== Summary of IO Table
+=== Summary of IO Table[[io-table-summary]]
 [cols=",,",options="header",]
 |===
 |Pin |Purpose |Direction
@@ -371,6 +372,9 @@ link:#stairway-lights[this section]
 link:#basic-adder[this section]
 . Implemented full adder in `full_adder.v` described in
 link:#full-adder[this section]
-. Combine the three blocks above with the IO table provided in
-link:#full-adder[this section]
+. In `top.v`, combine the three blocks below as per IO table provided in
+link:#io-table-summary[this section]
+     - Light Switch Module
+     - Basic Adder
+     - 2-bit Adder (Note: Use full adders to build 2-bit adder as described in link:#two-bit-adder[this section])
 . Demonstrate the combined design to TA or lab professor
