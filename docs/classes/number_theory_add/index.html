@@ -447,7 +447,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li><a href="#_stairway_lights">Stairway Lights</a></li>
 <li><a href="#_lets_go_bigger">Let’s go bigger</a></li>
 <li><a href="#_basic_adder">Basic Adder</a></li>
-<li><a href="#_full_adder">Full Adder</a></li>
+<li><a href="#_two_bit_adder">2-bit Adder</a></li>
 </ul>
 </li>
 <li><a href="#_lab_deliverables">Lab Deliverables</a>
@@ -938,7 +938,7 @@ this up in your top level module according to the following I/O table:</p>
 </table>
 </div>
 <div class="sect2">
-<h3 id="_full_adder">Full Adder<a id="full-adder"></a></h3>
+<h3 id="_two_bit_adder">2-bit Adder<a id="two-bit-adder"></a></h3>
 <div class="paragraph">
 <p>This lab is all about combinatorial logic, so let’s slam two of these
 together to add two bit numbers together instead. We will call these
@@ -1011,9 +1011,11 @@ actually needed to add <em>three</em> different numbers together, the ten’s
 place from 12 and 19, as well as the carry from the 9 + 2.</p>
 </div>
 <div class="paragraph">
-<p>All we have to do is the same to our 1-bit adder – instead of summing
-just one bit from each number, we also need to include the carry in from
-the previous digit. In other words, we need to sum three bits together.</p>
+<h4>Full Adder<a id="full-adder"></a></h4>
+<p>All we have to do is do the same thing to our 1-bit adder – instead of 
+summing just one bit from each number, we also need to 
+include the carry-in from the previous digit. In other words, 
+we need to sum three bits together, aka a <em>full adder</em>.</p>
 </div>
 <div class="paragraph">
 <p><strong>TASK:</strong> The truth table for this is below. Implement it in the file
@@ -1107,7 +1109,7 @@ numbers together:</p>
 <div class="content">
 <img src="./img/full_adder_block_diagram.png" alt="full_adder_bd">
 </div>
-<div class="title">Figure 6. full_adder_bd</div>
+<div class="title">Figure 6. Two_Bit_Adder_using_full_adders</div>
 </div>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
@@ -1167,7 +1169,7 @@ numbers together:</p>
 <h2 id="_lab_deliverables">Lab Deliverables</h2>
 <div class="sectionbody">
 <div class="sect2">
-<h3 id="_summary_of_io_table">Summary of IO Table</h3>
+<h3 id="_summary_of_io_table">Summary of IO Table<a id="io-table-summary"></a></h3>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 33.3333%;">
@@ -1272,8 +1274,16 @@ numbers together:</p>
 <a href="#full-adder">this section</a></p>
 </li>
 <li>
-<p>Combine the three blocks above with the IO table provided in
-<a href="#full-adder">this section</a></p>
+<p>In <code>top.v</code>, combine the three blocks below as per IO table provided in
+<a href="#io-table-summary">this section</a></p>
+<ul>
+<li>Light Switch Module</li>
+<li>Basic Adder</li>
+<li>2-bit Adder (Note: Use full adders to build 2-bit adder as described in <a href="#two-bit-adder">this section</a>)</li>
+</ul>
+</li>
+<li>
+  <p>Update <code>constraints.xdc</code> as per IO table description</p>
 </li>
 <li>
 <p>Demonstrate the combined design to TA or lab professor</p>
